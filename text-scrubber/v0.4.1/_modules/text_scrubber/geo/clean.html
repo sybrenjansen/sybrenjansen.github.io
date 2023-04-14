@@ -1,0 +1,290 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>text_scrubber.geo.clean &mdash; text-scrubber 0.4.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/banner.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> text-scrubber
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">text-scrubber documentation</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage.html">Basic usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Change log</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">text-scrubber</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>text_scrubber.geo.clean</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for text_scrubber.geo.clean</h1><div class="highlight"><pre>
+<span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">List</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">text_scrubber</span> <span class="kn">import</span> <span class="n">TextScrubber</span>
+
+<span class="c1"># Some common token replacements</span>
+<span class="n">_GEO_TOKEN_MAP</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;afr&#39;</span><span class="p">:</span> <span class="s1">&#39;african&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;brit&#39;</span><span class="p">:</span> <span class="s1">&#39;brittish&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;cent&#39;</span><span class="p">:</span> <span class="s1">&#39;central&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;dem&#39;</span><span class="p">:</span> <span class="s1">&#39;democratic&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;democratique&#39;</span><span class="p">:</span> <span class="s1">&#39;democratic&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;demokratische&#39;</span><span class="p">:</span> <span class="s1">&#39;democratic&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;equat&#39;</span><span class="p">:</span> <span class="s1">&#39;equatorial&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;fed&#39;</span><span class="p">:</span> <span class="s1">&#39;federal&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;is&#39;</span><span class="p">:</span> <span class="s1">&#39;islands&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;isl&#39;</span><span class="p">:</span> <span class="s1">&#39;islands&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;isla&#39;</span><span class="p">:</span> <span class="s1">&#39;islands&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;island&#39;</span><span class="p">:</span> <span class="s1">&#39;islands&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;monteneg&#39;</span><span class="p">:</span> <span class="s1">&#39;montenegro&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;neth&#39;</span><span class="p">:</span> <span class="s1">&#39;netherlands&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;rep&#39;</span><span class="p">:</span> <span class="s1">&#39;republic&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;republ&#39;</span><span class="p">:</span> <span class="s1">&#39;republic&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;republik&#39;</span><span class="p">:</span> <span class="s1">&#39;republic&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;republique&#39;</span><span class="p">:</span> <span class="s1">&#39;republic&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;sint&#39;</span><span class="p">:</span> <span class="s1">&#39;saint&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;st&#39;</span><span class="p">:</span> <span class="s1">&#39;saint&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;ter&#39;</span><span class="p">:</span> <span class="s1">&#39;territory&#39;</span><span class="p">,</span>
+                  <span class="s1">&#39;territories&#39;</span><span class="p">:</span> <span class="s1">&#39;territory&#39;</span><span class="p">}</span>
+
+<span class="c1"># We define the scrubber once so the regex objects will be compiled only once</span>
+<span class="n">_GEO_STRING_SCRUBBER</span> <span class="o">=</span> <span class="p">(</span><span class="n">TextScrubber</span><span class="p">()</span><span class="o">.</span><span class="n">to_ascii</span><span class="p">()</span>
+                                      <span class="o">.</span><span class="n">remove_digits</span><span class="p">()</span>
+                                      <span class="o">.</span><span class="n">sub</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;-|/|&amp;|,&#39;</span><span class="p">,</span> <span class="s1">&#39; &#39;</span><span class="p">)</span>
+                                      <span class="o">.</span><span class="n">remove_punctuation</span><span class="p">()</span>
+                                      <span class="o">.</span><span class="n">tokenize</span><span class="p">()</span>
+                                      <span class="o">.</span><span class="n">remove_stop_words</span><span class="p">({</span><span class="s1">&#39;a&#39;</span><span class="p">,</span> <span class="s1">&#39;an&#39;</span><span class="p">,</span> <span class="s1">&#39;and&#39;</span><span class="p">,</span> <span class="s1">&#39;der&#39;</span><span class="p">,</span> <span class="s1">&#39;da&#39;</span><span class="p">,</span> <span class="s1">&#39;di&#39;</span><span class="p">,</span> <span class="s1">&#39;do&#39;</span><span class="p">,</span> <span class="s1">&#39;e&#39;</span><span class="p">,</span> <span class="s1">&#39;le&#39;</span><span class="p">,</span> <span class="s1">&#39;im&#39;</span><span class="p">,</span>
+                                                          <span class="s1">&#39;mail&#39;</span><span class="p">},</span> <span class="n">case_sensitive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                                      <span class="o">.</span><span class="n">lowercase</span><span class="p">(</span><span class="n">on_tokens</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                                      <span class="o">.</span><span class="n">filter_tokens</span><span class="p">()</span>
+                                      <span class="o">.</span><span class="n">sub_tokens</span><span class="p">(</span><span class="k">lambda</span> <span class="n">token</span><span class="p">:</span> <span class="n">_GEO_TOKEN_MAP</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">token</span><span class="p">,</span> <span class="n">token</span><span class="p">))</span>
+                                      <span class="o">.</span><span class="n">remove_stop_words</span><span class="p">({</span><span class="s1">&#39;cedex&#39;</span><span class="p">,</span> <span class="s1">&#39;email&#39;</span><span class="p">,</span> <span class="s1">&#39;of&#39;</span><span class="p">,</span> <span class="s1">&#39;the&#39;</span><span class="p">})</span>
+                                      <span class="o">.</span><span class="n">join</span><span class="p">())</span>
+
+
+<span class="k">def</span> <span class="nf">_clean_geo_string</span><span class="p">(</span><span class="n">string</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]])</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Cleans a strings with geographical information (e.g., countries/regions/cities).</span>
+
+<span class="sd">    :param string: Input string to clean.</span>
+<span class="sd">    :return: Cleaned string.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">_GEO_STRING_SCRUBBER</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+
+
+<span class="c1"># Same cleaning is used for countries, regions, and cities</span>
+<span class="n">clean_country</span> <span class="o">=</span> <span class="n">clean_region</span> <span class="o">=</span> <span class="n">clean_city</span> <span class="o">=</span> <span class="n">_clean_geo_string</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2023, Slimmer AI
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: v0.4.1
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Tags</dt>
+            <dd><a href="../../../../v0.1/index.html">v0.1</a></dd>
+            <dd><a href="../../../../v0.1.1/index.html">v0.1.1</a></dd>
+            <dd><a href="../../../../v0.2.0/index.html">v0.2.0</a></dd>
+            <dd><a href="../../../../v0.3.0/index.html">v0.3.0</a></dd>
+            <dd><a href="../../../../v0.3.1/index.html">v0.3.1</a></dd>
+            <dd><a href="../../../../v0.3.2/index.html">v0.3.2</a></dd>
+            <dd><a href="../../../../v0.4.0/index.html">v0.4.0</a></dd>
+            <dd><a href="clean.html">v0.4.1</a></dd>
+            <dd><a href="../../../../v0.4.2/index.html">v0.4.2</a></dd>
+        </dl>
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="../../../../master/index.html">master</a></dd>
+        </dl>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

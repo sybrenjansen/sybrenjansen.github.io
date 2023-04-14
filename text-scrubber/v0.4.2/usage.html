@@ -1,0 +1,488 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Basic usage &mdash; text-scrubber 0.4.2 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/banner.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="API reference" href="reference.html" />
+    <link rel="prev" title="Installation" href="install.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> text-scrubber
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.4.2
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">text-scrubber documentation</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Basic usage</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#textscrubber">TextScrubber</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#geo">Geo</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#resource-loading">Resource loading</a></li>
+<li class="toctree-l3"><a class="reference internal" href="#cleaning">Cleaning</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="reference.html">API reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Change log</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">text-scrubber</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Basic usage</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/usage.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="basic-usage">
+<h1>Basic usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h1>
+<nav class="contents local" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#textscrubber" id="toc-entry-1">TextScrubber</a></p></li>
+<li><p><a class="reference internal" href="#geo" id="toc-entry-2">Geo</a></p>
+<ul>
+<li><p><a class="reference internal" href="#resource-loading" id="toc-entry-3">Resource loading</a></p></li>
+<li><p><a class="reference internal" href="#cleaning" id="toc-entry-4">Cleaning</a></p></li>
+</ul>
+</li>
+</ul>
+</nav>
+<section id="textscrubber">
+<h2><a class="toc-backref" href="#toc-entry-1" role="doc-backlink">TextScrubber</a><a class="headerlink" href="#textscrubber" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="reference.html#text_scrubber.text_scrubber.TextScrubber" title="text_scrubber.text_scrubber.TextScrubber"><code class="xref py py-obj docutils literal notranslate"><span class="pre">text_scrubber.text_scrubber.TextScrubber</span></code></a> class cleans a single or a collection of strings. It can be easily
+constructed and configured with building blocks:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">text_scrubber</span> <span class="kn">import</span> <span class="n">TextScrubber</span>
+
+<span class="n">ts</span> <span class="o">=</span> <span class="p">(</span><span class="n">TextScrubber</span><span class="p">()</span><span class="o">.</span><span class="n">to_ascii</span><span class="p">()</span>
+                    <span class="o">.</span><span class="n">lowercase</span><span class="p">()</span>
+                    <span class="o">.</span><span class="n">tokenize</span><span class="p">()</span>
+                    <span class="o">.</span><span class="n">remove_stop_words</span><span class="p">()</span>
+                    <span class="o">.</span><span class="n">join</span><span class="p">())</span>
+</pre></div>
+</div>
+<p>which can then be used as:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;héLlô there, WòrlD&#39;</span><span class="p">)</span>  <span class="c1"># outputs &#39;hello world&#39;</span>
+</pre></div>
+</div>
+<p>or with an iterable of input:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="s1">&#39;héLlô there, WòrlD&#39;</span><span class="p">,</span> <span class="s1">&#39;slímm̀er ÀI&#39;</span><span class="p">])</span>  <span class="c1"># outputs [&#39;hello world&#39;, &#39;slimmer AI&#39;]</span>
+</pre></div>
+</div>
+<p>For a complete list of building blocks please refer to the <a class="reference internal" href="reference.html#text_scrubber.text_scrubber.TextScrubber" title="text_scrubber.text_scrubber.TextScrubber"><code class="xref py py-obj docutils literal notranslate"><span class="pre">text_scrubber.text_scrubber.TextScrubber</span></code></a> API
+reference.</p>
+</section>
+<section id="geo">
+<h2><a class="toc-backref" href="#toc-entry-2" role="doc-backlink">Geo</a><a class="headerlink" href="#geo" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="xref py py-obj docutils literal notranslate"><span class="pre">text_scrubber.geo</span></code> module contains functions to normalize geographical data which deal with spelling errors,
+country name variations, etc.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">text_scrubber.geo</span> <span class="kn">import</span> <span class="n">normalize_country</span><span class="p">,</span> <span class="n">normalize_region</span><span class="p">,</span> <span class="n">normalize_city</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Countries</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">normalize_country</span><span class="p">(</span><span class="s1">&#39;Peoples rep. of China&#39;</span><span class="p">)</span>
+<span class="c1"># [Location(canonical_name=&#39;China&#39;, matched_name=&#39;Peoples Republic of China&#39;, country=None,</span>
+<span class="c1">#           score=1.0)]</span>
+
+<span class="n">normalize_country</span><span class="p">(</span><span class="s1">&#39;Deutschland&#39;</span><span class="p">)</span>
+<span class="c1"># [Location(canonical_name=&#39;Germany&#39;, matched_name=&#39;Deutschland&#39;, country=None, score=1.0)]</span>
+
+<span class="n">normalize_country</span><span class="p">(</span><span class="s1">&#39;st Nevis and Kitties&#39;</span><span class="p">)</span>
+<span class="c1"># [Location(canonical_name=&#39;Saint Kitts and Nevis&#39;, matched_name=&#39;Saint Kitts and Nevis&#39;,</span>
+<span class="c1">#           country=None, score=0.75)]</span>
+
+<span class="n">normalize_country</span><span class="p">(</span><span class="s1">&#39;ira&#39;</span><span class="p">)</span>
+<span class="c1"># [Location(canonical_name=&#39;Iran&#39;, matched_name=&#39;Iran&#39;, country=None, score=0.857...),</span>
+<span class="c1">#  Location(canonical_name=&#39;Iraq&#39;, matched_name=&#39;Iraq&#39;, country=None, score=0.857...)]</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Cities</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">normalize_city</span><span class="p">(</span><span class="s1">&#39;Leibnitz&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Austria&#39;</span><span class="p">])</span>
+<span class="c1"># [Location(canonical_name=&#39;Leibnitz&#39;, matched_name=&#39;Leibnitz&#39;, country=&#39;Austria&#39;, score=1.0)]</span>
+
+<span class="n">normalize_city</span><span class="p">(</span><span class="s1">&#39;heidelberg&#39;</span><span class="p">)</span>
+<span class="c1"># [Location(canonical_name=&#39;Heidelberg&#39;, matched_name=&#39;Heidelberg&#39;, country=&#39;Germany&#39;,</span>
+<span class="c1">#           score=1.0),</span>
+<span class="c1">#  Location(canonical_name=&#39;Heidelberg&#39;, matched_name=&#39;Heidelberg&#39;, country=&#39;South Africa&#39;,</span>
+<span class="c1">#           score=1.0),</span>
+<span class="c1">#  Location(canonical_name=&#39;Heidelberg&#39;, matched_name=&#39;Heidelberg&#39;, country=&#39;United States&#39;,</span>
+<span class="c1">#           score=1.0)]</span>
+
+<span class="n">normalize_city</span><span class="p">(</span><span class="s1">&#39;ohioo&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;US&#39;</span><span class="p">])</span>
+<span class="c1"># [Location(canonical_name=&#39;Ohio&#39;, matched_name=&#39;Ohio&#39;, country=&#39;United States&#39;,</span>
+<span class="c1">#           score=0.888...)]</span>
+
+<span class="n">normalize_city</span><span class="p">(</span><span class="s1">&#39;Madri&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Spain&#39;</span><span class="p">,</span> <span class="s1">&#39;US&#39;</span><span class="p">,</span> <span class="s1">&#39;Brazil&#39;</span><span class="p">])</span>
+<span class="c1"># [Location(canonical_name=&#39;Madrid&#39;, matched_name=&#39;Madrid&#39;, country=&#39;Spain&#39;,</span>
+<span class="c1">#           score=0.909...),</span>
+<span class="c1">#  Location(canonical_name=&#39;Madrid&#39;, matched_name=&#39;Madrid&#39;, country=&#39;United States&#39;,</span>
+<span class="c1">#           score=0.909...),</span>
+<span class="c1">#  Location(canonical_name=&#39;Mari&#39;, matched_name=&#39;Mari&#39;, country=&#39;Brazil&#39;,</span>
+<span class="c1">#           score=0.888...)]</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Regions</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">normalize_region</span><span class="p">(</span><span class="s1">&#39;triangle park&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;US&#39;</span><span class="p">])</span>
+<span class="c1"># [Location(canonical_name=&#39;The Triangle Park&#39;, matched_name=&#39;The Triangle Park&#39;,</span>
+<span class="c1">#           country=&#39;United States&#39;, score=1.0)]</span>
+
+<span class="n">normalize_region</span><span class="p">(</span><span class="s1">&#39;Fur&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Denmark&#39;</span><span class="p">])</span>
+<span class="c1"># [Location(canonical_name=&#39;Fur&#39;, matched_name=&#39;Fur&#39;, country=&#39;Denmark&#39;, score=1.0)]</span>
+
+<span class="n">normalize_region</span><span class="p">(</span><span class="s1">&#39;texel&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;NL&#39;</span><span class="p">])</span>
+<span class="c1"># [Location(canonical_name=&#39;Texel&#39;, matched_name=&#39;Texel&#39;, country=&#39;Netherlands&#39;, score=1.0)]</span>
+</pre></div>
+</div>
+<p>Each of the above normalization functions return the canonical name, matched name, the match score, and when normalizing
+cities or regions it will also contain the corresponding country. The difference between canonical and matched name
+stems from the fact that some countries, cities, or regions can have alternative names. E.g., <code class="docutils literal notranslate"><span class="pre">NYC</span></code> maps to
+<code class="docutils literal notranslate"><span class="pre">New</span> <span class="pre">York</span> <span class="pre">City</span></code>. When the query was <code class="docutils literal notranslate"><span class="pre">NYCC</span></code> the canonical name will be <code class="docutils literal notranslate"><span class="pre">New</span> <span class="pre">York</span> <span class="pre">City</span></code>, but the matched name
+<code class="docutils literal notranslate"><span class="pre">NYC</span></code>. The match scores are always between 0.0 and 1.0, where 1.0 is a perfect match. If a known mapping exists, like
+<code class="docutils literal notranslate"><span class="pre">Deutschland</span></code> to <code class="docutils literal notranslate"><span class="pre">Germany</span></code>, then the match score will be 1.0.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>When normalizing a country or finding countries in a string, the <code class="docutils literal notranslate"><span class="pre">country</span></code> attribute of a <code class="docutils literal notranslate"><span class="pre">LocationMatch</span></code> object
+is always <code class="docutils literal notranslate"><span class="pre">None</span></code>. The normalized name can be found using the <code class="docutils literal notranslate"><span class="pre">canonical_name</span></code> attribute.</p>
+</aside>
+<p>The <code class="xref py py-obj docutils literal notranslate"><span class="pre">text_scrubber.geo</span></code> module also contains functions to find the name of places (country, region, and city) in
+text dealing with spelling errors, country name variations, etc.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">text_scrubber.geo</span> <span class="kn">import</span> <span class="p">(</span><span class="n">find_city_in_string</span><span class="p">,</span> <span class="n">find_country_in_string</span><span class="p">,</span>
+                               <span class="n">find_region_in_string</span><span class="p">)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Countries</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">find_country_in_string</span><span class="p">(</span><span class="s2">&quot;Institute of German study, Accra, Ghana&quot;</span><span class="p">)</span>
+<span class="c1"># [ExtractedLocation(location=Location(canonical_name=&#39;Ghana&#39;, matched_name=&#39;Ghana&#39;,</span>
+<span class="c1">#                                      country=None, score=1.0),</span>
+<span class="c1">#                    substring=&#39;Ghana&#39;, substring_range=Range(start=34, end=39)),</span>
+<span class="c1">#  ExtractedLocation(location=Location(canonical_name=&#39;Germany&#39;, matched_name=&#39;Germany&#39;,</span>
+<span class="c1">#                                      country=None, score=0.923...),</span>
+<span class="c1">#                    substring=&#39;German&#39;, substring_range=Range(start=13, end=19))]</span>
+
+<span class="n">find_country_in_string</span><span class="p">(</span><span class="s2">&quot;Peking University, 5 Yiheyuan Rd, &quot;</span>
+                       <span class="s2">&quot;Haidian District, Beijing, CH, 100871&quot;</span><span class="p">)</span>
+<span class="c1"># This was a trick question though, as CH=Switzerland. China is CN</span>
+<span class="c1"># [ExtractedLocation(location=Location(canonical_name=&#39;Switzerland&#39;, matched_name=&#39;CH&#39;,</span>
+<span class="c1">#                                      country=None, score=1.0),</span>
+<span class="c1">#                    substring=&#39;CH&#39;, substring_range=Range(start=61, end=63))]</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Cities</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">find_city_in_string</span><span class="p">(</span><span class="s2">&quot;Météorage Pau France&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;France&quot;</span><span class="p">})</span>
+<span class="c1"># [ExtractedLocation(location=Location(canonical_name=&#39;Pau&#39;, matched_name=&#39;Pau&#39;,</span>
+<span class="c1">#                                      country=&#39;France&#39;, score=1.0),</span>
+<span class="c1">#                    substring=&#39;Pau&#39;, substring_range=Range(start=10, end=13)),</span>
+<span class="c1">#  ExtractedLocation(location=Location(canonical_name=&#39;La Frasnée&#39;, matched_name=&#39;Фране&#39;,</span>
+<span class="c1">#                                      country=&#39;France&#39;, score=0.909...),</span>
+<span class="c1">#                    substring=&#39;France&#39;, substring_range=Range(start=14, end=20))]</span>
+
+<span class="n">find_city_in_string</span><span class="p">(</span><span class="s2">&quot;Bavarian Environment Agency, Hans Högn Straße 12, &quot;</span>
+                    <span class="s2">&quot;95030 Hof Saale, Bavaria, Germany&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Germany&quot;</span><span class="p">})</span>
+<span class="c1"># [ExtractedLocation(location=Location(canonical_name=&#39;Hof&#39;, matched_name=&#39;Hof&#39;,</span>
+<span class="c1">#                                      country=&#39;Germany&#39;, score=1.0),</span>
+<span class="c1">#                    substring=&#39;Hof&#39;, substring_range=Range(start=56, end=59)),</span>
+<span class="c1">#  ExtractedLocation(location=Location(canonical_name=&#39;Saal&#39;, matched_name=&#39;Saal&#39;,</span>
+<span class="c1">#                                      country=&#39;Germany&#39;, score=0.888...),</span>
+<span class="c1">#                    substring=&#39;Saale&#39;, substring_range=Range(start=60, end=65)),</span>
+<span class="c1">#  ExtractedLocation(location=Location(canonical_name=&#39;Trassem&#39;, matched_name=&#39;Trassem&#39;,</span>
+<span class="c1">#                                      country=&#39;Germany&#39;, score=0.857...),</span>
+<span class="c1">#                    substring=&#39;Straße&#39;, substring_range=Range(start=39, end=45))]</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Regions</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">find_region_in_string</span><span class="p">(</span><span class="s2">&quot;Fur Museum, 7884 Fur, Denmark.&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Denmark&quot;</span><span class="p">})</span>
+<span class="c1"># [ExtractedLocation(location=Location(canonical_name=&#39;Fur&#39;, matched_name=&#39;Fur&#39;,</span>
+<span class="c1">#                                      country=&#39;Denmark&#39;, score=1.0),</span>
+<span class="c1">#                    substring=&#39;Fur&#39;, substring_range=Range(start=0, end=3)),</span>
+<span class="c1">#  ExtractedLocation(location=Location(canonical_name=&#39;Fur&#39;, matched_name=&#39;Fur&#39;,</span>
+<span class="c1">#                                      country=&#39;Denmark&#39;, score=1.0),</span>
+<span class="c1">#                    substring=&#39;Fur&#39;, substring_range=Range(start=17, end=20)),</span>
+<span class="c1">#  ExtractedLocation(location=Location(canonical_name=&#39;Kingdom of Denmark&#39;,</span>
+<span class="c1">#                                      matched_name=&#39;Denmark&#39;, country=&#39;Denmark&#39;, score=1.0),</span>
+<span class="c1">#                    substring=&#39;Denmark&#39;, substring_range=Range(start=22, end=29))]</span>
+
+<span class="n">find_region_in_string</span><span class="p">(</span><span class="s2">&quot;Department of Biological Oceanography, Royal Netherlands Institute &quot;</span>
+                      <span class="s2">&quot;for Sea Research (NIOZ), Texel, The Netherlands&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Netherlands&quot;</span><span class="p">})</span>
+<span class="c1"># [ExtractedLocation(location=Location(canonical_name=&#39;Kingdom of the Netherlands&#39;,</span>
+<span class="c1">#                                      matched_name=&#39;Netherlands&#39;, country=&#39;Netherlands&#39;,</span>
+<span class="c1">#                                      score=1.0),</span>
+<span class="c1">#                    substring=&#39;Netherlands&#39;, substring_range=Range(start=45, end=56)),</span>
+<span class="c1">#  ExtractedLocation(location=Location(canonical_name=&#39;Texel&#39;, matched_name=&#39;Texel&#39;,</span>
+<span class="c1">#                                      country=&#39;Netherlands&#39;, score=1.0),</span>
+<span class="c1">#                    substring=&#39;Texel&#39;, substring_range=Range(start=92, end=97)),</span>
+<span class="c1">#  ExtractedLocation(location=Location(canonical_name=&#39;Kingdom of the Netherlands&#39;,</span>
+<span class="c1">#                                      matched_name=&#39;Netherlands&#39;, country=&#39;Netherlands&#39;,</span>
+<span class="c1">#                                      score=1.0),</span>
+<span class="c1">#                    substring=&#39;Netherlands&#39;, substring_range=Range(start=103, end=114))]</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Whenever a country is considered part of another country <code class="docutils literal notranslate"><span class="pre">normalize_country</span></code> will return the latter.
+E.g., <code class="docutils literal notranslate"><span class="pre">Puerto</span> <span class="pre">Rico</span></code> is mapped to <code class="docutils literal notranslate"><span class="pre">United</span> <span class="pre">States</span></code> and <code class="docutils literal notranslate"><span class="pre">Greenland</span></code> to <code class="docutils literal notranslate"><span class="pre">Denmark</span></code>.</p>
+</aside>
+<section id="resource-loading">
+<h3><a class="toc-backref" href="#toc-entry-3" role="doc-backlink">Resource loading</a><a class="headerlink" href="#resource-loading" title="Permalink to this headline">¶</a></h3>
+<p>Resources for cities and regions aren’t all loaded when you import <code class="docutils literal notranslate"><span class="pre">TextScrubber</span></code>, they’re loaded on the fly per
+country. This means that the first time you do a query it can take a while. The second time around the same query will
+be much faster, as will all other queries involving the same countr(y)(ies). You can load in resources per country in
+advance by using:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">text_scrubber.geo</span> <span class="kn">import</span> <span class="p">(</span><span class="n">add_city_resources</span><span class="p">,</span> <span class="n">add_region_resources</span><span class="p">,</span>
+                               <span class="n">normalize_country_to_country_codes</span><span class="p">)</span>
+
+<span class="n">country_codes</span> <span class="o">=</span> <span class="n">normalize_country_to_country_codes</span><span class="p">([</span><span class="s1">&#39;Netherlands&#39;</span><span class="p">,</span> <span class="s1">&#39;China&#39;</span><span class="p">,</span> <span class="s1">&#39;USA&#39;</span><span class="p">])</span>
+<span class="n">add_city_resources</span><span class="p">(</span><span class="n">country_codes</span><span class="p">)</span>
+<span class="n">add_region_resources</span><span class="p">(</span><span class="n">country_codes</span><span class="p">,</span> <span class="n">progress_bar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Whenever a country is considered part of another country <code class="docutils literal notranslate"><span class="pre">normalize_country_to_country_codes</span></code> returns both.</p>
+</aside>
+</section>
+<section id="cleaning">
+<h3><a class="toc-backref" href="#toc-entry-4" role="doc-backlink">Cleaning</a><a class="headerlink" href="#cleaning" title="Permalink to this headline">¶</a></h3>
+<p>There are clean functions available for countries/regions/cities, which all follow the same cleaning pipeline:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">text_scrubber.geo</span> <span class="kn">import</span> <span class="n">clean_country</span><span class="p">,</span> <span class="n">clean_region</span><span class="p">,</span> <span class="n">clean_city</span>
+
+<span class="n">clean_country</span><span class="p">(</span><span class="s1">&#39;cent afr rep.&#39;</span><span class="p">)</span>     <span class="c1"># &#39;central african republic&#39;</span>
+<span class="n">clean_region</span><span class="p">(</span><span class="s1">&#39;Hyōgo&#39;</span><span class="p">)</span>              <span class="c1"># &#39;hyogo&#39;</span>
+<span class="n">clean_city</span><span class="p">(</span><span class="s1">&#39;płońsk&#39;</span><span class="p">)</span>               <span class="c1"># &#39;plonsk&#39;</span>
+<span class="n">clean_city</span><span class="p">(</span><span class="s1">&#39;neustadt/westerwald&#39;</span><span class="p">)</span>  <span class="c1"># &#39;neustadt westerwald&#39;</span>
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="reference.html" class="btn btn-neutral float-right" title="API reference" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="install.html" class="btn btn-neutral float-left" title="Installation" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2023, Sybren Jansen
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: v0.4.2
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Tags</dt>
+            <dd><a href="../v0.1/usage.html">v0.1</a></dd>
+            <dd><a href="../v0.1.1/usage.html">v0.1.1</a></dd>
+            <dd><a href="../v0.2.0/usage.html">v0.2.0</a></dd>
+            <dd><a href="../v0.3.0/usage.html">v0.3.0</a></dd>
+            <dd><a href="../v0.3.1/usage.html">v0.3.1</a></dd>
+            <dd><a href="../v0.3.2/usage.html">v0.3.2</a></dd>
+            <dd><a href="../v0.4.0/usage.html">v0.4.0</a></dd>
+            <dd><a href="../v0.4.1/usage.html">v0.4.1</a></dd>
+            <dd><a href="usage.html">v0.4.2</a></dd>
+        </dl>
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="../master/usage.html">master</a></dd>
+        </dl>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
