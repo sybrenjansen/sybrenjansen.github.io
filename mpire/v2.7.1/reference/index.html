@@ -1,0 +1,1054 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>API Reference &mdash; mpire 2.7.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinxcontrib-images/LightBox2/lightbox2/css/lightbox.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/sphinxcontrib-images/LightBox2/lightbox2/js/jquery-1.11.0.min.js"></script>
+        <script src="../_static/sphinxcontrib-images/LightBox2/lightbox2/js/lightbox.min.js"></script>
+        <script src="../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Changelog" href="../changelog.html" />
+    <link rel="prev" title="Troubleshooting" href="../troubleshooting.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> mpire
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.7.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Welcome to the MPIRE documentation!</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../usage/index.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">mpire</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>API Reference</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/reference/index.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="api-reference">
+<h1>API Reference<a class="headerlink" href="#api-reference" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#workerpool" id="id1">WorkerPool</a></p></li>
+<li><p><a class="reference internal" href="#asyncresult" id="id2">AsyncResult</a></p></li>
+<li><p><a class="reference internal" href="#task-chunking" id="id3">Task chunking</a></p></li>
+<li><p><a class="reference internal" href="#converting-iterable-of-arguments" id="id4">Converting iterable of arguments</a></p></li>
+<li><p><a class="reference internal" href="#dashboard" id="id5">Dashboard</a></p></li>
+<li><p><a class="reference internal" href="#other" id="id6">Other</a></p></li>
+</ul>
+</div>
+<section id="workerpool">
+<h2><a class="toc-backref" href="#id1">WorkerPool</a><a class="headerlink" href="#workerpool" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="mpire.WorkerPool">
+<em class="property">class </em><code class="sig-prename descclassname">mpire.</code><code class="sig-name descname">WorkerPool</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">daemon</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">cpu_ids</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">shared_objects</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pass_worker_id</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">use_worker_state</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">start_method</span><span class="o">=</span><span class="default_value">'fork'</span></em>, <em class="sig-param"><span class="n">keep_alive</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">use_dill</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">enable_insights</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">order_tasks</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/pool.html#WorkerPool"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.WorkerPool" title="Permalink to this definition">¶</a></dt>
+<dd><p>A multiprocessing worker pool which acts like a <code class="docutils literal notranslate"><span class="pre">multiprocessing.Pool</span></code>, but is faster and has more options.</p>
+<dl class="py method">
+<dt id="mpire.WorkerPool.__enter__">
+<code class="sig-name descname">__enter__</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/pool.html#WorkerPool.__enter__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.WorkerPool.__enter__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable the use of the <code class="docutils literal notranslate"><span class="pre">with</span></code> statement.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">WorkerPool</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.WorkerPool.__exit__">
+<code class="sig-name descname">__exit__</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">*</span><span class="n">_</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/pool.html#WorkerPool.__exit__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.WorkerPool.__exit__" title="Permalink to this definition">¶</a></dt>
+<dd><p>Enable the use of the <code class="docutils literal notranslate"><span class="pre">with</span></code> statement. Gracefully terminates workers, if there are any</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.WorkerPool.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">n_jobs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">daemon</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">cpu_ids</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">shared_objects</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">pass_worker_id</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">use_worker_state</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">start_method</span><span class="o">=</span><span class="default_value">'fork'</span></em>, <em class="sig-param"><span class="n">keep_alive</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">use_dill</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">enable_insights</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">order_tasks</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/pool.html#WorkerPool.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.WorkerPool.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>n_jobs</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Number of workers to spawn. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, will use <code class="docutils literal notranslate"><span class="pre">mpire.cpu_count()</span></code></p></li>
+<li><p><strong>daemon</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to start the child processes as daemon</p></li>
+<li><p><strong>cpu_ids</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]]]]) – List of CPU IDs to use for pinning child processes to specific CPUs. The list must be as long as
+the number of jobs used (if <code class="docutils literal notranslate"><span class="pre">n_jobs</span></code> equals <code class="docutils literal notranslate"><span class="pre">None</span></code> it must be equal to <code class="docutils literal notranslate"><span class="pre">mpire.cpu_count()</span></code>), or the
+list must have exactly one element. In the former case, element <cite>i</cite> specifies the CPU ID(s) to use for child
+process <cite>i</cite>. In the latter case the single element specifies the CPU ID(s) for all child  processes to use.
+A single element can be either a single integer specifying a single CPU ID, or a list of integers specifying
+that a single child process can make use of multiple CPU IDs. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, CPU pinning will be disabled</p></li>
+<li><p><strong>shared_objects</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]) – Objects to be passed on as shared objects to the workers once. It will be passed on to
+the target, <code class="docutils literal notranslate"><span class="pre">worker_init</span></code>, and <code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> functions. <code class="docutils literal notranslate"><span class="pre">shared_objects</span></code> is only passed on when it’s
+not <code class="docutils literal notranslate"><span class="pre">None</span></code>. Shared objects will be copy-on-write when using <code class="docutils literal notranslate"><span class="pre">fork</span></code> as start method. When enabled,
+functions receive the shared objects as second argument, depending on other settings. The order is:
+<code class="docutils literal notranslate"><span class="pre">worker_id</span></code>, <code class="docutils literal notranslate"><span class="pre">shared_objects</span></code>, <code class="docutils literal notranslate"><span class="pre">worker_state</span></code>, and finally the arguments passed on from
+<code class="docutils literal notranslate"><span class="pre">iterable_of_args</span></code></p></li>
+<li><p><strong>pass_worker_id</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to pass on a worker ID to the target, <code class="docutils literal notranslate"><span class="pre">worker_init</span></code>, and <code class="docutils literal notranslate"><span class="pre">worker_exit</span></code>
+functions. When enabled, functions receive the worker ID as first argument, depending on other settings. The
+order is: <code class="docutils literal notranslate"><span class="pre">worker_id</span></code>, <code class="docutils literal notranslate"><span class="pre">shared_objects</span></code>, <code class="docutils literal notranslate"><span class="pre">worker_state</span></code>, and finally the arguments passed on from
+<code class="docutils literal notranslate"><span class="pre">iterable_of_args</span></code></p></li>
+<li><p><strong>use_worker_state</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to let a worker have a worker state. The worker state will be passed on to the
+target, <code class="docutils literal notranslate"><span class="pre">worker_init</span></code>, and <code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> functions. When enabled, functions receive the worker state as
+third argument, depending on other settings. The order is: <code class="docutils literal notranslate"><span class="pre">worker_id</span></code>,  <code class="docutils literal notranslate"><span class="pre">shared_objects</span></code>,
+<code class="docutils literal notranslate"><span class="pre">worker_state</span></code>, and finally the arguments passed on from <code class="docutils literal notranslate"><span class="pre">iterable_of_args</span></code></p></li>
+<li><p><strong>start_method</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>) – Which process start method to use. Options for multiprocessing: <code class="docutils literal notranslate"><span class="pre">'fork'</span></code> (default, if
+available), <code class="docutils literal notranslate"><span class="pre">'forkserver'</span></code> and <code class="docutils literal notranslate"><span class="pre">'spawn'</span></code> (default, if <code class="docutils literal notranslate"><span class="pre">'fork'</span></code> isn’t available). For multithreading
+use <code class="docutils literal notranslate"><span class="pre">'threading'</span></code>. See <a class="reference external" href="https://docs.python.org/3/library/multiprocessing.html#contexts-and-start-methods">https://docs.python.org/3/library/multiprocessing.html#contexts-and-start-methods</a>
+for more information and
+<a class="reference external" href="https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods">https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods</a> for some
+caveats when using the <code class="docutils literal notranslate"><span class="pre">'spawn'</span></code> or <code class="docutils literal notranslate"><span class="pre">'forkserver'</span></code> methods</p></li>
+<li><p><strong>keep_alive</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – When <code class="docutils literal notranslate"><span class="pre">True</span></code> it will keep workers alive after completing a map call, allowing to reuse
+workers</p></li>
+<li><p><strong>use_dill</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to use dill as serialization backend. Some exotic types (e.g., lambdas, nested
+functions) don’t work well when using <code class="docutils literal notranslate"><span class="pre">spawn</span></code> as start method. In such cased, use <code class="docutils literal notranslate"><span class="pre">dill</span></code> (can be a bit
+slower sometimes)</p></li>
+<li><p><strong>enable_insights</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to enable worker insights. Might come at a small performance penalty (often
+neglible)</p></li>
+<li><p><strong>order_tasks</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to provide tasks to the workers in order, such that worker 0 will get chunk 0,
+worker 1 will get chunk 1, etc.</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="mpire.WorkerPool.__weakref__">
+<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#mpire.WorkerPool.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.WorkerPool.apply">
+<code class="sig-name descname">apply</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="n">args</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">callback</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">error_callback</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_init</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_exit</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">task_timeout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_init_timeout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_exit_timeout</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/pool.html#WorkerPool.apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.WorkerPool.apply" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a function to a single task. This is a blocking call.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>) – Function to apply to the task. When passing on the worker ID the function should receive the
+worker ID as its first argument. If shared objects are provided the function should receive those as the
+next argument. If the worker state has been enabled it should receive a state variable as the next argument</p></li>
+<li><p><strong>args</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>) – Arguments to pass to a worker, which passes it to the function <code class="docutils literal notranslate"><span class="pre">func</span></code> as <code class="docutils literal notranslate"><span class="pre">func(*args)</span></code></p></li>
+<li><p><strong>kwargs</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>]) – Keyword arguments to pass to a worker, which passes it to the function <code class="docutils literal notranslate"><span class="pre">func</span></code> as
+<code class="docutils literal notranslate"><span class="pre">func(**kwargs)</span></code></p></li>
+<li><p><strong>callback</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) – Callback function to call when the task is finished. The callback function receives the output
+of the function <code class="docutils literal notranslate"><span class="pre">func</span></code> as its argument</p></li>
+<li><p><strong>error_callback</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) – Callback function to call when the task has failed. The callback function receives the
+exception as its argument</p></li>
+<li><p><strong>worker_init</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) – Function to call each time a new worker starts. When passing on the worker ID the function
+should receive the worker ID as its first argument. If shared objects are provided the function should
+receive those as the next argument. If the worker state has been enabled it should receive a state variable
+as the next argument</p></li>
+<li><p><strong>worker_exit</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) – Function to call each time a worker exits. Return values will be fetched and made available
+through <a class="reference internal" href="#mpire.WorkerPool.get_exit_results" title="mpire.WorkerPool.get_exit_results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpire.WorkerPool.get_exit_results</span></code></a>. When passing on the worker ID the function should receive
+the worker ID as its first argument. If shared objects are provided the function should receive those as the
+next argument. If the worker state has been enabled it should receive a state variable as the next argument</p></li>
+<li><p><strong>task_timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds for a single task. When the timeout is exceeded, MPIRE will raise a
+<code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable (default). Note: the timeout doesn’t apply to <code class="docutils literal notranslate"><span class="pre">worker_init</span></code> and
+<code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> functions, use <cite>worker_init_timeout</cite> and <cite>worker_exit_timeout</cite> for that, respectively</p></li>
+<li><p><strong>worker_init_timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds for the <code class="docutils literal notranslate"><span class="pre">worker_init</span></code> function. When the timeout is exceeded,
+MPIRE will raise a <code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable (default).</p></li>
+<li><p><strong>worker_exit_timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds for the <code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> function. When the timeout is exceeded,
+MPIRE will raise a <code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable (default).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Result of the function <code class="docutils literal notranslate"><span class="pre">func</span></code> applied to the task</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.WorkerPool.apply_async">
+<code class="sig-name descname">apply_async</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="n">args</span><span class="o">=</span><span class="default_value">()</span></em>, <em class="sig-param"><span class="n">kwargs</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">callback</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">error_callback</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_init</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_exit</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">task_timeout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_init_timeout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_exit_timeout</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/pool.html#WorkerPool.apply_async"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.WorkerPool.apply_async" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apply a function to a single task. This is a non-blocking call.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>) – Function to apply to the task. When passing on the worker ID the function should receive the
+worker ID as its first argument. If shared objects are provided the function should receive those as the
+next argument. If the worker state has been enabled it should receive a state variable as the next argument</p></li>
+<li><p><strong>args</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>) – Arguments to pass to a worker, which passes it to the function <code class="docutils literal notranslate"><span class="pre">func</span></code> as <code class="docutils literal notranslate"><span class="pre">func(*args)</span></code></p></li>
+<li><p><strong>kwargs</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>]) – Keyword arguments to pass to a worker, which passes it to the function <code class="docutils literal notranslate"><span class="pre">func</span></code> as
+<code class="docutils literal notranslate"><span class="pre">func(**kwargs)</span></code></p></li>
+<li><p><strong>callback</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) – Callback function to call when the task is finished. The callback function receives the output
+of the function <code class="docutils literal notranslate"><span class="pre">func</span></code> as its argument</p></li>
+<li><p><strong>error_callback</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) – Callback function to call when the task has failed. The callback function receives the
+exception as its argument</p></li>
+<li><p><strong>worker_init</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) – Function to call each time a new worker starts. When passing on the worker ID the function
+should receive the worker ID as its first argument. If shared objects are provided the function should
+receive those as the next argument. If the worker state has been enabled it should receive a state variable
+as the next argument</p></li>
+<li><p><strong>worker_exit</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) – Function to call each time a worker exits. Return values will be fetched and made available
+through <a class="reference internal" href="#mpire.WorkerPool.get_exit_results" title="mpire.WorkerPool.get_exit_results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpire.WorkerPool.get_exit_results</span></code></a>. When passing on the worker ID the function should receive
+the worker ID as its first argument. If shared objects are provided the function should receive those as the
+next argument. If the worker state has been enabled it should receive a state variable as the next argument</p></li>
+<li><p><strong>task_timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds for a single task. When the timeout is exceeded, MPIRE will raise a
+<code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable (default). Note: the timeout doesn’t apply to <code class="docutils literal notranslate"><span class="pre">worker_init</span></code> and
+<code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> functions, use <cite>worker_init_timeout</cite> and <cite>worker_exit_timeout</cite> for that, respectively</p></li>
+<li><p><strong>worker_init_timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds for the <code class="docutils literal notranslate"><span class="pre">worker_init</span></code> function. When the timeout is exceeded,
+MPIRE will raise a <code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable (default).</p></li>
+<li><p><strong>worker_exit_timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds for the <code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> function. When the timeout is exceeded,
+MPIRE will raise a <code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable (default).</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference internal" href="#mpire.async_result.AsyncResult" title="mpire.async_result.AsyncResult"><code class="xref py py-class docutils literal notranslate"><span class="pre">AsyncResult</span></code></a></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Result of the function <code class="docutils literal notranslate"><span class="pre">func</span></code> applied to the task</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.WorkerPool.get_exit_results">
+<code class="sig-name descname">get_exit_results</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/pool.html#WorkerPool.get_exit_results"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.WorkerPool.get_exit_results" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain a list of exit results when an exit function is defined.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Exit results list</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.WorkerPool.get_insights">
+<code class="sig-name descname">get_insights</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/pool.html#WorkerPool.get_insights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.WorkerPool.get_insights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates insights from the raw insight data</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Dictionary containing worker insights</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.WorkerPool.imap">
+<code class="sig-name descname">imap</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="n">iterable_of_args</span></em>, <em class="sig-param"><span class="n">iterable_len</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_tasks_active</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">chunk_size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">n_splits</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_lifespan</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">progress_bar</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">progress_bar_position</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_init</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_exit</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">task_timeout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_init_timeout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_exit_timeout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">progress_bar_options</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">progress_bar_style</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/pool.html#WorkerPool.imap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.WorkerPool.imap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Same as <code class="docutils literal notranslate"><span class="pre">multiprocessing.imap_unordered()</span></code>, but ordered. Also allows a user to set the maximum number of
+tasks available in the queue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>) – Function to call each time new task arguments become available. When passing on the worker ID the
+function should receive the worker ID as its first argument. If shared objects are provided the function
+should receive those as the next argument. If the worker state has been enabled it should receive a state
+variable as the next argument</p></li>
+<li><p><strong>iterable_of_args</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Sized</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>]) – A numpy array or an iterable containing tuples of arguments to pass to a worker, which
+passes it to the function <code class="docutils literal notranslate"><span class="pre">func</span></code></p></li>
+<li><p><strong>iterable_len</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Number of elements in the <code class="docutils literal notranslate"><span class="pre">iterable_of_args</span></code>. When chunk_size is set to <code class="docutils literal notranslate"><span class="pre">None</span></code> it needs
+to know the number of tasks. This can either be provided by implementing the <code class="docutils literal notranslate"><span class="pre">__len__</span></code> function on the
+iterable object, or by specifying the number of tasks</p></li>
+<li><p><strong>max_tasks_active</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Maximum number of active tasks in the queue. If <code class="docutils literal notranslate"><span class="pre">None</span></code> it will be converted to
+<code class="docutils literal notranslate"><span class="pre">n_jobs</span> <span class="pre">*</span> <span class="pre">chunk_size</span> <span class="pre">*</span> <span class="pre">2</span></code></p></li>
+<li><p><strong>chunk_size</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Number of simultaneous tasks to give to a worker. When <code class="docutils literal notranslate"><span class="pre">None</span></code> it will use <code class="docutils literal notranslate"><span class="pre">n_splits</span></code>.</p></li>
+<li><p><strong>n_splits</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Number of splits to use when <code class="docutils literal notranslate"><span class="pre">chunk_size</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>. When both <code class="docutils literal notranslate"><span class="pre">chunk_size</span></code> and
+<code class="docutils literal notranslate"><span class="pre">n_splits</span></code> are <code class="docutils literal notranslate"><span class="pre">None</span></code>, it will use <code class="docutils literal notranslate"><span class="pre">n_splits</span> <span class="pre">=</span> <span class="pre">n_jobs</span> <span class="pre">*</span> <span class="pre">64</span></code>.</p></li>
+<li><p><strong>worker_lifespan</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Number of tasks a worker can handle before it is restarted. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, workers will
+stay alive the entire time. Use this when workers use up too much memory over the course of time</p></li>
+<li><p><strong>progress_bar</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – When <code class="docutils literal notranslate"><span class="pre">True</span></code> it will display a progress bar</p></li>
+<li><p><strong>progress_bar_position</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – <p>Denotes the position (line nr) of the progress bar. This is useful when using
+multiple progress bars at the same time.</p>
+<p>DEPRECATED in v2.6.0, to be removed in v2.10.0! Set the progress bar position using <code class="docutils literal notranslate"><span class="pre">progress_bar_options</span></code>
+instead.</p>
+</p></li>
+<li><p><strong>worker_init</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) – Function to call each time a new worker starts. When passing on the worker ID the function
+should receive the worker ID as its first argument. If shared objects are provided the function should
+receive those as the next argument. If the worker state has been enabled it should receive a state variable
+as the next argument</p></li>
+<li><p><strong>worker_exit</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) – Function to call each time a worker exits. Return values will be fetched and made available
+through <a class="reference internal" href="#mpire.WorkerPool.get_exit_results" title="mpire.WorkerPool.get_exit_results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpire.WorkerPool.get_exit_results</span></code></a>. When passing on the worker ID the function should receive
+the worker ID as its first argument. If shared objects are provided the function should receive those as the
+next argument. If the worker state has been enabled it should receive a state variable as the next argument</p></li>
+<li><p><strong>task_timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds for a single task. When the timeout is exceeded, MPIRE will raise a
+<code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable (default). Note: the timeout doesn’t apply to <code class="docutils literal notranslate"><span class="pre">worker_init</span></code> and
+<code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> functions, use <cite>worker_init_timeout</cite> and <cite>worker_exit_timeout</cite> for that, respectively</p></li>
+<li><p><strong>worker_init_timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds for the <code class="docutils literal notranslate"><span class="pre">worker_init</span></code> function. When the timeout is exceeded,
+MPIRE will raise a <code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable (default).</p></li>
+<li><p><strong>worker_exit_timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds for the <code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> function. When the timeout is exceeded,
+MPIRE will raise a <code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable (default).</p></li>
+<li><p><strong>progress_bar_options</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]]) – Dictionary containing keyword arguments to pass to the <code class="docutils literal notranslate"><span class="pre">tqdm</span></code> progress bar. See
+<code class="docutils literal notranslate"><span class="pre">tqdm.tqdm()</span></code> for details. The arguments <code class="docutils literal notranslate"><span class="pre">total</span></code> and <code class="docutils literal notranslate"><span class="pre">leave</span></code> will be overwritten by MPIRE.</p></li>
+<li><p><strong>progress_bar_style</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The progress bar style to use. Can be one of <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">'std'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'notebook'</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Generator yielding ordered results</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.WorkerPool.imap_unordered">
+<code class="sig-name descname">imap_unordered</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="n">iterable_of_args</span></em>, <em class="sig-param"><span class="n">iterable_len</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_tasks_active</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">chunk_size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">n_splits</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_lifespan</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">progress_bar</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">progress_bar_position</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_init</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_exit</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">task_timeout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_init_timeout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_exit_timeout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">progress_bar_options</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">progress_bar_style</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/pool.html#WorkerPool.imap_unordered"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.WorkerPool.imap_unordered" title="Permalink to this definition">¶</a></dt>
+<dd><p>Same as <code class="docutils literal notranslate"><span class="pre">multiprocessing.imap_unordered()</span></code>. Also allows a user to set the maximum number of tasks available in
+the queue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>) – Function to call each time new task arguments become available. When passing on the worker ID the
+function should receive the worker ID as its first argument. If shared objects are provided the function
+should receive those as the next argument. If the worker state has been enabled it should receive a state
+variable as the next argument</p></li>
+<li><p><strong>iterable_of_args</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Sized</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>]) – A numpy array or an iterable containing tuples of arguments to pass to a worker, which
+passes it to the function <code class="docutils literal notranslate"><span class="pre">func</span></code></p></li>
+<li><p><strong>iterable_len</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Number of elements in the <code class="docutils literal notranslate"><span class="pre">iterable_of_args</span></code>. When chunk_size is set to <code class="docutils literal notranslate"><span class="pre">None</span></code> it needs
+to know the number of tasks. This can either be provided by implementing the <code class="docutils literal notranslate"><span class="pre">__len__</span></code> function on the
+iterable object, or by specifying the number of tasks</p></li>
+<li><p><strong>max_tasks_active</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Maximum number of active tasks in the queue. If <code class="docutils literal notranslate"><span class="pre">None</span></code> it will be converted to
+<code class="docutils literal notranslate"><span class="pre">n_jobs</span> <span class="pre">*</span> <span class="pre">chunk_size</span> <span class="pre">*</span> <span class="pre">2</span></code></p></li>
+<li><p><strong>chunk_size</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Number of simultaneous tasks to give to a worker. When <code class="docutils literal notranslate"><span class="pre">None</span></code> it will use <code class="docutils literal notranslate"><span class="pre">n_splits</span></code>.</p></li>
+<li><p><strong>n_splits</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Number of splits to use when <code class="docutils literal notranslate"><span class="pre">chunk_size</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>. When both <code class="docutils literal notranslate"><span class="pre">chunk_size</span></code> and
+<code class="docutils literal notranslate"><span class="pre">n_splits</span></code> are <code class="docutils literal notranslate"><span class="pre">None</span></code>, it will use <code class="docutils literal notranslate"><span class="pre">n_splits</span> <span class="pre">=</span> <span class="pre">n_jobs</span> <span class="pre">*</span> <span class="pre">64</span></code>.</p></li>
+<li><p><strong>worker_lifespan</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Number of tasks a worker can handle before it is restarted. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, workers will
+stay alive the entire time. Use this when workers use up too much memory over the course of time</p></li>
+<li><p><strong>progress_bar</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – When <code class="docutils literal notranslate"><span class="pre">True</span></code> it will display a progress bar</p></li>
+<li><p><strong>progress_bar_position</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – <p>Denotes the position (line nr) of the progress bar. This is useful when using
+multiple progress bars at the same time.</p>
+<p>DEPRECATED in v2.6.0, to be removed in v2.10.0! Set the progress bar position using <code class="docutils literal notranslate"><span class="pre">progress_bar_options</span></code>
+instead.</p>
+</p></li>
+<li><p><strong>worker_init</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) – Function to call each time a new worker starts. When passing on the worker ID the function
+should receive the worker ID as its first argument. If shared objects are provided the function should
+receive those as the next argument. If the worker state has been enabled it should receive a state variable
+as the next argument</p></li>
+<li><p><strong>worker_exit</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) – Function to call each time a worker exits. Return values will be fetched and made available
+through <a class="reference internal" href="#mpire.WorkerPool.get_exit_results" title="mpire.WorkerPool.get_exit_results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpire.WorkerPool.get_exit_results</span></code></a>. When passing on the worker ID the function should receive
+the worker ID as its first argument. If shared objects are provided the function should receive those as the
+next argument. If the worker state has been enabled it should receive a state variable as the next argument</p></li>
+<li><p><strong>task_timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds for a single task. When the timeout is exceeded, MPIRE will raise a
+<code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable (default). Note: the timeout doesn’t apply to <code class="docutils literal notranslate"><span class="pre">worker_init</span></code> and
+<code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> functions, use <cite>worker_init_timeout</cite> and <cite>worker_exit_timeout</cite> for that, respectively</p></li>
+<li><p><strong>worker_init_timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds for the <code class="docutils literal notranslate"><span class="pre">worker_init</span></code> function. When the timeout is exceeded,
+MPIRE will raise a <code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable (default).</p></li>
+<li><p><strong>worker_exit_timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds for the <code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> function. When the timeout is exceeded,
+MPIRE will raise a <code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable (default).</p></li>
+<li><p><strong>progress_bar_options</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]]) – Dictionary containing keyword arguments to pass to the <code class="docutils literal notranslate"><span class="pre">tqdm</span></code> progress bar. See
+<code class="docutils literal notranslate"><span class="pre">tqdm.tqdm()</span></code> for details. The arguments <code class="docutils literal notranslate"><span class="pre">total</span></code> and <code class="docutils literal notranslate"><span class="pre">leave</span></code> will be overwritten by MPIRE.</p></li>
+<li><p><strong>progress_bar_style</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The progress bar style to use. Can be one of <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">'std'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'notebook'</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Generator yielding unordered results</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.WorkerPool.join">
+<code class="sig-name descname">join</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">keep_alive</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="headerlink" href="#mpire.WorkerPool.join" title="Permalink to this definition">¶</a></dt>
+<dd><p>When <code class="docutils literal notranslate"><span class="pre">keep_alive=False</span></code>: inserts a poison pill, grabs the exit results, waits until the tasks/results queues
+are done, and waits until all workers are finished.
+When <code class="docutils literal notranslate"><span class="pre">keep_alive=True</span></code>: inserts a non-lethal poison pill, and waits until the tasks/results queues are done.</p>
+<p><code class="docutils literal notranslate"><span class="pre">join``and</span> <span class="pre">``stop_and_join</span></code> are aliases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>keep_alive</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to keep the workers alive</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.WorkerPool.map">
+<code class="sig-name descname">map</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="n">iterable_of_args</span></em>, <em class="sig-param"><span class="n">iterable_len</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_tasks_active</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">chunk_size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">n_splits</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_lifespan</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">progress_bar</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">progress_bar_position</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">concatenate_numpy_output</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">worker_init</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_exit</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">task_timeout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_init_timeout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_exit_timeout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">progress_bar_options</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">progress_bar_style</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/pool.html#WorkerPool.map"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.WorkerPool.map" title="Permalink to this definition">¶</a></dt>
+<dd><p>Same as <code class="docutils literal notranslate"><span class="pre">multiprocessing.map()</span></code>. Also allows a user to set the maximum number of tasks available in the queue.
+Note that this function can be slower than the unordered version.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>) – Function to call each time new task arguments become available. When passing on the worker ID the
+function should receive the worker ID as its first argument. If shared objects are provided the function
+should receive those as the next argument. If the worker state has been enabled it should receive a state
+variable as the next argument</p></li>
+<li><p><strong>iterable_of_args</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Sized</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>]) – A numpy array or an iterable containing tuples of arguments to pass to a worker, which
+passes it to the function <code class="docutils literal notranslate"><span class="pre">func</span></code></p></li>
+<li><p><strong>iterable_len</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Number of elements in the <code class="docutils literal notranslate"><span class="pre">iterable_of_args</span></code>. When chunk_size is set to <code class="docutils literal notranslate"><span class="pre">None</span></code> it needs
+to know the number of tasks. This can either be provided by implementing the <code class="docutils literal notranslate"><span class="pre">__len__</span></code> function on the
+iterable object, or by specifying the number of tasks</p></li>
+<li><p><strong>max_tasks_active</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Maximum number of active tasks in the queue. If <code class="docutils literal notranslate"><span class="pre">None</span></code> it will be converted to
+<code class="docutils literal notranslate"><span class="pre">n_jobs</span> <span class="pre">*</span> <span class="pre">chunk_size</span> <span class="pre">*</span> <span class="pre">2</span></code></p></li>
+<li><p><strong>chunk_size</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Number of simultaneous tasks to give to a worker. When <code class="docutils literal notranslate"><span class="pre">None</span></code> it will use <code class="docutils literal notranslate"><span class="pre">n_splits</span></code>.</p></li>
+<li><p><strong>n_splits</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Number of splits to use when <code class="docutils literal notranslate"><span class="pre">chunk_size</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>. When both <code class="docutils literal notranslate"><span class="pre">chunk_size</span></code> and
+<code class="docutils literal notranslate"><span class="pre">n_splits</span></code> are <code class="docutils literal notranslate"><span class="pre">None</span></code>, it will use <code class="docutils literal notranslate"><span class="pre">n_splits</span> <span class="pre">=</span> <span class="pre">n_jobs</span> <span class="pre">*</span> <span class="pre">64</span></code>.</p></li>
+<li><p><strong>worker_lifespan</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Number of tasks a worker can handle before it is restarted. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, workers will
+stay alive the entire time. Use this when workers use up too much memory over the course of time</p></li>
+<li><p><strong>progress_bar</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – When <code class="docutils literal notranslate"><span class="pre">True</span></code> it will display a progress bar</p></li>
+<li><p><strong>progress_bar_position</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – <p>Denotes the position (line nr) of the progress bar. This is useful when using
+multiple progress bars at the same time.</p>
+<p>DEPRECATED in v2.6.0, to be removed in v2.10.0! Set the progress bar position using <code class="docutils literal notranslate"><span class="pre">progress_bar_options</span></code>
+instead.</p>
+</p></li>
+<li><p><strong>concatenate_numpy_output</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – When <code class="docutils literal notranslate"><span class="pre">True</span></code> it will concatenate numpy output to a single numpy array</p></li>
+<li><p><strong>worker_init</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) – Function to call each time a new worker starts. When passing on the worker ID the function
+should receive the worker ID as its first argument. If shared objects are provided the function should
+receive those as the next argument. If the worker state has been enabled it should receive a state variable
+as the next argument</p></li>
+<li><p><strong>worker_exit</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) – Function to call each time a worker exits. Return values will be fetched and made available
+through <a class="reference internal" href="#mpire.WorkerPool.get_exit_results" title="mpire.WorkerPool.get_exit_results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpire.WorkerPool.get_exit_results</span></code></a>. When passing on the worker ID the function should receive
+the worker ID as its first argument. If shared objects are provided the function should receive those as the
+next argument. If the worker state has been enabled it should receive a state variable as the next argument</p></li>
+<li><p><strong>task_timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds for a single task. When the timeout is exceeded, MPIRE will raise a
+<code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable (default). Note: the timeout doesn’t apply to <code class="docutils literal notranslate"><span class="pre">worker_init</span></code> and
+<code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> functions, use <cite>worker_init_timeout</cite> and <cite>worker_exit_timeout</cite> for that, respectively</p></li>
+<li><p><strong>worker_init_timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds for the <code class="docutils literal notranslate"><span class="pre">worker_init</span></code> function. When the timeout is exceeded,
+MPIRE will raise a <code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable (default).</p></li>
+<li><p><strong>worker_exit_timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds for the <code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> function. When the timeout is exceeded,
+MPIRE will raise a <code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable (default).</p></li>
+<li><p><strong>progress_bar_options</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]]) – Dictionary containing keyword arguments to pass to the <code class="docutils literal notranslate"><span class="pre">tqdm</span></code> progress bar. See
+<code class="docutils literal notranslate"><span class="pre">tqdm.tqdm()</span></code> for details. The arguments <code class="docutils literal notranslate"><span class="pre">total</span></code> and <code class="docutils literal notranslate"><span class="pre">leave</span></code> will be overwritten by MPIRE.</p></li>
+<li><p><strong>progress_bar_style</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The progress bar style to use. Can be one of <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">'std'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'notebook'</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List with ordered results</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.WorkerPool.map_unordered">
+<code class="sig-name descname">map_unordered</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">func</span></em>, <em class="sig-param"><span class="n">iterable_of_args</span></em>, <em class="sig-param"><span class="n">iterable_len</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">max_tasks_active</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">chunk_size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">n_splits</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_lifespan</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">progress_bar</span><span class="o">=</span><span class="default_value">False</span></em>, <em class="sig-param"><span class="n">progress_bar_position</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_init</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_exit</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">task_timeout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_init_timeout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">worker_exit_timeout</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">progress_bar_options</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">progress_bar_style</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/pool.html#WorkerPool.map_unordered"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.WorkerPool.map_unordered" title="Permalink to this definition">¶</a></dt>
+<dd><p>Same as <code class="docutils literal notranslate"><span class="pre">multiprocessing.map()</span></code>, but unordered. Also allows a user to set the maximum number of tasks
+available in the queue.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>func</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>) – Function to call each time new task arguments become available. When passing on the worker ID the
+function should receive the worker ID as its first argument. If shared objects are provided the function
+should receive those as the next argument. If the worker state has been enabled it should receive a state
+variable as the next argument</p></li>
+<li><p><strong>iterable_of_args</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Sized</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>]) – A numpy array or an iterable containing tuples of arguments to pass to a worker, which
+passes it to the function <code class="docutils literal notranslate"><span class="pre">func</span></code></p></li>
+<li><p><strong>iterable_len</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Number of elements in the <code class="docutils literal notranslate"><span class="pre">iterable_of_args</span></code>. When chunk_size is set to <code class="docutils literal notranslate"><span class="pre">None</span></code> it needs
+to know the number of tasks. This can either be provided by implementing the <code class="docutils literal notranslate"><span class="pre">__len__</span></code> function on the
+iterable object, or by specifying the number of tasks</p></li>
+<li><p><strong>max_tasks_active</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Maximum number of active tasks in the queue. If <code class="docutils literal notranslate"><span class="pre">None</span></code> it will be converted to
+<code class="docutils literal notranslate"><span class="pre">n_jobs</span> <span class="pre">*</span> <span class="pre">chunk_size</span> <span class="pre">*</span> <span class="pre">2</span></code></p></li>
+<li><p><strong>chunk_size</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Number of simultaneous tasks to give to a worker. When <code class="docutils literal notranslate"><span class="pre">None</span></code> it will use <code class="docutils literal notranslate"><span class="pre">n_splits</span></code>.</p></li>
+<li><p><strong>n_splits</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Number of splits to use when <code class="docutils literal notranslate"><span class="pre">chunk_size</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>. When both <code class="docutils literal notranslate"><span class="pre">chunk_size</span></code> and
+<code class="docutils literal notranslate"><span class="pre">n_splits</span></code> are <code class="docutils literal notranslate"><span class="pre">None</span></code>, it will use <code class="docutils literal notranslate"><span class="pre">n_splits</span> <span class="pre">=</span> <span class="pre">n_jobs</span> <span class="pre">*</span> <span class="pre">64</span></code>.</p></li>
+<li><p><strong>worker_lifespan</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Number of tasks a worker can handle before it is restarted. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, workers will
+stay alive the entire time. Use this when workers use up too much memory over the course of time</p></li>
+<li><p><strong>progress_bar</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – When <code class="docutils literal notranslate"><span class="pre">True</span></code> it will display a progress bar</p></li>
+<li><p><strong>progress_bar_position</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – <p>Denotes the position (line nr) of the progress bar. This is useful when using
+multiple progress bars at the same time.</p>
+<p>DEPRECATED in v2.6.0, to be removed in v2.10.0! Set the progress bar position using <code class="docutils literal notranslate"><span class="pre">progress_bar_options</span></code>
+instead.</p>
+</p></li>
+<li><p><strong>worker_init</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) – Function to call each time a new worker starts. When passing on the worker ID the function
+should receive the worker ID as its first argument. If shared objects are provided the function should
+receive those as the next argument. If the worker state has been enabled it should receive a state variable
+as the next argument</p></li>
+<li><p><strong>worker_exit</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) – Function to call each time a worker exits. Return values will be fetched and made available
+through <a class="reference internal" href="#mpire.WorkerPool.get_exit_results" title="mpire.WorkerPool.get_exit_results"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpire.WorkerPool.get_exit_results</span></code></a>. When passing on the worker ID the function should receive
+the worker ID as its first argument. If shared objects are provided the function should receive those as the
+next argument. If the worker state has been enabled it should receive a state variable as the next argument</p></li>
+<li><p><strong>task_timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds for a single task. When the timeout is exceeded, MPIRE will raise a
+<code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable (default). Note: the timeout doesn’t apply to <code class="docutils literal notranslate"><span class="pre">worker_init</span></code> and
+<code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> functions, use <cite>worker_init_timeout</cite> and <cite>worker_exit_timeout</cite> for that, respectively</p></li>
+<li><p><strong>worker_init_timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds for the <code class="docutils literal notranslate"><span class="pre">worker_init</span></code> function. When the timeout is exceeded,
+MPIRE will raise a <code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable (default).</p></li>
+<li><p><strong>worker_exit_timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds for the <code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> function. When the timeout is exceeded,
+MPIRE will raise a <code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable (default).</p></li>
+<li><p><strong>progress_bar_options</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]]) – Dictionary containing keyword arguments to pass to the <code class="docutils literal notranslate"><span class="pre">tqdm</span></code> progress bar. See
+<code class="docutils literal notranslate"><span class="pre">tqdm.tqdm()</span></code> for details. The arguments <code class="docutils literal notranslate"><span class="pre">total</span></code> and <code class="docutils literal notranslate"><span class="pre">leave</span></code> will be overwritten by MPIRE.</p></li>
+<li><p><strong>progress_bar_style</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>]) – The progress bar style to use. Can be one of <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">'std'</span></code>, or <code class="docutils literal notranslate"><span class="pre">'notebook'</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>List with unordered results</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.WorkerPool.pass_on_worker_id">
+<code class="sig-name descname">pass_on_worker_id</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">pass_on</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/pool.html#WorkerPool.pass_on_worker_id"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.WorkerPool.pass_on_worker_id" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set whether to pass on the worker ID to the function to be executed or not (default= <code class="docutils literal notranslate"><span class="pre">False</span></code>).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>pass_on</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to pass on a worker ID to the target, <code class="docutils literal notranslate"><span class="pre">worker_init</span></code>, and <code class="docutils literal notranslate"><span class="pre">worker_exit</span></code>
+functions. When enabled, functions receive the worker ID depending on other settings. The order is:
+<code class="docutils literal notranslate"><span class="pre">worker_id</span></code>, <code class="docutils literal notranslate"><span class="pre">shared_objects</span></code>, <code class="docutils literal notranslate"><span class="pre">worker_state</span></code>, and finally the arguments passed on using
+<code class="docutils literal notranslate"><span class="pre">iterable_of_args</span></code></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.WorkerPool.print_insights">
+<code class="sig-name descname">print_insights</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/pool.html#WorkerPool.print_insights"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.WorkerPool.print_insights" title="Permalink to this definition">¶</a></dt>
+<dd><p>Prints insights per worker</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.WorkerPool.set_keep_alive">
+<code class="sig-name descname">set_keep_alive</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">keep_alive</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/pool.html#WorkerPool.set_keep_alive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.WorkerPool.set_keep_alive" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set whether workers should be kept alive in between consecutive map calls.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>keep_alive</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – When True it will keep workers alive after completing a map call, allowing to reuse workers</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.WorkerPool.set_order_tasks">
+<code class="sig-name descname">set_order_tasks</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">order_tasks</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/pool.html#WorkerPool.set_order_tasks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.WorkerPool.set_order_tasks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set whether to provide tasks to the workers in order, such that worker 0 will get chunk 0, worker 1 will get
+chunk 1, etc.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>order_tasks</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to provide tasks to the workers in order, such that worker 0 will get chunk 0,
+worker 1 will get chunk 1, etc.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.WorkerPool.set_shared_objects">
+<code class="sig-name descname">set_shared_objects</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">shared_objects</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/pool.html#WorkerPool.set_shared_objects"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.WorkerPool.set_shared_objects" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set shared objects to pass to the workers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>shared_objects</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code>]) – Objects to be passed on as shared objects to the workers once. It will be passed on to
+the target, <code class="docutils literal notranslate"><span class="pre">worker_init</span></code>, and <code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> functions. <code class="docutils literal notranslate"><span class="pre">shared_objects</span></code> is only passed on when it’s
+not <code class="docutils literal notranslate"><span class="pre">None</span></code>. Shared objects will be copy-on-write when using <code class="docutils literal notranslate"><span class="pre">fork</span></code> as start method. When enabled,
+functions receive the shared objects depending on other settings. The order is: <code class="docutils literal notranslate"><span class="pre">worker_id</span></code>,
+<code class="docutils literal notranslate"><span class="pre">shared_objects</span></code>, <code class="docutils literal notranslate"><span class="pre">worker_state</span></code>, and finally the arguments passed on using <code class="docutils literal notranslate"><span class="pre">iterable_of_args`</span></code></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.WorkerPool.set_use_worker_state">
+<code class="sig-name descname">set_use_worker_state</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">use_worker_state</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/pool.html#WorkerPool.set_use_worker_state"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.WorkerPool.set_use_worker_state" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set whether or not each worker should have its own state variable. Each worker has its own state, so it’s not
+shared between the workers.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>use_worker_state</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to let a worker have a worker state. The worker state will be passed on to the
+target, <code class="docutils literal notranslate"><span class="pre">worker_init</span></code>, and <code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> functions. When enabled, functions receive the worker state
+depending on other settings. The order is: <code class="docutils literal notranslate"><span class="pre">worker_id</span></code>,  <code class="docutils literal notranslate"><span class="pre">shared_objects</span></code>, <code class="docutils literal notranslate"><span class="pre">worker_state</span></code>, and finally
+the arguments passed on using <code class="docutils literal notranslate"><span class="pre">iterable_of_args</span></code></p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.WorkerPool.stop_and_join">
+<code class="sig-name descname">stop_and_join</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">keep_alive</span><span class="o">=</span><span class="default_value">False</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/pool.html#WorkerPool.stop_and_join"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.WorkerPool.stop_and_join" title="Permalink to this definition">¶</a></dt>
+<dd><p>When <code class="docutils literal notranslate"><span class="pre">keep_alive=False</span></code>: inserts a poison pill, grabs the exit results, waits until the tasks/results queues
+are done, and waits until all workers are finished.
+When <code class="docutils literal notranslate"><span class="pre">keep_alive=True</span></code>: inserts a non-lethal poison pill, and waits until the tasks/results queues are done.</p>
+<p><code class="docutils literal notranslate"><span class="pre">join``and</span> <span class="pre">``stop_and_join</span></code> are aliases.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>keep_alive</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether to keep the workers alive</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.WorkerPool.terminate">
+<code class="sig-name descname">terminate</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/pool.html#WorkerPool.terminate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.WorkerPool.terminate" title="Permalink to this definition">¶</a></dt>
+<dd><p>Tries to do a graceful shutdown of the workers, by interrupting them. In the case processes deadlock it will
+send a sigkill.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="asyncresult">
+<h2><a class="toc-backref" href="#id2">AsyncResult</a><a class="headerlink" href="#asyncresult" title="Permalink to this headline">¶</a></h2>
+<dl class="py class">
+<dt id="mpire.async_result.AsyncResult">
+<em class="property">class </em><code class="sig-prename descclassname">mpire.async_result.</code><code class="sig-name descname">AsyncResult</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cache</span></em>, <em class="sig-param"><span class="n">callback</span></em>, <em class="sig-param"><span class="n">error_callback</span></em>, <em class="sig-param"><span class="n">job_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">delete_from_cache</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/async_result.html#AsyncResult"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.async_result.AsyncResult" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adapted from <code class="docutils literal notranslate"><span class="pre">multiprocessing.pool.ApplyResult</span></code>.</p>
+<dl class="py method">
+<dt id="mpire.async_result.AsyncResult.__init__">
+<code class="sig-name descname">__init__</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">cache</span></em>, <em class="sig-param"><span class="n">callback</span></em>, <em class="sig-param"><span class="n">error_callback</span></em>, <em class="sig-param"><span class="n">job_id</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">delete_from_cache</span><span class="o">=</span><span class="default_value">True</span></em>, <em class="sig-param"><span class="n">timeout</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/async_result.html#AsyncResult.__init__"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.async_result.AsyncResult.__init__" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>cache</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>) – Cache for storing intermediate results</p></li>
+<li><p><strong>callback</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) – Callback function to call when the task is finished. The callback function receives the output
+of the function as its argument</p></li>
+<li><p><strong>error_callback</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-data docutils literal notranslate"><span class="pre">Callable</span></code>]) – Callback function to call when the task has failed. The callback function receives the
+exception as its argument</p></li>
+<li><p><strong>job_id</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Job ID of the task. If None, a new job ID is generated</p></li>
+<li><p><strong>delete_from_cache</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – If True, the result is deleted from the cache when the task is finished</p></li>
+<li><p><strong>timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds for a single task. When the timeout is exceeded, MPIRE will raise a
+<code class="docutils literal notranslate"><span class="pre">TimeoutError</span></code>. Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable (default)</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="mpire.async_result.AsyncResult.__weakref__">
+<code class="sig-name descname">__weakref__</code><a class="headerlink" href="#mpire.async_result.AsyncResult.__weakref__" title="Permalink to this definition">¶</a></dt>
+<dd><p>list of weak references to the object (if defined)</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.async_result.AsyncResult.get">
+<code class="sig-name descname">get</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timeout</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/async_result.html#AsyncResult.get"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.async_result.AsyncResult.get" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait until the task is finished and return the output of the function</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds. If None, wait indefinitely</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Any</span></code></p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Output of the function</p>
+</dd>
+<dt class="field-even">Raises</dt>
+<dd class="field-even"><p>TimeoutError if the task is not finished within the timeout. When the task has failed, the exception
+raised by the function is re-raised</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.async_result.AsyncResult.ready">
+<code class="sig-name descname">ready</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/async_result.html#AsyncResult.ready"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.async_result.AsyncResult.ready" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns True if the task is finished</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.async_result.AsyncResult.successful">
+<code class="sig-name descname">successful</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/async_result.html#AsyncResult.successful"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.async_result.AsyncResult.successful" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="field-list simple">
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code></p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Returns True if the task has finished successfully</p>
+</dd>
+<dt class="field-odd">Raises</dt>
+<dd class="field-odd"><p>ValueError if the task is not finished yet</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="mpire.async_result.AsyncResult.wait">
+<code class="sig-name descname">wait</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">timeout</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/async_result.html#AsyncResult.wait"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.async_result.AsyncResult.wait" title="Permalink to this definition">¶</a></dt>
+<dd><p>Wait until the task is finished</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>timeout</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>]) – Timeout in seconds. If None, wait indefinitely</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="task-chunking">
+<h2><a class="toc-backref" href="#id3">Task chunking</a><a class="headerlink" href="#task-chunking" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="mpire.utils.chunk_tasks">
+<code class="sig-prename descclassname">mpire.utils.</code><code class="sig-name descname">chunk_tasks</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable_of_args</span></em>, <em class="sig-param"><span class="n">iterable_len</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">chunk_size</span><span class="o">=</span><span class="default_value">None</span></em>, <em class="sig-param"><span class="n">n_splits</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/utils.html#chunk_tasks"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.utils.chunk_tasks" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chunks tasks such that individual workers will receive chunks of tasks rather than individual ones, which can
+speed up processing drastically.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iterable_of_args</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>) – A numpy array or an iterable containing tuples of arguments to pass to a worker, which
+passes it to the function</p></li>
+<li><p><strong>iterable_len</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Number of tasks available in <code class="docutils literal notranslate"><span class="pre">iterable_of_args</span></code>. Only needed when <code class="docutils literal notranslate"><span class="pre">iterable_of_args</span></code> is a
+generator</p></li>
+<li><p><strong>chunk_size</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">float</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]) – Number of simultaneous tasks to give to a worker. If <code class="docutils literal notranslate"><span class="pre">None</span></code>, will use <code class="docutils literal notranslate"><span class="pre">n_splits</span></code> to determine
+the chunk size</p></li>
+<li><p><strong>n_splits</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Optional</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]) – Number of splits to use when <code class="docutils literal notranslate"><span class="pre">chunk_size</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code></p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">Collection</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Generator of chunked task arguments</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="converting-iterable-of-arguments">
+<h2><a class="toc-backref" href="#id4">Converting iterable of arguments</a><a class="headerlink" href="#converting-iterable-of-arguments" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="mpire.utils.make_single_arguments">
+<code class="sig-prename descclassname">mpire.utils.</code><code class="sig-name descname">make_single_arguments</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">iterable_of_args</span></em>, <em class="sig-param"><span class="n">generator</span><span class="o">=</span><span class="default_value">True</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/utils.html#make_single_arguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.utils.make_single_arguments" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts an iterable of single arguments to an iterable of single argument tuples</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>iterable_of_args</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Iterable</span></code>) – A numpy array or an iterable containing tuples of arguments to pass to a worker, which
+passes it to the function</p></li>
+<li><p><strong>generator</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">bool</span></code>) – Whether or not to return a generator, otherwise a materialized list will be returned</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">List</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">Generator</span></code>]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>Iterable of single argument tuples</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="dashboard">
+<h2><a class="toc-backref" href="#id5">Dashboard</a><a class="headerlink" href="#dashboard" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="mpire.dashboard.start_dashboard">
+<code class="sig-prename descclassname">mpire.dashboard.</code><code class="sig-name descname">start_dashboard</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">port_range</span><span class="o">=</span><span class="default_value">range(8080, 8100)</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/dashboard/dashboard.html#start_dashboard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.dashboard.start_dashboard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Starts a new MPIRE dashboard</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>port_range</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">Sequence</span></code>) – Port range to try.</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="xref py py-class docutils literal notranslate"><span class="pre">Dict</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>]]</p>
+</dd>
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p>A dictionary containing the dashboard port number and manager host and port_nr being used</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="mpire.dashboard.connect_to_dashboard">
+<code class="sig-prename descclassname">mpire.dashboard.</code><code class="sig-name descname">connect_to_dashboard</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">manager_port_nr</span></em>, <em class="sig-param"><span class="n">manager_host</span><span class="o">=</span><span class="default_value">None</span></em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/mpire/dashboard/dashboard.html#connect_to_dashboard"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#mpire.dashboard.connect_to_dashboard" title="Permalink to this definition">¶</a></dt>
+<dd><p>Connects to an existing MPIRE dashboard</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>manager_port_nr</strong> (<code class="xref py py-class docutils literal notranslate"><span class="pre">int</span></code>) – Port to use when connecting to a manager</p></li>
+<li><p><strong>manager_host</strong> (<code class="xref py py-data docutils literal notranslate"><span class="pre">Union</span></code>[<code class="xref py py-class docutils literal notranslate"><span class="pre">str</span></code>, <code class="xref py py-class docutils literal notranslate"><span class="pre">bytes</span></code>, <code class="docutils literal notranslate"><span class="pre">None</span></code>]) – Host to use when connecting to a manager. If <code class="docutils literal notranslate"><span class="pre">None</span></code> it will use localhost</p></li>
+</ul>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><code class="docutils literal notranslate"><span class="pre">None</span></code></p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+<section id="other">
+<h2><a class="toc-backref" href="#id6">Other</a><a class="headerlink" href="#other" title="Permalink to this headline">¶</a></h2>
+<dl class="py function">
+<dt id="mpire.cpu_count">
+<code class="sig-prename descclassname">mpire.</code><code class="sig-name descname">cpu_count</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#mpire.cpu_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the number of CPUs in the system</p>
+</dd></dl>
+
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../changelog.html" class="btn btn-neutral float-right" title="Changelog" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="../troubleshooting.html" class="btn btn-neutral float-left" title="Troubleshooting" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2023, Sybren Jansen
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: v2.7.1
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Tags</dt>
+            <dd><a href="../../v1.1.2/reference/index.html">v1.1.2</a></dd>
+            <dd><a href="../../v1.1.3/reference/index.html">v1.1.3</a></dd>
+            <dd><a href="../../v1.2.0/reference/index.html">v1.2.0</a></dd>
+            <dd><a href="../../v1.2.1/reference/index.html">v1.2.1</a></dd>
+            <dd><a href="../../v1.2.2/reference/index.html">v1.2.2</a></dd>
+            <dd><a href="../../v2.0.0/reference/index.html">v2.0.0</a></dd>
+            <dd><a href="../../v2.1.0/reference/index.html">v2.1.0</a></dd>
+            <dd><a href="../../v2.1.1/reference/index.html">v2.1.1</a></dd>
+            <dd><a href="../../v2.2.0/reference/index.html">v2.2.0</a></dd>
+            <dd><a href="../../v2.2.1/reference/index.html">v2.2.1</a></dd>
+            <dd><a href="../../v2.3.0/reference/index.html">v2.3.0</a></dd>
+            <dd><a href="../../v2.3.1/reference/index.html">v2.3.1</a></dd>
+            <dd><a href="../../v2.3.2/reference/index.html">v2.3.2</a></dd>
+            <dd><a href="../../v2.3.3/reference/index.html">v2.3.3</a></dd>
+            <dd><a href="../../v2.3.4/reference/index.html">v2.3.4</a></dd>
+            <dd><a href="../../v2.3.5/reference/index.html">v2.3.5</a></dd>
+            <dd><a href="../../v2.4.0/reference/index.html">v2.4.0</a></dd>
+            <dd><a href="../../v2.5.0/reference/index.html">v2.5.0</a></dd>
+            <dd><a href="../../v2.6.0/reference/index.html">v2.6.0</a></dd>
+            <dd><a href="../../v2.7.0/reference/index.html">v2.7.0</a></dd>
+            <dd><a href="index.html">v2.7.1</a></dd>
+        </dl>
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="../../master/reference/index.html">master</a></dd>
+        </dl>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

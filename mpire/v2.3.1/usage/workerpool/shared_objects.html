@@ -1,0 +1,370 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Shared objects &mdash; mpire 2.3.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/banner.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/sphinxcontrib-images/LightBox2/lightbox2/css/lightbox.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/jquery-1.11.0.min.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/lightbox.min.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Worker state" href="worker_state.html" />
+    <link rel="prev" title="Accessing the worker ID" href="worker_id.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> mpire
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.3.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Welcome to the MPIRE documentation!</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Usage</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">WorkerPool</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="setup.html">Starting a WorkerPool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="start_method.html">Process start method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_pinning.html">CPU pinning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="worker_id.html">Accessing the worker ID</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Shared objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="worker_state.html">Worker state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="keep_alive.html">Keep alive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="worker_insights.html">Worker insights</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dill.html">Dill</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../map/index.html">Map family</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">mpire</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Usage</a> &raquo;</li>
+        
+          <li><a href="index.html">WorkerPool</a> &raquo;</li>
+        
+      <li>Shared objects</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/usage/workerpool/shared_objects.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="shared-objects">
+<span id="id1"></span><h1>Shared objects<a class="headerlink" href="#shared-objects" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#copy-on-write-alternatives" id="id2">Copy-on-write alternatives</a></p></li>
+</ul>
+</div>
+<p>MPIRE allows you to provide shared objects to the workers in a similar way as is possible with the
+<code class="docutils literal notranslate"><span class="pre">multiprocessing.Process</span></code> class. For the start method <code class="docutils literal notranslate"><span class="pre">fork</span></code> these shared objects are treated as <code class="docutils literal notranslate"><span class="pre">copy-on-write</span></code>,
+which means they are only copied once changes are made to them. Otherwise they share the same memory address. This is
+convenient if you want to let workers access a large dataset that wouldn’t fit in memory when copied multiple times.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The start method <code class="docutils literal notranslate"><span class="pre">fork</span></code> isn’t available on Windows, which means copy-on-write isn’t supported there.</p>
+</div>
+<p>For <code class="docutils literal notranslate"><span class="pre">threading</span></code> these shared objects are readable and writable without copies being made. For the start methods
+<code class="docutils literal notranslate"><span class="pre">spawn</span></code> and <code class="docutils literal notranslate"><span class="pre">forkserver</span></code> the shared objects are copied once for each worker, in contrast to copying it for each
+task which is done when using a regular <code class="docutils literal notranslate"><span class="pre">multiprocessing.Pool</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">task</span><span class="p">(</span><span class="n">dataset</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="c1"># Do something with this copy-on-write dataset</span>
+    <span class="o">...</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># Load big dataset</span>
+    <span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">shared_objects</span><span class="o">=</span><span class="n">dataset</span><span class="p">,</span> <span class="n">start_method</span><span class="o">=</span><span class="s1">&#39;fork&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+        <span class="o">...</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Multiple objects can be provided by placing them, for example, in a tuple container.</p>
+<p>Apart from sharing regular Python objects between workers, you can also share multiprocessing synchronization
+primitives such as <code class="docutils literal notranslate"><span class="pre">multiprocessing.Lock</span></code> using this method. Objects like these require to be shared through
+inheritance, which is exactly how shared objects in MPIRE are passed on.</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Shared objects are passed on as the second argument, after the worker ID (when enabled), to the provided function.</p>
+</div>
+<p>Instead of passing the shared objects to the <a class="reference internal" href="../../reference/index.html#mpire.WorkerPool" title="mpire.WorkerPool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpire.WorkerPool</span></code></a> constructor you can also use the
+<a class="reference internal" href="../../reference/index.html#mpire.WorkerPool.set_shared_objects" title="mpire.WorkerPool.set_shared_objects"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mpire.WorkerPool.set_shared_objects()</span></code></a> function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="n">dataset</span> <span class="o">=</span> <span class="o">...</span> <span class="c1"># Load big dataset</span>
+    <span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">start_method</span><span class="o">=</span><span class="s1">&#39;fork&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+        <span class="n">pool</span><span class="o">.</span><span class="n">set_shared_objects</span><span class="p">(</span><span class="n">dataset</span><span class="p">)</span>
+        <span class="o">...</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Shared objects have to be specified before the workers are started. Workers are started once the first <code class="docutils literal notranslate"><span class="pre">map</span></code> call is
+executed. When <code class="docutils literal notranslate"><span class="pre">keep_alive=True</span></code> and the workers are reused, changing the shared objects between two consecutive
+<code class="docutils literal notranslate"><span class="pre">map</span></code> calls won’t work.</p>
+<section id="copy-on-write-alternatives">
+<h2><a class="toc-backref" href="#id2">Copy-on-write alternatives</a><a class="headerlink" href="#copy-on-write-alternatives" title="Permalink to this headline">¶</a></h2>
+<p>When copy-on-write is not available for you, you can also use shared objects to share a <code class="docutils literal notranslate"><span class="pre">multiprocessing.Array</span></code>,
+<code class="docutils literal notranslate"><span class="pre">multiprocessing.Value</span></code>, or another object with <code class="docutils literal notranslate"><span class="pre">multiprocessing.Manager</span></code>. You can then store results in the same
+object from multiple processes. However, you should keep the amount of synchronization to a minimum when the resources
+are protected with a lock, or disable locking if your situation allows it as is shown here:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Array</span>
+
+<span class="k">def</span> <span class="nf">square_add_and_modulo_with_index</span><span class="p">(</span><span class="n">shared_objects</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
+    <span class="c1"># Unpack results containers</span>
+    <span class="n">square_results_container</span><span class="p">,</span> <span class="n">add_results_container</span> <span class="o">=</span> <span class="n">shared_objects</span>
+
+    <span class="c1"># Square, add and modulo</span>
+    <span class="n">square_results_container</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+    <span class="n">add_results_container</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">x</span> <span class="o">+</span> <span class="n">x</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">%</span> <span class="mi">2</span>
+
+<span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    <span class="c1"># Use a shared array of size 100 and type float to store the results</span>
+    <span class="n">square_results_container</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">lock</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">add_results_container</span> <span class="o">=</span> <span class="n">Array</span><span class="p">(</span><span class="s1">&#39;f&#39;</span><span class="p">,</span> <span class="mi">100</span><span class="p">,</span> <span class="n">lock</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">shared_objects</span> <span class="o">=</span> <span class="n">square_results_container</span><span class="p">,</span> <span class="n">add_results_container</span>
+    <span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">shared_objects</span><span class="o">=</span><span class="n">shared_objects</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+
+        <span class="c1"># Square, add and modulo the results and store them in the results containers</span>
+        <span class="n">modulo_results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">square_add_and_modulo_with_index</span><span class="p">,</span>
+                                  <span class="nb">enumerate</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">)),</span> <span class="n">iterable_len</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the example above we create two results containers, one for squaring and for adding the given value, and disable
+locking for both. Additionally, we also return a value, even though we use shared objects for storing results. We can
+safely disable locking here as each task writes to a different index in the array, so no race conditions can occur.
+Disabling locking is, of course, a lot faster than having it enabled.</p>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="worker_state.html" class="btn btn-neutral float-right" title="Worker state" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="worker_id.html" class="btn btn-neutral float-left" title="Accessing the worker ID" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2023, Slimmer AI
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: v2.3.1
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Tags</dt>
+            <dd><a href="../../../v1.1.2/index.html">v1.1.2</a></dd>
+            <dd><a href="../../../v1.1.3/index.html">v1.1.3</a></dd>
+            <dd><a href="../../../v1.2.0/index.html">v1.2.0</a></dd>
+            <dd><a href="../../../v1.2.1/index.html">v1.2.1</a></dd>
+            <dd><a href="../../../v1.2.2/index.html">v1.2.2</a></dd>
+            <dd><a href="../../../v2.0.0/index.html">v2.0.0</a></dd>
+            <dd><a href="../../../v2.1.0/index.html">v2.1.0</a></dd>
+            <dd><a href="../../../v2.1.1/index.html">v2.1.1</a></dd>
+            <dd><a href="../../../v2.2.0/index.html">v2.2.0</a></dd>
+            <dd><a href="../../../v2.2.1/index.html">v2.2.1</a></dd>
+            <dd><a href="../../../v2.3.0/usage/workerpool/shared_objects.html">v2.3.0</a></dd>
+            <dd><a href="shared_objects.html">v2.3.1</a></dd>
+            <dd><a href="../../../v2.3.2/usage/workerpool/shared_objects.html">v2.3.2</a></dd>
+            <dd><a href="../../../v2.3.3/usage/workerpool/shared_objects.html">v2.3.3</a></dd>
+            <dd><a href="../../../v2.3.4/usage/workerpool/shared_objects.html">v2.3.4</a></dd>
+            <dd><a href="../../../v2.3.5/usage/workerpool/shared_objects.html">v2.3.5</a></dd>
+            <dd><a href="../../../v2.4.0/usage/workerpool/shared_objects.html">v2.4.0</a></dd>
+            <dd><a href="../../../v2.5.0/usage/workerpool/shared_objects.html">v2.5.0</a></dd>
+            <dd><a href="../../../v2.6.0/usage/workerpool/shared_objects.html">v2.6.0</a></dd>
+            <dd><a href="../../../v2.7.0/usage/workerpool/shared_objects.html">v2.7.0</a></dd>
+            <dd><a href="../../../v2.7.1/usage/workerpool/shared_objects.html">v2.7.1</a></dd>
+        </dl>
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="../../../master/usage/workerpool/shared_objects.html">master</a></dd>
+        </dl>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

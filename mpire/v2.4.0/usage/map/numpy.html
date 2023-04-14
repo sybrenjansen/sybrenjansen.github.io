@@ -1,0 +1,393 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Numpy arrays &mdash; mpire 2.4.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/banner.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/sphinxcontrib-images/LightBox2/lightbox2/css/lightbox.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/jquery-1.11.0.min.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/lightbox.min.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Dashboard" href="../dashboard.html" />
+    <link rel="prev" title="Timeouts" href="timeouts.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> mpire
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.4.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Welcome to the MPIRE documentation!</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Usage</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../workerpool/index.html">WorkerPool</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Map family</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="map.html">map family of functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="progress_bar.html">Progress bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="worker_init_exit.html">Worker init and exit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="task_chunking.html">Task chunking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="max_tasks_active.html">Maximum number of active tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="worker_lifespan.html">Worker lifespan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timeouts.html">Timeouts</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Numpy arrays</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">mpire</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Usage</a> &raquo;</li>
+        
+          <li><a href="index.html">Map family</a> &raquo;</li>
+        
+      <li>Numpy arrays</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/usage/map/numpy.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="numpy-arrays">
+<h1>Numpy arrays<a class="headerlink" href="#numpy-arrays" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#chunking" id="id1">Chunking</a></p></li>
+<li><p><a class="reference internal" href="#return-value" id="id2">Return value</a></p></li>
+</ul>
+</div>
+<section id="chunking">
+<h2><a class="toc-backref" href="#id1">Chunking</a><a class="headerlink" href="#chunking" title="Permalink to this headline">¶</a></h2>
+<p>Numpy arrays are treated a little bit differently when passed on to the <code class="docutils literal notranslate"><span class="pre">map</span></code> functions. Usually MPIRE uses
+<code class="docutils literal notranslate"><span class="pre">itertools.islice</span></code> for chunking, which depends on the <code class="docutils literal notranslate"><span class="pre">__iter__</span></code> special function of the container object. But
+applying that to numpy arrays:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="c1"># Create random array</span>
+<span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">10</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+
+<span class="c1"># Chunk the array using default chunking</span>
+<span class="n">arr_iter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+<span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+    <span class="n">chunk</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">islice</span><span class="p">(</span><span class="n">arr_iter</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">chunk</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">chunk</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">break</span>
+</pre></div>
+</div>
+<p>would yield:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">array</span><span class="p">([</span><span class="mf">0.68438994</span><span class="p">,</span> <span class="mf">0.9701514</span> <span class="p">,</span> <span class="mf">0.40083965</span><span class="p">]),</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.88428556</span><span class="p">,</span> <span class="mf">0.2083905</span> <span class="p">,</span> <span class="mf">0.61490443</span><span class="p">]),</span>
+ <span class="n">array</span><span class="p">([</span><span class="mf">0.89249174</span><span class="p">,</span> <span class="mf">0.39902235</span><span class="p">,</span> <span class="mf">0.70762541</span><span class="p">])]</span>
+<span class="p">[</span><span class="n">array</span><span class="p">([</span><span class="mf">0.18850964</span><span class="p">,</span> <span class="mf">0.1022777</span> <span class="p">,</span> <span class="mf">0.41539432</span><span class="p">]),</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.07327858</span><span class="p">,</span> <span class="mf">0.18608165</span><span class="p">,</span> <span class="mf">0.75862301</span><span class="p">]),</span>
+ <span class="n">array</span><span class="p">([</span><span class="mf">0.69215651</span><span class="p">,</span> <span class="mf">0.4211941</span> <span class="p">,</span> <span class="mf">0.31029439</span><span class="p">])]</span>
+<span class="p">[</span><span class="n">array</span><span class="p">([</span><span class="mf">0.82571272</span><span class="p">,</span> <span class="mf">0.72257819</span><span class="p">,</span> <span class="mf">0.86079131</span><span class="p">]),</span> <span class="n">array</span><span class="p">([</span><span class="mf">0.91285817</span><span class="p">,</span> <span class="mf">0.49398461</span><span class="p">,</span> <span class="mf">0.27863929</span><span class="p">]),</span>
+ <span class="n">array</span><span class="p">([</span><span class="mf">0.146981</span>  <span class="p">,</span> <span class="mf">0.84671211</span><span class="p">,</span> <span class="mf">0.30122806</span><span class="p">])]</span>
+<span class="p">[</span><span class="n">array</span><span class="p">([</span><span class="mf">0.11783283</span><span class="p">,</span> <span class="mf">0.12585031</span><span class="p">,</span> <span class="mf">0.39864368</span><span class="p">])]</span>
+</pre></div>
+</div>
+<p>In other words, each row of the array is now in its own array and each one of them is given to the target function
+individually. Instead, MPIRE will chunk them in to something more reasonable using numpy slicing instead:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mpire.utils</span> <span class="kn">import</span> <span class="n">chunk_tasks</span>
+
+<span class="k">for</span> <span class="n">chunk</span> <span class="ow">in</span> <span class="n">chunk_tasks</span><span class="p">(</span><span class="n">arr</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="n">chunk_size</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="nb">repr</span><span class="p">(</span><span class="n">chunk</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Output:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span><span class="mf">0.68438994</span><span class="p">,</span> <span class="mf">0.9701514</span> <span class="p">,</span> <span class="mf">0.40083965</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">0.88428556</span><span class="p">,</span> <span class="mf">0.2083905</span> <span class="p">,</span> <span class="mf">0.61490443</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">0.89249174</span><span class="p">,</span> <span class="mf">0.39902235</span><span class="p">,</span> <span class="mf">0.70762541</span><span class="p">]])</span>
+<span class="n">array</span><span class="p">([[</span><span class="mf">0.18850964</span><span class="p">,</span> <span class="mf">0.1022777</span> <span class="p">,</span> <span class="mf">0.41539432</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">0.07327858</span><span class="p">,</span> <span class="mf">0.18608165</span><span class="p">,</span> <span class="mf">0.75862301</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">0.69215651</span><span class="p">,</span> <span class="mf">0.4211941</span> <span class="p">,</span> <span class="mf">0.31029439</span><span class="p">]])</span>
+<span class="n">array</span><span class="p">([[</span><span class="mf">0.82571272</span><span class="p">,</span> <span class="mf">0.72257819</span><span class="p">,</span> <span class="mf">0.86079131</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">0.91285817</span><span class="p">,</span> <span class="mf">0.49398461</span><span class="p">,</span> <span class="mf">0.27863929</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">0.146981</span>  <span class="p">,</span> <span class="mf">0.84671211</span><span class="p">,</span> <span class="mf">0.30122806</span><span class="p">]])</span>
+<span class="n">array</span><span class="p">([[</span><span class="mf">0.11783283</span><span class="p">,</span> <span class="mf">0.12585031</span><span class="p">,</span> <span class="mf">0.39864368</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>Each chunk is now a single numpy array containing as many rows as the chunk size, except for the last chunk as there
+aren’t enough rows left.</p>
+</section>
+<section id="return-value">
+<h2><a class="toc-backref" href="#id2">Return value</a><a class="headerlink" href="#return-value" title="Permalink to this headline">¶</a></h2>
+<p>When the user provided function returns numpy arrays and you’re applying the <a class="reference internal" href="../../reference/index.html#mpire.WorkerPool.map" title="mpire.WorkerPool.map"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mpire.WorkerPool.map()</span></code></a> function MPIRE
+will concatenate the resulting numpy arrays to a single array by default. For example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">add_five</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="mi">5</span>
+
+<span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">add_five</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="n">chunk_size</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>will return:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">array</span><span class="p">([[</span><span class="mf">5.68438994</span><span class="p">,</span> <span class="mf">5.9701514</span> <span class="p">,</span> <span class="mf">5.40083965</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">5.88428556</span><span class="p">,</span> <span class="mf">5.2083905</span> <span class="p">,</span> <span class="mf">5.61490443</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">5.89249174</span><span class="p">,</span> <span class="mf">5.39902235</span><span class="p">,</span> <span class="mf">5.70762541</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">5.18850964</span><span class="p">,</span> <span class="mf">5.1022777</span> <span class="p">,</span> <span class="mf">5.41539432</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">5.07327858</span><span class="p">,</span> <span class="mf">5.18608165</span><span class="p">,</span> <span class="mf">5.75862301</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">5.69215651</span><span class="p">,</span> <span class="mf">5.4211941</span> <span class="p">,</span> <span class="mf">5.31029439</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">5.82571272</span><span class="p">,</span> <span class="mf">5.72257819</span><span class="p">,</span> <span class="mf">5.86079131</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">5.91285817</span><span class="p">,</span> <span class="mf">5.49398461</span><span class="p">,</span> <span class="mf">5.27863929</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">5.146981</span>  <span class="p">,</span> <span class="mf">5.84671211</span><span class="p">,</span> <span class="mf">5.30122806</span><span class="p">],</span>
+       <span class="p">[</span><span class="mf">5.11783283</span><span class="p">,</span> <span class="mf">5.12585031</span><span class="p">,</span> <span class="mf">5.39864368</span><span class="p">]])</span>
+</pre></div>
+</div>
+<p>This behavior can be cancelled by using the <code class="docutils literal notranslate"><span class="pre">concatenate_numpy_output</span></code> flag:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">add_five</span><span class="p">,</span> <span class="n">arr</span><span class="p">,</span> <span class="n">chunk_size</span><span class="o">=</span><span class="n">chunk_size</span><span class="p">,</span> <span class="n">concatenate_numpy_output</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This will return individual arrays:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="p">[</span><span class="n">array</span><span class="p">([[</span><span class="mf">5.68438994</span><span class="p">,</span> <span class="mf">5.9701514</span> <span class="p">,</span> <span class="mf">5.40083965</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">5.88428556</span><span class="p">,</span> <span class="mf">5.2083905</span> <span class="p">,</span> <span class="mf">5.61490443</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">5.89249174</span><span class="p">,</span> <span class="mf">5.39902235</span><span class="p">,</span> <span class="mf">5.70762541</span><span class="p">]]),</span>
+ <span class="n">array</span><span class="p">([[</span><span class="mf">5.18850964</span><span class="p">,</span> <span class="mf">5.1022777</span> <span class="p">,</span> <span class="mf">5.41539432</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">5.07327858</span><span class="p">,</span> <span class="mf">5.18608165</span><span class="p">,</span> <span class="mf">5.75862301</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">5.69215651</span><span class="p">,</span> <span class="mf">5.4211941</span> <span class="p">,</span> <span class="mf">5.31029439</span><span class="p">]]),</span>
+ <span class="n">array</span><span class="p">([[</span><span class="mf">5.82571272</span><span class="p">,</span> <span class="mf">5.72257819</span><span class="p">,</span> <span class="mf">5.86079131</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">5.91285817</span><span class="p">,</span> <span class="mf">5.49398461</span><span class="p">,</span> <span class="mf">5.27863929</span><span class="p">],</span>
+        <span class="p">[</span><span class="mf">5.146981</span>  <span class="p">,</span> <span class="mf">5.84671211</span><span class="p">,</span> <span class="mf">5.30122806</span><span class="p">]]),</span>
+ <span class="n">array</span><span class="p">([[</span><span class="mf">5.11783283</span><span class="p">,</span> <span class="mf">5.12585031</span><span class="p">,</span> <span class="mf">5.39864368</span><span class="p">]])]</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="../dashboard.html" class="btn btn-neutral float-right" title="Dashboard" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="timeouts.html" class="btn btn-neutral float-left" title="Timeouts" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2023, Slimmer AI
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: v2.4.0
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Tags</dt>
+            <dd><a href="../../../v1.1.2/index.html">v1.1.2</a></dd>
+            <dd><a href="../../../v1.1.3/index.html">v1.1.3</a></dd>
+            <dd><a href="../../../v1.2.0/index.html">v1.2.0</a></dd>
+            <dd><a href="../../../v1.2.1/index.html">v1.2.1</a></dd>
+            <dd><a href="../../../v1.2.2/index.html">v1.2.2</a></dd>
+            <dd><a href="../../../v2.0.0/index.html">v2.0.0</a></dd>
+            <dd><a href="../../../v2.1.0/index.html">v2.1.0</a></dd>
+            <dd><a href="../../../v2.1.1/index.html">v2.1.1</a></dd>
+            <dd><a href="../../../v2.2.0/index.html">v2.2.0</a></dd>
+            <dd><a href="../../../v2.2.1/index.html">v2.2.1</a></dd>
+            <dd><a href="../../../v2.3.0/usage/map/numpy.html">v2.3.0</a></dd>
+            <dd><a href="../../../v2.3.1/usage/map/numpy.html">v2.3.1</a></dd>
+            <dd><a href="../../../v2.3.2/usage/map/numpy.html">v2.3.2</a></dd>
+            <dd><a href="../../../v2.3.3/usage/map/numpy.html">v2.3.3</a></dd>
+            <dd><a href="../../../v2.3.4/usage/map/numpy.html">v2.3.4</a></dd>
+            <dd><a href="../../../v2.3.5/usage/map/numpy.html">v2.3.5</a></dd>
+            <dd><a href="numpy.html">v2.4.0</a></dd>
+            <dd><a href="../../../v2.5.0/usage/map/numpy.html">v2.5.0</a></dd>
+            <dd><a href="../../../v2.6.0/usage/map/numpy.html">v2.6.0</a></dd>
+            <dd><a href="../../../v2.7.0/usage/map/numpy.html">v2.7.0</a></dd>
+            <dd><a href="../../../v2.7.1/usage/map/numpy.html">v2.7.1</a></dd>
+        </dl>
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="../../../master/usage/map/numpy.html">master</a></dd>
+        </dl>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

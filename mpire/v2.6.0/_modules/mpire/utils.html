@@ -1,0 +1,496 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mpire.utils &mdash; mpire 2.6.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/banner.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/sphinxcontrib-images/LightBox2/lightbox2/css/lightbox.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/jquery-1.11.0.min.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/lightbox.min.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> mpire
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.6.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Welcome to the MPIRE documentation!</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">mpire</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>mpire.utils</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mpire.utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">heapq</span>
+<span class="kn">import</span> <span class="nn">itertools</span>
+<span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Array</span><span class="p">,</span> <span class="n">cpu_count</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Collection</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="n">NUMPY_INSTALLED</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">np</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">NUMPY_INSTALLED</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="kn">from</span> <span class="nn">mpire.context</span> <span class="kn">import</span> <span class="n">RUNNING_WINDOWS</span>
+
+<span class="c1"># Needed for setting CPU affinity</span>
+<span class="k">if</span> <span class="n">RUNNING_WINDOWS</span><span class="p">:</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="kn">import</span> <span class="nn">win32api</span>
+        <span class="kn">import</span> <span class="nn">win32con</span>
+        <span class="kn">import</span> <span class="nn">win32process</span>
+        <span class="n">WIN32API_AVAILABLE</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">WIN32API_ERROR</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+        <span class="n">WIN32API_AVAILABLE</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">WIN32API_ERROR</span> <span class="o">=</span> <span class="n">e</span>
+        <span class="n">WIN32API_ERROR</span><span class="o">.</span><span class="n">msg</span> <span class="o">+=</span> <span class="s2">&quot; If you&#39;re using Conda, you can run `conda install pywin32` to install the missing &quot;</span> \
+                              <span class="s2">&quot;module.&quot;</span>
+
+
+<span class="k">def</span> <span class="nf">set_cpu_affinity</span><span class="p">(</span><span class="n">pid</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sets the CPU affinity for a given process.</span>
+
+<span class="sd">    On Windows-based systems with more than 64 processors, I&#39;m not sure if this will work. See</span>
+<span class="sd">    https://docs.microsoft.com/en-us/windows/win32/api/winbase/nf-winbase-setprocessaffinitymask#parameters.</span>
+
+<span class="sd">    :param pid: Process ID</span>
+<span class="sd">    :param mask: List of CPU IDs</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">RUNNING_WINDOWS</span><span class="p">:</span>
+        <span class="c1"># On Conda systems simply install pywin32 doesn&#39;t always work. In those cases, you need to run</span>
+        <span class="c1"># `conda install pywin32`.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">WIN32API_AVAILABLE</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">WIN32API_ERROR</span>
+
+        <span class="c1"># Convert mask to something Windows understands</span>
+        <span class="n">windows_mask</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">cpu_id</span> <span class="ow">in</span> <span class="n">mask</span><span class="p">:</span>
+            <span class="n">windows_mask</span> <span class="o">^=</span> <span class="mi">2</span> <span class="o">**</span> <span class="n">cpu_id</span>
+
+        <span class="c1"># Get handle and set affinity</span>
+        <span class="n">handle</span> <span class="o">=</span> <span class="n">win32api</span><span class="o">.</span><span class="n">OpenProcess</span><span class="p">(</span><span class="n">win32con</span><span class="o">.</span><span class="n">PROCESS_ALL_ACCESS</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">pid</span><span class="p">)</span>
+        <span class="n">win32process</span><span class="o">.</span><span class="n">SetProcessAffinityMask</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">windows_mask</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">sched_setaffinity</span><span class="p">(</span><span class="n">pid</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="chunk_tasks"><a class="viewcode-back" href="../../reference/index.html#mpire.utils.chunk_tasks">[docs]</a><span class="k">def</span> <span class="nf">chunk_tasks</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">iterable_len</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                <span class="n">chunk_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> \
+        <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Collection</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Chunks tasks such that individual workers will receive chunks of tasks rather than individual ones, which can</span>
+<span class="sd">    speed up processing drastically.</span>
+
+<span class="sd">    :param iterable_of_args: A numpy array or an iterable containing tuples of arguments to pass to a worker, which</span>
+<span class="sd">        passes it to the function</span>
+<span class="sd">    :param iterable_len: Number of tasks available in ``iterable_of_args``. Only needed when ``iterable_of_args`` is a</span>
+<span class="sd">        generator</span>
+<span class="sd">    :param chunk_size: Number of simultaneous tasks to give to a worker. If ``None``, will use ``n_splits`` to determine</span>
+<span class="sd">        the chunk size</span>
+<span class="sd">    :param n_splits: Number of splits to use when ``chunk_size`` is ``None``</span>
+<span class="sd">    :return: Generator of chunked task arguments</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">chunk_size</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">n_splits</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;chunk_size and n_splits cannot both be None&quot;</span><span class="p">)</span>
+
+    <span class="c1"># Determine chunk size</span>
+    <span class="k">if</span> <span class="n">chunk_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="c1"># Get number of tasks</span>
+        <span class="k">if</span> <span class="n">iterable_len</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">n_tasks</span> <span class="o">=</span> <span class="n">iterable_len</span>
+        <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">,</span> <span class="s1">&#39;__len__&#39;</span><span class="p">):</span>
+            <span class="n">n_tasks</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Either iterable_len or an iterable with a len() function should be provided when &#39;</span>
+                             <span class="s1">&#39;chunk_size and n_splits are None&#39;</span><span class="p">)</span>
+
+        <span class="c1"># Determine chunk size</span>
+        <span class="n">chunk_size</span> <span class="o">=</span> <span class="n">n_tasks</span> <span class="o">/</span> <span class="n">n_splits</span>
+
+    <span class="c1"># Chunk tasks</span>
+    <span class="n">args_iter</span> <span class="o">=</span> <span class="nb">iter</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">)</span>
+    <span class="n">current_chunk_size</span> <span class="o">=</span> <span class="n">chunk_size</span>
+    <span class="n">n_elements_returned</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="c1"># Use numpy slicing if available. We use max(1, ...) to always at least get one element</span>
+        <span class="k">if</span> <span class="n">NUMPY_INSTALLED</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">chunk</span> <span class="o">=</span> <span class="n">iterable_of_args</span><span class="p">[</span><span class="n">n_elements_returned</span><span class="p">:</span><span class="n">n_elements_returned</span> <span class="o">+</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">current_chunk_size</span><span class="p">))]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">chunk</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">islice</span><span class="p">(</span><span class="n">args_iter</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">current_chunk_size</span><span class="p">))))</span>
+
+        <span class="c1"># If we ran out of input, we stop</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># If the iterable has more elements than the given iterable length, we stop</span>
+        <span class="k">if</span> <span class="n">iterable_len</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">n_elements_returned</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">iterable_len</span><span class="p">:</span>
+            <span class="n">chunk</span> <span class="o">=</span> <span class="n">chunk</span><span class="p">[:</span><span class="n">iterable_len</span> <span class="o">-</span> <span class="n">n_elements_returned</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">chunk</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">chunk</span>
+            <span class="k">return</span>
+
+        <span class="k">yield</span> <span class="n">chunk</span>
+        <span class="n">current_chunk_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">current_chunk_size</span> <span class="o">+</span> <span class="n">chunk_size</span><span class="p">)</span> <span class="o">-</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">current_chunk_size</span><span class="p">)</span>
+        <span class="n">n_elements_returned</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">apply_numpy_chunking</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">iterable_len</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                         <span class="n">chunk_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                         <span class="n">n_jobs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="n">Iterable</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    If we&#39;re dealing with numpy arrays, chunk them using numpy slicing and return changed map parameters</span>
+
+<span class="sd">    :param iterable_of_args: A numpy array or an iterable containing tuples of arguments to pass to a worker, which</span>
+<span class="sd">        passes it to the function</span>
+<span class="sd">    :param iterable_len: When chunk_size is set to ``None`` it needs to know the number of tasks. This can either be</span>
+<span class="sd">        provided by implementing the ``__len__`` function on the iterable object, or by specifying the number of tasks</span>
+<span class="sd">    :param chunk_size: Number of simultaneous tasks to give to a worker. If ``None``, will generate ``n_jobs * 4``</span>
+<span class="sd">        number of chunks</span>
+<span class="sd">    :param n_splits: Number of splits to use when ``chunk_size`` is ``None``</span>
+<span class="sd">    :param n_jobs: Number of workers to spawn. If ``None``, will use ``cpu_count()``.</span>
+<span class="sd">    :return: Chunked ``iterable_of_args`` with updated ``iterable_len``, ``chunk_size`` and ``n_splits``</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">iterable_len</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">iterable_of_args</span> <span class="o">=</span> <span class="n">iterable_of_args</span><span class="p">[:</span><span class="n">iterable_len</span><span class="p">]</span>
+    <span class="n">iterable_len</span> <span class="o">=</span> <span class="n">get_n_chunks</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">,</span> <span class="n">iterable_len</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">,</span> <span class="n">n_jobs</span><span class="p">)</span>
+    <span class="n">iterable_of_args</span> <span class="o">=</span> <span class="n">make_single_arguments</span><span class="p">(</span><span class="n">chunk_tasks</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">),</span> <span class="n">chunk_size</span><span class="p">,</span>
+                                                         <span class="n">n_splits</span> <span class="ow">or</span> <span class="p">(</span><span class="n">n_jobs</span> <span class="o">*</span> <span class="mi">4</span> <span class="k">if</span> <span class="n">n_jobs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">)))</span>
+    <span class="n">chunk_size</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="n">n_splits</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">return</span> <span class="n">iterable_of_args</span><span class="p">,</span> <span class="n">iterable_len</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">,</span> <span class="n">n_splits</span>
+
+
+<span class="k">def</span> <span class="nf">get_n_chunks</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">iterable_len</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">n_splits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">n_jobs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get number of chunks</span>
+
+<span class="sd">    :param iterable_of_args: A numpy array or an iterable containing tuples of arguments to pass to a worker, which</span>
+<span class="sd">        passes it to the function</span>
+<span class="sd">    :param iterable_len: Number of tasks available in ``iterable_of_args``. Only needed when ``iterable_of_args`` is a</span>
+<span class="sd">        generator</span>
+<span class="sd">    :param chunk_size: Number of simultaneous tasks to give to a worker. If ``None``, will use ``n_splits`` to determine</span>
+<span class="sd">        the chunk size</span>
+<span class="sd">    :param n_splits: Number of splits to use when ``chunk_size`` is ``None``</span>
+<span class="sd">    :param n_jobs: Number of workers to spawn. If ``None``, will use ``cpu_count()``</span>
+<span class="sd">    :return: Number of chunks that will be created by the chunker</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Get number of tasks</span>
+    <span class="k">if</span> <span class="n">iterable_len</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">n_tasks</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">iterable_len</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">))</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">,</span> <span class="s1">&#39;__len__&#39;</span><span class="p">)</span> <span class="k">else</span> <span class="n">iterable_len</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">,</span> <span class="s1">&#39;__len__&#39;</span><span class="p">):</span>
+        <span class="n">n_tasks</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s1">&#39;Failed to obtain length of iterable. Remedy: either provide an iterable with a len() &#39;</span>
+                         <span class="s1">&#39;function or specify iterable_len in the function call&#39;</span><span class="p">)</span>
+
+    <span class="c1"># Determine chunk size</span>
+    <span class="k">if</span> <span class="n">chunk_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">chunk_size</span> <span class="o">=</span> <span class="n">n_tasks</span> <span class="o">/</span> <span class="p">(</span><span class="n">n_splits</span> <span class="ow">or</span> <span class="p">(</span><span class="n">n_jobs</span> <span class="ow">or</span> <span class="n">cpu_count</span><span class="p">())</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">min</span><span class="p">(</span><span class="n">n_tasks</span><span class="p">,</span> <span class="n">math</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">n_tasks</span> <span class="o">/</span> <span class="n">chunk_size</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="make_single_arguments"><a class="viewcode-back" href="../../reference/index.html#mpire.utils.make_single_arguments">[docs]</a><span class="k">def</span> <span class="nf">make_single_arguments</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">generator</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">List</span><span class="p">,</span> <span class="n">Generator</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Converts an iterable of single arguments to an iterable of single argument tuples</span>
+
+<span class="sd">    :param iterable_of_args: A numpy array or an iterable containing tuples of arguments to pass to a worker, which</span>
+<span class="sd">        passes it to the function</span>
+<span class="sd">    :param generator: Whether or not to return a generator, otherwise a materialized list will be returned</span>
+<span class="sd">    :return: Iterable of single argument tuples</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">gen</span> <span class="o">=</span> <span class="p">((</span><span class="n">arg</span><span class="p">,)</span> <span class="k">for</span> <span class="n">arg</span> <span class="ow">in</span> <span class="n">iterable_of_args</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">gen</span> <span class="k">if</span> <span class="n">generator</span> <span class="k">else</span> <span class="nb">list</span><span class="p">(</span><span class="n">gen</span><span class="p">)</span></div>
+
+
+<span class="k">def</span> <span class="nf">format_seconds</span><span class="p">(</span><span class="n">seconds</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">]],</span> <span class="n">with_milliseconds</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Format seconds to a string, optionally with or without milliseconds</span>
+
+<span class="sd">    :param seconds: Number of seconds</span>
+<span class="sd">    :param with_milliseconds: Whether to display milliseconds as well</span>
+<span class="sd">    :return: String formatted time</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">seconds</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">return</span> <span class="s1">&#39;&#39;</span>
+
+    <span class="c1"># Format to hours:minutes:seconds.milliseconds. Only the first 3 digits of the milliseconds is shown</span>
+    <span class="n">duration</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">timedelta</span><span class="p">(</span><span class="n">seconds</span><span class="o">=</span><span class="n">seconds</span><span class="p">))</span><span class="o">.</span><span class="n">rsplit</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">with_milliseconds</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">duration</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">duration</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">.</span><span class="si">{</span><span class="n">duration</span><span class="p">[</span><span class="mi">1</span><span class="p">][:</span><span class="mi">3</span><span class="p">]</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="n">duration</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">duration</span>
+
+
+<span class="k">class</span> <span class="nc">TimeIt</span><span class="p">:</span>
+
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; Simple class that provides a context manager for keeping track of task duration and adds the total number</span>
+<span class="sd">     of seconds in a designated output array &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cum_time_array</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">],</span> <span class="n">array_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">max_time_array</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">format_args_func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param cum_time_array: Optional array to store cumulative time in</span>
+<span class="sd">        :param array_idx: Index of cum_time_array to store the time value to</span>
+<span class="sd">        :param max_time_array: Optional array to store maximum time duration in. Note that the array_idx doesn&#39;t apply</span>
+<span class="sd">            to this array. The entire array is used for heapq</span>
+<span class="sd">        :param format_args_func: Optional function which should return the formatted args corresponding to the function</span>
+<span class="sd">            called within this context manager</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cum_time_array</span> <span class="o">=</span> <span class="n">cum_time_array</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">array_idx</span> <span class="o">=</span> <span class="n">array_idx</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">max_time_array</span> <span class="o">=</span> <span class="n">max_time_array</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">format_args_func</span> <span class="o">=</span> <span class="n">format_args_func</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_dt</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_dt</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cum_time_array</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cum_time_array</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">array_idx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">duration</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_time_array</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">duration</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_time_array</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span>
+            <span class="n">heapq</span><span class="o">.</span><span class="n">heappushpop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_time_array</span><span class="p">,</span>
+                              <span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_args_func</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_args_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">))</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2023, Slimmer AI
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: v2.6.0
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Tags</dt>
+            <dd><a href="../../../v1.1.2/index.html">v1.1.2</a></dd>
+            <dd><a href="../../../v1.1.3/index.html">v1.1.3</a></dd>
+            <dd><a href="../../../v1.2.0/index.html">v1.2.0</a></dd>
+            <dd><a href="../../../v1.2.1/index.html">v1.2.1</a></dd>
+            <dd><a href="../../../v1.2.2/index.html">v1.2.2</a></dd>
+            <dd><a href="../../../v2.0.0/index.html">v2.0.0</a></dd>
+            <dd><a href="../../../v2.1.0/index.html">v2.1.0</a></dd>
+            <dd><a href="../../../v2.1.1/index.html">v2.1.1</a></dd>
+            <dd><a href="../../../v2.2.0/index.html">v2.2.0</a></dd>
+            <dd><a href="../../../v2.2.1/index.html">v2.2.1</a></dd>
+            <dd><a href="../../../v2.3.0/index.html">v2.3.0</a></dd>
+            <dd><a href="../../../v2.3.1/index.html">v2.3.1</a></dd>
+            <dd><a href="../../../v2.3.2/index.html">v2.3.2</a></dd>
+            <dd><a href="../../../v2.3.3/index.html">v2.3.3</a></dd>
+            <dd><a href="../../../v2.3.4/index.html">v2.3.4</a></dd>
+            <dd><a href="../../../v2.3.5/index.html">v2.3.5</a></dd>
+            <dd><a href="../../../v2.4.0/index.html">v2.4.0</a></dd>
+            <dd><a href="../../../v2.5.0/index.html">v2.5.0</a></dd>
+            <dd><a href="utils.html">v2.6.0</a></dd>
+            <dd><a href="../../../v2.7.0/index.html">v2.7.0</a></dd>
+            <dd><a href="../../../v2.7.1/index.html">v2.7.1</a></dd>
+        </dl>
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="../../../master/index.html">master</a></dd>
+        </dl>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

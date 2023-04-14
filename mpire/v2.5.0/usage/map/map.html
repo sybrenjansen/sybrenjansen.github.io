@@ -1,0 +1,390 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>map family of functions &mdash; mpire 2.5.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/banner.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/sphinxcontrib-images/LightBox2/lightbox2/css/lightbox.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/jquery-1.11.0.min.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/lightbox.min.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Progress bar" href="progress_bar.html" />
+    <link rel="prev" title="Map family" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> mpire
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.5.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Welcome to the MPIRE documentation!</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Usage</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="../workerpool/index.html">WorkerPool</a></li>
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">Map family</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">map family of functions</a></li>
+<li class="toctree-l3"><a class="reference internal" href="progress_bar.html">Progress bar</a></li>
+<li class="toctree-l3"><a class="reference internal" href="worker_init_exit.html">Worker init and exit</a></li>
+<li class="toctree-l3"><a class="reference internal" href="task_chunking.html">Task chunking</a></li>
+<li class="toctree-l3"><a class="reference internal" href="max_tasks_active.html">Maximum number of active tasks</a></li>
+<li class="toctree-l3"><a class="reference internal" href="worker_lifespan.html">Worker lifespan</a></li>
+<li class="toctree-l3"><a class="reference internal" href="timeouts.html">Timeouts</a></li>
+<li class="toctree-l3"><a class="reference internal" href="numpy.html">Numpy arrays</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">mpire</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Usage</a> &raquo;</li>
+        
+          <li><a href="index.html">Map family</a> &raquo;</li>
+        
+      <li>map family of functions</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/usage/map/map.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="map-family-of-functions">
+<h1>map family of functions<a class="headerlink" href="#map-family-of-functions" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#iterable-of-arguments" id="id1">Iterable of arguments</a></p></li>
+<li><p><a class="reference internal" href="#circumvent-argument-unpacking" id="id2">Circumvent argument unpacking</a></p></li>
+</ul>
+</div>
+<p><a class="reference internal" href="../../reference/index.html#mpire.WorkerPool" title="mpire.WorkerPool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpire.WorkerPool</span></code></a> implements four types of parallel <code class="docutils literal notranslate"><span class="pre">map</span></code> functions, being:</p>
+<dl class="simple">
+<dt><a class="reference internal" href="../../reference/index.html#mpire.WorkerPool.map" title="mpire.WorkerPool.map"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mpire.WorkerPool.map()</span></code></a></dt><dd><p>Blocks until results are ready, results are ordered in the same way as the provided arguments.</p>
+</dd>
+<dt><a class="reference internal" href="../../reference/index.html#mpire.WorkerPool.map_unordered" title="mpire.WorkerPool.map_unordered"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mpire.WorkerPool.map_unordered()</span></code></a></dt><dd><p>The same as <a class="reference internal" href="../../reference/index.html#mpire.WorkerPool.map" title="mpire.WorkerPool.map"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mpire.WorkerPool.map()</span></code></a>, but results are ordered by task completion time. Usually faster than
+<a class="reference internal" href="../../reference/index.html#mpire.WorkerPool.map" title="mpire.WorkerPool.map"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mpire.WorkerPool.map()</span></code></a>.</p>
+</dd>
+<dt><a class="reference internal" href="../../reference/index.html#mpire.WorkerPool.imap" title="mpire.WorkerPool.imap"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mpire.WorkerPool.imap()</span></code></a></dt><dd><p>Lazy version of <a class="reference internal" href="../../reference/index.html#mpire.WorkerPool.map" title="mpire.WorkerPool.map"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mpire.WorkerPool.map()</span></code></a>, returns a generator. The generator will give results back whenever new
+results are ready. Results are ordered in the same way as the provided arguments.</p>
+</dd>
+<dt><a class="reference internal" href="../../reference/index.html#mpire.WorkerPool.imap_unordered" title="mpire.WorkerPool.imap_unordered"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mpire.WorkerPool.imap_unordered()</span></code></a></dt><dd><p>The same as <a class="reference internal" href="../../reference/index.html#mpire.WorkerPool.imap" title="mpire.WorkerPool.imap"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mpire.WorkerPool.imap()</span></code></a>, but results are ordered by task completion time. Usually faster than
+<a class="reference internal" href="../../reference/index.html#mpire.WorkerPool.imap" title="mpire.WorkerPool.imap"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mpire.WorkerPool.imap()</span></code></a>.</p>
+</dd>
+</dl>
+<p>When using a single worker the unordered versions are equivalent to their ordered counterparts.</p>
+<section id="iterable-of-arguments">
+<h2><a class="toc-backref" href="#id1">Iterable of arguments</a><a class="headerlink" href="#iterable-of-arguments" title="Permalink to this headline">¶</a></h2>
+<p>Each <code class="docutils literal notranslate"><span class="pre">map</span></code> function should receive a function and an iterable of arguments, where the elements of the iterable can
+be single values or iterables that are unpacked as arguments. If an element is a dictionary, the <code class="docutils literal notranslate"><span class="pre">(key,</span> <span class="pre">value)</span></code> pairs
+will be unpacked with the <code class="docutils literal notranslate"><span class="pre">**</span></code>-operator.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">square</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">x</span>
+
+<span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="c1"># 1. Square the numbers, results should be: [0, 1, 4, 9, 16, 25, ...]</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The first example should work as expected, the numbers are simply squared. MPIRE knows how many tasks there are because
+a <code class="docutils literal notranslate"><span class="pre">range</span></code> object implements the <code class="docutils literal notranslate"><span class="pre">__len__</span></code> method (see <a class="reference internal" href="task_chunking.html#task-chunking"><span class="std std-ref">Task chunking</span></a>).</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="c1"># 2. Square the numbers, results should be: [0, 1, 4, 9, 16, 25, ...]</span>
+    <span class="c1"># Note: don&#39;t execute this, it will take a long time ...</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">square</span><span class="p">,</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e30</span><span class="p">)),</span> <span class="n">iterable_len</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="mf">1e30</span><span class="p">),</span> <span class="n">chunk_size</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>In the second example the <code class="docutils literal notranslate"><span class="pre">1e30</span></code> number is too large for Python: try calling <code class="docutils literal notranslate"><span class="pre">len(range(int(1e30)))</span></code>, this will
+throw an <code class="docutils literal notranslate"><span class="pre">OverflowError</span></code> (don’t get me started …). Therefore, we must use the <code class="docutils literal notranslate"><span class="pre">iterable_len</span></code> parameter to let
+MPIRE know how large the tasks list is. We also have to specify a chunk size here as the chunk size should be lower than
+<code class="docutils literal notranslate"><span class="pre">sys.maxsize</span></code>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">multiply</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span> <span class="o">*</span> <span class="n">y</span>
+
+<span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="c1"># 3. Multiply the numbers, results should be [0, 101, 204, 309, 416, ...]</span>
+    <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">pool</span><span class="o">.</span><span class="n">imap</span><span class="p">(</span><span class="n">multiply</span><span class="p">,</span> <span class="nb">zip</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">),</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="mi">200</span><span class="p">)),</span> <span class="n">iterable_len</span><span class="o">=</span><span class="mi">100</span><span class="p">):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<p>The third example shows an example of using multiple function arguments. Note that we use <code class="docutils literal notranslate"><span class="pre">imap</span></code> in this example,
+which allows us to process the results whenever they come available, not having to wait for all results to be ready.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="c1"># 4. Multiply the numbers, results should be [0, 101, ...]</span>
+    <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">pool</span><span class="o">.</span><span class="n">imap</span><span class="p">(</span><span class="n">multiply</span><span class="p">,</span> <span class="p">[{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span> <span class="p">{</span><span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="o">...</span><span class="p">]):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<p>The final example shows the use of an iterable of dictionaries. The (key, value) pairs are unpacked with the
+<code class="docutils literal notranslate"><span class="pre">**</span></code>-operator, as you would expect. So it doesn’t matter in what order the keys are stored. This should work for
+<code class="docutils literal notranslate"><span class="pre">collection.OrderedDict</span></code> objects as well.</p>
+</section>
+<section id="circumvent-argument-unpacking">
+<h2><a class="toc-backref" href="#id2">Circumvent argument unpacking</a><a class="headerlink" href="#circumvent-argument-unpacking" title="Permalink to this headline">¶</a></h2>
+<p>If you want to avoid unpacking and pass the tuples in example 3 or the dictionaries in example 4 as a whole, you can.
+We’ll continue on example 4, but the workaround for example 3 is similar.</p>
+<p>Suppose we have the following function which expects a dictionary:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">multiply_dict</span><span class="p">(</span><span class="n">d</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;x&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">d</span><span class="p">[</span><span class="s1">&#39;y&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Then you would have to convert the list of dictionaries to a list of single argument tuples, where each argument is a
+dictionary:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="c1"># Multiply the numbers, results should be [0, 101, ...]</span>
+    <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">pool</span><span class="o">.</span><span class="n">imap</span><span class="p">(</span><span class="n">multiply_dict</span><span class="p">,</span> <span class="p">[({</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},),</span>
+                                            <span class="p">({</span><span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},),</span>
+                                            <span class="o">...</span><span class="p">]):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<p>There is a utility function available that does this transformation for you:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mpire.utils</span> <span class="kn">import</span> <span class="n">make_single_arguments</span>
+
+<span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="c1"># Multiply the numbers, results should be [0, 101, ...]</span>
+    <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">pool</span><span class="o">.</span><span class="n">imap</span><span class="p">(</span><span class="n">multiply_dict</span><span class="p">,</span> <span class="n">make_single_arguments</span><span class="p">([{</span><span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">100</span><span class="p">},</span>
+                                                                  <span class="p">{</span><span class="s1">&#39;y&#39;</span><span class="p">:</span> <span class="mi">101</span><span class="p">,</span> <span class="s1">&#39;x&#39;</span><span class="p">:</span> <span class="mi">1</span><span class="p">},</span> <span class="o">...</span><span class="p">],</span>
+                                                                 <span class="n">generator</span><span class="o">=</span><span class="kc">False</span><span class="p">)):</span>
+        <span class="o">...</span>
+</pre></div>
+</div>
+<p><a class="reference internal" href="../../reference/index.html#mpire.utils.make_single_arguments" title="mpire.utils.make_single_arguments"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mpire.utils.make_single_arguments()</span></code></a> expects an iterable of arguments and converts them to tuples accordingly. The
+second argument of this function specifies if you want the function to return a generator or a materialized list. If we
+would like to return a generator we would need to pass on the iterable length as well.</p>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="progress_bar.html" class="btn btn-neutral float-right" title="Progress bar" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Map family" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2023, Slimmer AI
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: v2.5.0
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Tags</dt>
+            <dd><a href="../../../v1.1.2/index.html">v1.1.2</a></dd>
+            <dd><a href="../../../v1.1.3/index.html">v1.1.3</a></dd>
+            <dd><a href="../../../v1.2.0/index.html">v1.2.0</a></dd>
+            <dd><a href="../../../v1.2.1/index.html">v1.2.1</a></dd>
+            <dd><a href="../../../v1.2.2/index.html">v1.2.2</a></dd>
+            <dd><a href="../../../v2.0.0/index.html">v2.0.0</a></dd>
+            <dd><a href="../../../v2.1.0/index.html">v2.1.0</a></dd>
+            <dd><a href="../../../v2.1.1/index.html">v2.1.1</a></dd>
+            <dd><a href="../../../v2.2.0/index.html">v2.2.0</a></dd>
+            <dd><a href="../../../v2.2.1/index.html">v2.2.1</a></dd>
+            <dd><a href="../../../v2.3.0/usage/map/map.html">v2.3.0</a></dd>
+            <dd><a href="../../../v2.3.1/usage/map/map.html">v2.3.1</a></dd>
+            <dd><a href="../../../v2.3.2/usage/map/map.html">v2.3.2</a></dd>
+            <dd><a href="../../../v2.3.3/usage/map/map.html">v2.3.3</a></dd>
+            <dd><a href="../../../v2.3.4/usage/map/map.html">v2.3.4</a></dd>
+            <dd><a href="../../../v2.3.5/usage/map/map.html">v2.3.5</a></dd>
+            <dd><a href="../../../v2.4.0/usage/map/map.html">v2.4.0</a></dd>
+            <dd><a href="map.html">v2.5.0</a></dd>
+            <dd><a href="../../../v2.6.0/usage/map/map.html">v2.6.0</a></dd>
+            <dd><a href="../../../v2.7.0/usage/map/map.html">v2.7.0</a></dd>
+            <dd><a href="../../../v2.7.1/usage/map/map.html">v2.7.1</a></dd>
+        </dl>
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="../../../master/usage/map/map.html">master</a></dd>
+        </dl>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

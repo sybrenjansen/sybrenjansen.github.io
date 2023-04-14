@@ -1,0 +1,1428 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mpire.pool &mdash; mpire 1.1.3 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/banner.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/sphinxcontrib-images/LightBox2/lightbox2/css/lightbox.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/jquery-1.11.0.min.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/lightbox.min.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> mpire
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                1.1.3
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Welcome to the MPIRE documentation!</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../usage/index.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">mpire</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>mpire.pool</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mpire.pool</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">queue</span>
+<span class="kn">import</span> <span class="nn">signal</span>
+<span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Sized</span><span class="p">,</span> <span class="n">Union</span><span class="p">,</span> <span class="n">Tuple</span>
+
+<span class="k">try</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="n">NUMPY_INSTALLED</span> <span class="o">=</span> <span class="kc">True</span>
+<span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+    <span class="n">np</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">NUMPY_INSTALLED</span> <span class="o">=</span> <span class="kc">False</span>
+
+<span class="kn">from</span> <span class="nn">mpire.async_result</span> <span class="kn">import</span> <span class="p">(</span><span class="n">AsyncResult</span><span class="p">,</span> <span class="n">AsyncResultType</span><span class="p">,</span> <span class="n">AsyncResultWithExceptionGetter</span><span class="p">,</span>
+                                <span class="n">UnorderedAsyncExitResultIterator</span><span class="p">,</span> <span class="n">UnorderedAsyncResultIterator</span><span class="p">)</span>
+<span class="kn">from</span> <span class="nn">mpire.comms</span> <span class="kn">import</span> <span class="n">EXIT_FUNC</span><span class="p">,</span> <span class="n">INIT_FUNC</span><span class="p">,</span> <span class="n">MAIN_PROCESS</span><span class="p">,</span> <span class="n">POISON_PILL</span><span class="p">,</span> <span class="n">WorkerComms</span>
+<span class="kn">from</span> <span class="nn">mpire.context</span> <span class="kn">import</span> <span class="n">DEFAULT_START_METHOD</span><span class="p">,</span> <span class="n">RUNNING_WINDOWS</span>
+<span class="kn">from</span> <span class="nn">mpire.dashboard.connection_utils</span> <span class="kn">import</span> <span class="n">get_dashboard_connection_details</span>
+<span class="kn">from</span> <span class="nn">mpire.exception</span> <span class="kn">import</span> <span class="n">populate_exception</span>
+<span class="kn">from</span> <span class="nn">mpire.insights</span> <span class="kn">import</span> <span class="n">WorkerInsights</span>
+<span class="kn">from</span> <span class="nn">mpire.params</span> <span class="kn">import</span> <span class="n">check_map_parameters</span><span class="p">,</span> <span class="n">CPUList</span><span class="p">,</span> <span class="n">WorkerMapParams</span><span class="p">,</span> <span class="n">WorkerPoolParams</span>
+<span class="kn">from</span> <span class="nn">mpire.progress_bar</span> <span class="kn">import</span> <span class="n">ProgressBarHandler</span>
+<span class="kn">from</span> <span class="nn">mpire.signal</span> <span class="kn">import</span> <span class="n">DisableKeyboardInterruptSignal</span>
+<span class="kn">from</span> <span class="nn">mpire.tqdm_utils</span> <span class="kn">import</span> <span class="n">get_tqdm</span><span class="p">,</span> <span class="n">TqdmManager</span>
+<span class="kn">from</span> <span class="nn">mpire.utils</span> <span class="kn">import</span> <span class="n">apply_numpy_chunking</span><span class="p">,</span> <span class="n">chunk_tasks</span><span class="p">,</span> <span class="n">set_cpu_affinity</span>
+<span class="kn">from</span> <span class="nn">mpire.worker</span> <span class="kn">import</span> <span class="n">MP_CONTEXTS</span><span class="p">,</span> <span class="n">worker_factory</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="WorkerPool"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool">[docs]</a><span class="k">class</span> <span class="nc">WorkerPool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    A multiprocessing worker pool which acts like a ``multiprocessing.Pool``, but is faster and has more options.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="WorkerPool.__init__"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool.__init__">[docs]</a>    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_jobs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">daemon</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">cpu_ids</span><span class="p">:</span> <span class="n">CPUList</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                 <span class="n">shared_objects</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">pass_worker_id</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">use_worker_state</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">start_method</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="n">DEFAULT_START_METHOD</span><span class="p">,</span> <span class="n">keep_alive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">use_dill</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                 <span class="n">enable_insights</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">order_tasks</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param n_jobs: Number of workers to spawn. If ``None``, will use ``mpire.cpu_count()``</span>
+<span class="sd">        :param daemon: Whether to start the child processes as daemon</span>
+<span class="sd">        :param cpu_ids: List of CPU IDs to use for pinning child processes to specific CPUs. The list must be as long as</span>
+<span class="sd">            the number of jobs used (if ``n_jobs`` equals ``None`` it must be equal to ``mpire.cpu_count()``), or the</span>
+<span class="sd">            list must have exactly one element. In the former case, element `i` specifies the CPU ID(s) to use for child</span>
+<span class="sd">            process `i`. In the latter case the single element specifies the CPU ID(s) for all child  processes to use.</span>
+<span class="sd">            A single element can be either a single integer specifying a single CPU ID, or a list of integers specifying</span>
+<span class="sd">            that a single child process can make use of multiple CPU IDs. If ``None``, CPU pinning will be disabled</span>
+<span class="sd">        :param shared_objects: Objects to be passed on as shared objects to the workers once. It will be passed on to</span>
+<span class="sd">            the target, ``worker_init``, and ``worker_exit`` functions. ``shared_objects`` is only passed on when it&#39;s</span>
+<span class="sd">            not ``None``. Shared objects will be copy-on-write when using ``fork`` as start method. When enabled,</span>
+<span class="sd">            functions receive the shared objects as second argument, depending on other settings. The order is:</span>
+<span class="sd">            ``worker_id``, ``shared_objects``, ``worker_state``, and finally the arguments passed on from</span>
+<span class="sd">            ``iterable_of_args``</span>
+<span class="sd">        :param pass_worker_id: Whether to pass on a worker ID to the target, ``worker_init``, and ``worker_exit``</span>
+<span class="sd">            functions. When enabled, functions receive the worker ID as first argument, depending on other settings. The</span>
+<span class="sd">            order is: ``worker_id``, ``shared_objects``, ``worker_state``, and finally the arguments passed on from</span>
+<span class="sd">            ``iterable_of_args``</span>
+<span class="sd">        :param use_worker_state: Whether to let a worker have a worker state. The worker state will be passed on to the</span>
+<span class="sd">            target, ``worker_init``, and ``worker_exit`` functions. When enabled, functions receive the worker state as</span>
+<span class="sd">            third argument, depending on other settings. The order is: ``worker_id``,  ``shared_objects``,</span>
+<span class="sd">            ``worker_state``, and finally the arguments passed on from ``iterable_of_args``</span>
+<span class="sd">        :param start_method: Which process start method to use. Options for multiprocessing: ``&#39;fork&#39;`` (default, if</span>
+<span class="sd">            available), ``&#39;forkserver&#39;`` and ``&#39;spawn&#39;`` (default, if ``&#39;fork&#39;`` isn&#39;t available). For multithreading</span>
+<span class="sd">            use ``&#39;threading&#39;``. See https://docs.python.org/3/library/multiprocessing.html#contexts-and-start-methods</span>
+<span class="sd">            for more information and</span>
+<span class="sd">            https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods for some</span>
+<span class="sd">            caveats when using the ``&#39;spawn&#39;`` or ``&#39;forkserver&#39;`` methods</span>
+<span class="sd">        :param keep_alive: When ``True`` it will keep workers alive after completing a map call, allowing to reuse</span>
+<span class="sd">            workers</span>
+<span class="sd">        :param use_dill: Whether to use dill as serialization backend. Some exotic types (e.g., lambdas, nested</span>
+<span class="sd">            functions) don&#39;t work well when using ``spawn`` as start method. In such cased, use ``dill`` (can be a bit</span>
+<span class="sd">            slower sometimes)</span>
+<span class="sd">        :param enable_insights: Whether to enable worker insights. Might come at a small performance penalty (often</span>
+<span class="sd">            neglible)</span>
+<span class="sd">        :param order_tasks: Whether to provide tasks to the workers in order, such that worker 0 will get chunk 0,</span>
+<span class="sd">            worker 1 will get chunk 1, etc.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Set parameters</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span> <span class="o">=</span> <span class="n">WorkerPoolParams</span><span class="p">(</span><span class="n">n_jobs</span><span class="p">,</span> <span class="n">cpu_ids</span><span class="p">,</span> <span class="n">daemon</span><span class="p">,</span> <span class="n">shared_objects</span><span class="p">,</span> <span class="n">pass_worker_id</span><span class="p">,</span> <span class="n">use_worker_state</span><span class="p">,</span>
+                                            <span class="n">start_method</span><span class="p">,</span> <span class="n">keep_alive</span><span class="p">,</span> <span class="n">use_dill</span><span class="p">,</span> <span class="n">enable_insights</span><span class="p">,</span> <span class="n">order_tasks</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">map_params</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># type: Optional[WorkerMapParams]</span>
+
+        <span class="c1"># Worker factory</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Worker</span> <span class="o">=</span> <span class="n">worker_factory</span><span class="p">(</span><span class="n">start_method</span><span class="p">,</span> <span class="n">use_dill</span><span class="p">)</span>
+
+        <span class="c1"># Multiprocessing context</span>
+        <span class="k">if</span> <span class="n">start_method</span> <span class="o">==</span> <span class="s1">&#39;threading&#39;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ctx</span> <span class="o">=</span> <span class="n">MP_CONTEXTS</span><span class="p">[</span><span class="s1">&#39;threading&#39;</span><span class="p">]</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">ctx</span> <span class="o">=</span> <span class="n">MP_CONTEXTS</span><span class="p">[</span><span class="s1">&#39;mp_dill&#39;</span> <span class="k">if</span> <span class="n">use_dill</span> <span class="k">else</span> <span class="s1">&#39;mp&#39;</span><span class="p">][</span><span class="n">start_method</span><span class="p">]</span>
+
+        <span class="c1"># Cache for storing intermediate results. Add result objects for the worker_init and worker_exit functions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">:</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="n">AsyncResultType</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">AsyncResultWithExceptionGetter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">,</span> <span class="n">MAIN_PROCESS</span><span class="p">)</span>
+        <span class="n">AsyncResultWithExceptionGetter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">,</span> <span class="n">INIT_FUNC</span><span class="p">)</span>
+        <span class="n">UnorderedAsyncExitResultIterator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">)</span>
+
+        <span class="c1"># Container of the child processes and corresponding communication objects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span> <span class="o">=</span> <span class="n">WorkerComms</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ctx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">order_tasks</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_map_running</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="c1"># Threads needed for gathering results, restarts, and checking for unexpective deaths and timeouts</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results_handler_thread</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_restart_handler_thread</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_handler_thread</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unexpected_death_handler_thread</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_handler_threads_stop_event</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
+
+        <span class="c1"># Progress bar handler, in case it is used</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_progress_bar_handler</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Worker insights, used for profiling</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_worker_insights</span> <span class="o">=</span> <span class="n">WorkerInsights</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ctx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WorkerPool.pass_on_worker_id"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool.pass_on_worker_id">[docs]</a>    <span class="k">def</span> <span class="nf">pass_on_worker_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pass_on</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set whether to pass on the worker ID to the function to be executed or not (default= ``False``).</span>
+
+<span class="sd">        :param pass_on: Whether to pass on a worker ID to the target, ``worker_init``, and ``worker_exit``</span>
+<span class="sd">            functions. When enabled, functions receive the worker ID depending on other settings. The order is:</span>
+<span class="sd">            ``worker_id``, ``shared_objects``, ``worker_state``, and finally the arguments passed on using</span>
+<span class="sd">            ``iterable_of_args``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">pass_on</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">pass_worker_id</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">pass_worker_id</span> <span class="o">=</span> <span class="n">pass_on</span></div>
+
+<div class="viewcode-block" id="WorkerPool.set_shared_objects"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool.set_shared_objects">[docs]</a>    <span class="k">def</span> <span class="nf">set_shared_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shared_objects</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set shared objects to pass to the workers.</span>
+
+<span class="sd">        :param shared_objects: Objects to be passed on as shared objects to the workers once. It will be passed on to</span>
+<span class="sd">            the target, ``worker_init``, and ``worker_exit`` functions. ``shared_objects`` is only passed on when it&#39;s</span>
+<span class="sd">            not ``None``. Shared objects will be copy-on-write when using ``fork`` as start method. When enabled,</span>
+<span class="sd">            functions receive the shared objects depending on other settings. The order is: ``worker_id``,</span>
+<span class="sd">            ``shared_objects``, ``worker_state``, and finally the arguments passed on using ``iterable_of_args```</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">shared_objects</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">shared_objects</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">shared_objects</span> <span class="o">=</span> <span class="n">shared_objects</span></div>
+
+<div class="viewcode-block" id="WorkerPool.set_use_worker_state"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool.set_use_worker_state">[docs]</a>    <span class="k">def</span> <span class="nf">set_use_worker_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">use_worker_state</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set whether or not each worker should have its own state variable. Each worker has its own state, so it&#39;s not</span>
+<span class="sd">        shared between the workers.</span>
+
+<span class="sd">        :param use_worker_state: Whether to let a worker have a worker state. The worker state will be passed on to the</span>
+<span class="sd">            target, ``worker_init``, and ``worker_exit`` functions. When enabled, functions receive the worker state</span>
+<span class="sd">            depending on other settings. The order is: ``worker_id``,  ``shared_objects``, ``worker_state``, and finally</span>
+<span class="sd">            the arguments passed on using ``iterable_of_args``</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">use_worker_state</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">use_worker_state</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">use_worker_state</span> <span class="o">=</span> <span class="n">use_worker_state</span></div>
+
+<div class="viewcode-block" id="WorkerPool.set_keep_alive"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool.set_keep_alive">[docs]</a>    <span class="k">def</span> <span class="nf">set_keep_alive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keep_alive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set whether workers should be kept alive in between consecutive map calls.</span>
+
+<span class="sd">        :param keep_alive: When True it will keep workers alive after completing a map call, allowing to reuse workers</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">keep_alive</span> <span class="o">=</span> <span class="n">keep_alive</span></div>
+
+<div class="viewcode-block" id="WorkerPool.set_order_tasks"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool.set_order_tasks">[docs]</a>    <span class="k">def</span> <span class="nf">set_order_tasks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">order_tasks</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Set whether to provide tasks to the workers in order, such that worker 0 will get chunk 0, worker 1 will get</span>
+<span class="sd">        chunk 1, etc.</span>
+
+<span class="sd">        :param order_tasks: Whether to provide tasks to the workers in order, such that worker 0 will get chunk 0,</span>
+<span class="sd">            worker 1 will get chunk 1, etc.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">order_tasks</span> <span class="o">=</span> <span class="n">order_tasks</span></div>
+
+    <span class="k">def</span> <span class="nf">_start_workers</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Spawns the workers and starts them so they&#39;re ready to start reading from the tasks queue.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">MAIN_PROCESS</span><span class="p">]</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">INIT_FUNC</span><span class="p">]</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">EXIT_FUNC</span><span class="p">]</span><span class="o">.</span><span class="n">reset</span><span class="p">()</span>
+
+        <span class="c1"># Init communication primitives</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">init_comms</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_worker_insights</span><span class="o">.</span><span class="n">reset_insights</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">enable_insights</span><span class="p">)</span>
+
+        <span class="c1"># Start new workers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">n_jobs</span>
+        <span class="k">for</span> <span class="n">worker_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_start_worker</span><span class="p">(</span><span class="n">worker_id</span><span class="p">)</span>
+
+        <span class="c1"># Start results listener, restart handler, timeout handler, unexpected death handler</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_handler_threads_stop_event</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results_handler_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_results_handler</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_restart_handler_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_restart_handler</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_handler_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_timeout_handler</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unexpected_death_handler_thread</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_unexpected_death_handler</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_results_handler_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_restart_handler_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_handler_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_unexpected_death_handler_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">_start_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">worker_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates and starts a single worker</span>
+
+<span class="sd">        :param worker_id: ID of the worker</span>
+<span class="sd">        :return: Worker instance</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Disable the interrupt signal. We let the process die gracefully if it needs to</span>
+        <span class="k">with</span> <span class="n">DisableKeyboardInterruptSignal</span><span class="p">():</span>
+            <span class="c1"># Create worker</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">[</span><span class="n">worker_id</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Worker</span><span class="p">(</span>
+                <span class="n">worker_id</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">map_params</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_insights</span><span class="p">,</span>
+                <span class="n">TqdmManager</span><span class="o">.</span><span class="n">get_connection_details</span><span class="p">(),</span> <span class="n">get_dashboard_connection_details</span><span class="p">(),</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">[</span><span class="n">worker_id</span><span class="p">]</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">daemon</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">[</span><span class="n">worker_id</span><span class="p">]</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;Worker-</span><span class="si">{</span><span class="n">worker_id</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">[</span><span class="n">worker_id</span><span class="p">]</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+
+        <span class="c1"># Pin CPU if desired</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">cpu_ids</span><span class="p">:</span>
+            <span class="n">set_cpu_affinity</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">[</span><span class="n">worker_id</span><span class="p">]</span><span class="o">.</span><span class="n">pid</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">cpu_ids</span><span class="p">[</span><span class="n">worker_id</span><span class="p">])</span>
+
+    <span class="k">def</span> <span class="nf">_results_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Listen for results from the workers and add it to the cache. Note that when ``set`` is called on a result</span>
+<span class="sd">        object, the result is automatically removed from the cache.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="n">results_batch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">get_results</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">job_id</span><span class="p">,</span> <span class="n">success</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results_batch</span><span class="p">:</span>
+
+                <span class="c1"># Poison pill, stop the listener</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">result</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="ow">and</span> <span class="n">result</span> <span class="o">==</span> <span class="n">POISON_PILL</span><span class="p">:</span>
+                    <span class="k">return</span>
+
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">err</span><span class="p">,</span> <span class="n">traceback_err</span> <span class="o">=</span> <span class="n">populate_exception</span><span class="p">(</span><span class="o">*</span><span class="n">result</span><span class="p">)</span>
+                        <span class="n">err</span><span class="o">.</span><span class="n">__cause__</span> <span class="o">=</span> <span class="n">traceback_err</span>
+
+                        <span class="c1"># When a worker_init times out, the pool shuts down and we set all tasks that haven&#39;t completed</span>
+                        <span class="c1"># yet to failed</span>
+                        <span class="n">job_ids</span> <span class="o">=</span> <span class="p">((</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="p">{</span><span class="n">MAIN_PROCESS</span><span class="p">,</span> <span class="n">EXIT_FUNC</span><span class="p">})</span> <span class="k">if</span> <span class="n">job_id</span> <span class="o">==</span> <span class="n">INIT_FUNC</span> <span class="k">else</span>
+                                   <span class="p">{</span><span class="n">job_id</span><span class="p">})</span>
+                        <span class="k">for</span> <span class="n">_job_id</span> <span class="ow">in</span> <span class="n">job_ids</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">_job_id</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+                <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                    <span class="c1"># This can happen if the job has already been removed from the cache, which can occur if the job</span>
+                    <span class="c1"># has been cancelled, or if the job has been removed from the cache because the timeout has</span>
+                    <span class="c1"># expired</span>
+                    <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_restart_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Listen for worker restarts and restart them if needed.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">exception_thrown</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handler_threads_stop_event</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
+
+            <span class="k">for</span> <span class="n">worker_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">get_worker_restarts</span><span class="p">():</span>
+                <span class="c1"># The get_worker_restarts call is blocking, but can unblock when we need to stop (either due to an</span>
+                <span class="c1"># exception or because all tasks have been processed). However, a worker could&#39;ve asked for a restart in</span>
+                <span class="c1"># the meantime, so we need to check if we need to stop again</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">exception_thrown</span><span class="p">()</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handler_threads_stop_event</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
+                    <span class="k">return</span>
+
+                <span class="c1"># Join worker. This can take a while as the worker could still be holding on to data it needs to send</span>
+                <span class="c1"># over the results queue</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">[</span><span class="n">worker_id</span><span class="p">]</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+                <span class="c1"># Start new worker</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">reset_worker_restart</span><span class="p">(</span><span class="n">worker_id</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_start_worker</span><span class="p">(</span><span class="n">worker_id</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_unexpected_death_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks that workers that are supposed to be alive, are actually alive. If not, then a worker died unexpectedly.</span>
+<span class="sd">        Terminate signals are handled by workers themselves, but if a worker dies for any other reason, then we need</span>
+<span class="sd">        to handle it here.</span>
+
+<span class="sd">        Note that a worker can be alive, but their alive status is still False. This doesn&#39;t really matter, because we</span>
+<span class="sd">        know the worker is alive according to the OS. The only way we know that something bad happened is when a worker</span>
+<span class="sd">        is supposed to be alive but according to the OS it&#39;s not.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">exception_thrown</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handler_threads_stop_event</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
+
+            <span class="c1"># This thread can be started before the workers are created, so we need to check that they exist. If not</span>
+            <span class="c1"># we just wait a bit and try again.</span>
+            <span class="k">for</span> <span class="n">worker_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">)):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">worker_died</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">is_worker_alive</span><span class="p">(</span><span class="n">worker_id</span><span class="p">)</span> <span class="ow">and</span>
+                                   <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">[</span><span class="n">worker_id</span><span class="p">]</span><span class="o">.</span><span class="n">is_alive</span><span class="p">())</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="n">worker_died</span> <span class="o">=</span> <span class="kc">False</span>
+
+                <span class="k">if</span> <span class="n">worker_died</span><span class="p">:</span>
+                    <span class="c1"># Obtain task it was working on and set it to failed</span>
+                    <span class="n">job_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">get_worker_working_on_job</span><span class="p">(</span><span class="n">worker_id</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">signal_exception_thrown</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+                    <span class="n">err</span> <span class="o">=</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Worker-</span><span class="si">{</span><span class="n">worker_id</span><span class="si">}</span><span class="s2"> died unexpectedly&quot;</span><span class="p">)</span>
+
+                    <span class="c1"># When a worker dies unexpectedly, the pool shuts down and we set all tasks that haven&#39;t completed</span>
+                    <span class="c1"># yet to failed</span>
+                    <span class="n">job_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="p">{</span><span class="n">MAIN_PROCESS</span><span class="p">}</span>
+                    <span class="k">for</span> <span class="n">job_id</span> <span class="ow">in</span> <span class="n">job_ids</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+                    <span class="k">return</span>
+
+            <span class="c1"># Check this every once in a while</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_timeout_handler</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Check for worker_init/task/worker_exit timeouts</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">def</span> <span class="nf">_get_init_config</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]]:</span>
+            <span class="k">return</span> <span class="s1">&#39;worker_init&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">map_params</span><span class="o">.</span><span class="n">worker_init_timeout</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">has_worker_init_timed_out</span>
+
+        <span class="k">def</span> <span class="nf">_get_exit_config</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]]:</span>
+            <span class="k">return</span> <span class="s1">&#39;worker_exit&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">map_params</span><span class="o">.</span><span class="n">worker_exit_timeout</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">has_worker_exit_timed_out</span>
+
+        <span class="k">def</span> <span class="nf">_get_task_config</span><span class="p">(</span><span class="n">_job_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">],</span> <span class="n">Callable</span><span class="p">[[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span> <span class="nb">bool</span><span class="p">]]:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s1">&#39;task&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span><span class="o">.</span><span class="n">_timeout</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">has_worker_task_timed_out</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="k">return</span> <span class="s1">&#39;task&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">has_worker_task_timed_out</span>
+
+        <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">exception_thrown</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handler_threads_stop_event</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
+
+            <span class="k">for</span> <span class="n">worker_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">):</span>
+                <span class="c1"># Obtain what the worker is working on and obtain corresponding timeout setting</span>
+                <span class="n">job_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">get_worker_working_on_job</span><span class="p">(</span><span class="n">worker_id</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">job_id</span> <span class="o">==</span> <span class="n">INIT_FUNC</span><span class="p">:</span>
+                    <span class="n">timeout_func_name</span><span class="p">,</span> <span class="n">timeout_var</span><span class="p">,</span> <span class="n">has_timed_out_func</span> <span class="o">=</span> <span class="n">_get_init_config</span><span class="p">()</span>
+                <span class="k">elif</span> <span class="n">job_id</span> <span class="o">==</span> <span class="n">EXIT_FUNC</span><span class="p">:</span>
+                    <span class="n">timeout_func_name</span><span class="p">,</span> <span class="n">timeout_var</span><span class="p">,</span> <span class="n">has_timed_out_func</span> <span class="o">=</span> <span class="n">_get_exit_config</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">timeout_func_name</span><span class="p">,</span> <span class="n">timeout_var</span><span class="p">,</span> <span class="n">has_timed_out_func</span> <span class="o">=</span> <span class="n">_get_task_config</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+
+                <span class="c1"># If timeout has expired, then send kill signal and set job to failed</span>
+                <span class="k">if</span> <span class="n">timeout_var</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">has_timed_out_func</span><span class="p">(</span><span class="n">worker_id</span><span class="p">,</span> <span class="n">timeout_var</span><span class="p">):</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">signal_exception_thrown</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_send_kill_signal_to_worker</span><span class="p">(</span><span class="n">worker_id</span><span class="p">)</span>
+                    <span class="n">err</span> <span class="o">=</span> <span class="ne">TimeoutError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Worker-</span><span class="si">{</span><span class="n">worker_id</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">timeout_func_name</span><span class="si">}</span><span class="s2"> timed out (timeout=</span><span class="si">{</span><span class="n">timeout_var</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+                    <span class="c1"># When a worker_init times out, the pool shuts down and we set all tasks that haven&#39;t completed yet</span>
+                    <span class="c1"># to failed</span>
+                    <span class="n">job_ids</span> <span class="o">=</span> <span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="p">{</span><span class="n">MAIN_PROCESS</span><span class="p">,</span> <span class="n">EXIT_FUNC</span><span class="p">})</span> <span class="k">if</span> <span class="n">job_id</span> <span class="o">==</span> <span class="n">INIT_FUNC</span> <span class="k">else</span> <span class="p">{</span><span class="n">job_id</span><span class="p">}</span>
+                    <span class="k">for</span> <span class="n">job_id</span> <span class="ow">in</span> <span class="n">job_ids</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+                    <span class="k">return</span>
+
+            <span class="c1"># Check this every once in a while</span>
+            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+
+<div class="viewcode-block" id="WorkerPool.get_exit_results"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool.get_exit_results">[docs]</a>    <span class="k">def</span> <span class="nf">get_exit_results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Obtain a list of exit results when an exit function is defined.</span>
+
+<span class="sd">        :return: Exit results list</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">EXIT_FUNC</span><span class="p">]</span><span class="o">.</span><span class="n">get_results</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="WorkerPool.__enter__"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool.__enter__">[docs]</a>    <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="s1">&#39;WorkerPool&#39;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Enable the use of the ``with`` statement.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span></div>
+
+<div class="viewcode-block" id="WorkerPool.__exit__"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool.__exit__">[docs]</a>    <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">_</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Enable the use of the ``with`` statement. Gracefully terminates workers, if there are any</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="WorkerPool.map"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool.map">[docs]</a>    <span class="k">def</span> <span class="nf">map</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">iterable_of_args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sized</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">],</span> <span class="n">iterable_len</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">max_tasks_active</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">worker_lifespan</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">progress_bar</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+            <span class="n">progress_bar_position</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">concatenate_numpy_output</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="n">worker_init</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">worker_exit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">task_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">worker_init_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">worker_exit_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">progress_bar_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+            <span class="n">progress_bar_style</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Same as ``multiprocessing.map()``. Also allows a user to set the maximum number of tasks available in the queue.</span>
+<span class="sd">        Note that this function can be slower than the unordered version.</span>
+
+<span class="sd">        :param func: Function to call each time new task arguments become available. When passing on the worker ID the</span>
+<span class="sd">            function should receive the worker ID as its first argument. If shared objects are provided the function</span>
+<span class="sd">            should receive those as the next argument. If the worker state has been enabled it should receive a state</span>
+<span class="sd">            variable as the next argument</span>
+<span class="sd">        :param iterable_of_args: A numpy array or an iterable containing tuples of arguments to pass to a worker, which</span>
+<span class="sd">            passes it to the function ``func``</span>
+<span class="sd">        :param iterable_len: Number of elements in the ``iterable_of_args``. When chunk_size is set to ``None`` it needs</span>
+<span class="sd">            to know the number of tasks. This can either be provided by implementing the ``__len__`` function on the</span>
+<span class="sd">            iterable object, or by specifying the number of tasks</span>
+<span class="sd">        :param max_tasks_active: Maximum number of active tasks in the queue. If ``None`` it will be converted to</span>
+<span class="sd">            ``n_jobs * chunk_size * 2``</span>
+<span class="sd">        :param chunk_size: Number of simultaneous tasks to give to a worker. When ``None`` it will use ``n_splits``.</span>
+<span class="sd">        :param n_splits: Number of splits to use when ``chunk_size`` is ``None``. When both ``chunk_size`` and</span>
+<span class="sd">            ``n_splits`` are ``None``, it will use ``n_splits = n_jobs * 64``.</span>
+<span class="sd">        :param worker_lifespan: Number of tasks a worker can handle before it is restarted. If ``None``, workers will</span>
+<span class="sd">            stay alive the entire time. Use this when workers use up too much memory over the course of time</span>
+<span class="sd">        :param progress_bar: When ``True`` it will display a progress bar</span>
+<span class="sd">        :param progress_bar_position: Denotes the position (line nr) of the progress bar. This is useful when using</span>
+<span class="sd">            multiple progress bars at the same time.</span>
+
+<span class="sd">            DEPRECATED in v2.6.0, to be removed in v2.10.0! Set the progress bar position using ``progress_bar_options``</span>
+<span class="sd">            instead.</span>
+<span class="sd">        :param concatenate_numpy_output: When ``True`` it will concatenate numpy output to a single numpy array</span>
+<span class="sd">        :param worker_init: Function to call each time a new worker starts. When passing on the worker ID the function</span>
+<span class="sd">            should receive the worker ID as its first argument. If shared objects are provided the function should</span>
+<span class="sd">            receive those as the next argument. If the worker state has been enabled it should receive a state variable</span>
+<span class="sd">            as the next argument</span>
+<span class="sd">        :param worker_exit: Function to call each time a worker exits. Return values will be fetched and made available</span>
+<span class="sd">            through :obj:`mpire.WorkerPool.get_exit_results`. When passing on the worker ID the function should receive</span>
+<span class="sd">            the worker ID as its first argument. If shared objects are provided the function should receive those as the</span>
+<span class="sd">            next argument. If the worker state has been enabled it should receive a state variable as the next argument</span>
+<span class="sd">        :param task_timeout: Timeout in seconds for a single task. When the timeout is exceeded, MPIRE will raise a</span>
+<span class="sd">            ``TimeoutError``. Use ``None`` to disable (default). Note: the timeout doesn&#39;t apply to ``worker_init`` and</span>
+<span class="sd">            ``worker_exit`` functions, use `worker_init_timeout` and `worker_exit_timeout` for that, respectively</span>
+<span class="sd">        :param worker_init_timeout: Timeout in seconds for the ``worker_init`` function. When the timeout is exceeded,</span>
+<span class="sd">            MPIRE will raise a ``TimeoutError``. Use ``None`` to disable (default).</span>
+<span class="sd">        :param worker_exit_timeout: Timeout in seconds for the ``worker_exit`` function. When the timeout is exceeded,</span>
+<span class="sd">            MPIRE will raise a ``TimeoutError``. Use ``None`` to disable (default).</span>
+<span class="sd">        :param progress_bar_options: Dictionary containing keyword arguments to pass to the ``tqdm`` progress bar. See</span>
+<span class="sd">            ``tqdm.tqdm()`` for details. The arguments ``total`` and ``leave`` will be overwritten by MPIRE.</span>
+<span class="sd">        :param progress_bar_style: The progress bar style to use. Can be one of ``None``, ``&#39;std&#39;``, or ``&#39;notebook&#39;``</span>
+<span class="sd">        :return: List with ordered results</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Notify workers to keep order in mind</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">signal_keep_order</span><span class="p">()</span>
+
+        <span class="c1"># If we&#39;re dealing with numpy arrays, we have to chunk them here already</span>
+        <span class="k">if</span> <span class="n">NUMPY_INSTALLED</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">iterable_of_args</span><span class="p">,</span> <span class="n">iterable_len</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">,</span> <span class="n">n_splits</span> <span class="o">=</span> <span class="n">apply_numpy_chunking</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">,</span> <span class="n">iterable_len</span><span class="p">,</span>
+                                                                                        <span class="n">chunk_size</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">,</span>
+                                                                                        <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+
+        <span class="c1"># Process all args</span>
+        <span class="k">if</span> <span class="n">iterable_len</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">,</span> <span class="s1">&#39;__len__&#39;</span><span class="p">):</span>
+            <span class="n">iterable_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">)</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">map_unordered</span><span class="p">(</span>
+            <span class="n">func</span><span class="p">,</span> <span class="p">((</span><span class="n">args_idx</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="k">for</span> <span class="n">args_idx</span><span class="p">,</span> <span class="n">args</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">)),</span> <span class="n">iterable_len</span><span class="p">,</span> <span class="n">max_tasks_active</span><span class="p">,</span>
+            <span class="n">chunk_size</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">,</span> <span class="n">worker_lifespan</span><span class="p">,</span> <span class="n">progress_bar</span><span class="p">,</span> <span class="n">progress_bar_position</span><span class="p">,</span> <span class="n">worker_init</span><span class="p">,</span> <span class="n">worker_exit</span><span class="p">,</span>
+            <span class="n">task_timeout</span><span class="p">,</span> <span class="n">worker_init_timeout</span><span class="p">,</span> <span class="n">worker_exit_timeout</span><span class="p">,</span> <span class="n">progress_bar_options</span><span class="p">,</span> <span class="n">progress_bar_style</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Notify workers to forget about order</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">clear_keep_order</span><span class="p">()</span>
+
+        <span class="c1"># Rearrange and return</span>
+        <span class="n">sorted_results</span> <span class="o">=</span> <span class="p">[</span><span class="n">result</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">result</span><span class="p">:</span> <span class="n">result</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span>
+
+        <span class="c1"># Convert back to numpy if necessary</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">(</span><span class="n">sorted_results</span><span class="p">)</span> <span class="k">if</span> <span class="n">NUMPY_INSTALLED</span> <span class="ow">and</span> <span class="n">sorted_results</span> <span class="ow">and</span> <span class="n">concatenate_numpy_output</span> <span class="ow">and</span>
+                <span class="nb">isinstance</span><span class="p">(</span><span class="n">sorted_results</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="k">else</span> <span class="n">sorted_results</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="WorkerPool.map_unordered"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool.map_unordered">[docs]</a>    <span class="k">def</span> <span class="nf">map_unordered</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">iterable_of_args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sized</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">],</span>
+                      <span class="n">iterable_len</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">max_tasks_active</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">chunk_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">worker_lifespan</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">progress_bar</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                      <span class="n">progress_bar_position</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">worker_init</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">worker_exit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">task_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">worker_init_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">worker_exit_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">progress_bar_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                      <span class="n">progress_bar_style</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Same as ``multiprocessing.map()``, but unordered. Also allows a user to set the maximum number of tasks</span>
+<span class="sd">        available in the queue.</span>
+
+<span class="sd">        :param func: Function to call each time new task arguments become available. When passing on the worker ID the</span>
+<span class="sd">            function should receive the worker ID as its first argument. If shared objects are provided the function</span>
+<span class="sd">            should receive those as the next argument. If the worker state has been enabled it should receive a state</span>
+<span class="sd">            variable as the next argument</span>
+<span class="sd">        :param iterable_of_args: A numpy array or an iterable containing tuples of arguments to pass to a worker, which</span>
+<span class="sd">            passes it to the function ``func``</span>
+<span class="sd">        :param iterable_len: Number of elements in the ``iterable_of_args``. When chunk_size is set to ``None`` it needs</span>
+<span class="sd">            to know the number of tasks. This can either be provided by implementing the ``__len__`` function on the</span>
+<span class="sd">            iterable object, or by specifying the number of tasks</span>
+<span class="sd">        :param max_tasks_active: Maximum number of active tasks in the queue. If ``None`` it will be converted to</span>
+<span class="sd">            ``n_jobs * chunk_size * 2``</span>
+<span class="sd">        :param chunk_size: Number of simultaneous tasks to give to a worker. When ``None`` it will use ``n_splits``.</span>
+<span class="sd">        :param n_splits: Number of splits to use when ``chunk_size`` is ``None``. When both ``chunk_size`` and</span>
+<span class="sd">            ``n_splits`` are ``None``, it will use ``n_splits = n_jobs * 64``.</span>
+<span class="sd">        :param worker_lifespan: Number of tasks a worker can handle before it is restarted. If ``None``, workers will</span>
+<span class="sd">            stay alive the entire time. Use this when workers use up too much memory over the course of time</span>
+<span class="sd">        :param progress_bar: When ``True`` it will display a progress bar</span>
+<span class="sd">        :param progress_bar_position: Denotes the position (line nr) of the progress bar. This is useful when using</span>
+<span class="sd">            multiple progress bars at the same time.</span>
+
+<span class="sd">            DEPRECATED in v2.6.0, to be removed in v2.10.0! Set the progress bar position using ``progress_bar_options``</span>
+<span class="sd">            instead.</span>
+<span class="sd">        :param worker_init: Function to call each time a new worker starts. When passing on the worker ID the function</span>
+<span class="sd">            should receive the worker ID as its first argument. If shared objects are provided the function should</span>
+<span class="sd">            receive those as the next argument. If the worker state has been enabled it should receive a state variable</span>
+<span class="sd">            as the next argument</span>
+<span class="sd">        :param worker_exit: Function to call each time a worker exits. Return values will be fetched and made available</span>
+<span class="sd">            through :obj:`mpire.WorkerPool.get_exit_results`. When passing on the worker ID the function should receive</span>
+<span class="sd">            the worker ID as its first argument. If shared objects are provided the function should receive those as the</span>
+<span class="sd">            next argument. If the worker state has been enabled it should receive a state variable as the next argument</span>
+<span class="sd">        :param task_timeout: Timeout in seconds for a single task. When the timeout is exceeded, MPIRE will raise a</span>
+<span class="sd">            ``TimeoutError``. Use ``None`` to disable (default). Note: the timeout doesn&#39;t apply to ``worker_init`` and</span>
+<span class="sd">            ``worker_exit`` functions, use `worker_init_timeout` and `worker_exit_timeout` for that, respectively</span>
+<span class="sd">        :param worker_init_timeout: Timeout in seconds for the ``worker_init`` function. When the timeout is exceeded,</span>
+<span class="sd">            MPIRE will raise a ``TimeoutError``. Use ``None`` to disable (default).</span>
+<span class="sd">        :param worker_exit_timeout: Timeout in seconds for the ``worker_exit`` function. When the timeout is exceeded,</span>
+<span class="sd">            MPIRE will raise a ``TimeoutError``. Use ``None`` to disable (default).</span>
+<span class="sd">        :param progress_bar_options: Dictionary containing keyword arguments to pass to the ``tqdm`` progress bar. See</span>
+<span class="sd">            ``tqdm.tqdm()`` for details. The arguments ``total`` and ``leave`` will be overwritten by MPIRE.</span>
+<span class="sd">        :param progress_bar_style: The progress bar style to use. Can be one of ``None``, ``&#39;std&#39;``, or ``&#39;notebook&#39;``</span>
+<span class="sd">        :return: List with unordered results</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Simply call imap and cast it to a list. This make sure all elements are there before returning</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">imap_unordered</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">iterable_of_args</span><span class="p">,</span> <span class="n">iterable_len</span><span class="p">,</span> <span class="n">max_tasks_active</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">,</span>
+                                        <span class="n">n_splits</span><span class="p">,</span> <span class="n">worker_lifespan</span><span class="p">,</span> <span class="n">progress_bar</span><span class="p">,</span> <span class="n">progress_bar_position</span><span class="p">,</span> <span class="n">worker_init</span><span class="p">,</span>
+                                        <span class="n">worker_exit</span><span class="p">,</span> <span class="n">task_timeout</span><span class="p">,</span> <span class="n">worker_init_timeout</span><span class="p">,</span> <span class="n">worker_exit_timeout</span><span class="p">,</span>
+                                        <span class="n">progress_bar_options</span><span class="p">,</span> <span class="n">progress_bar_style</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="WorkerPool.imap"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool.imap">[docs]</a>    <span class="k">def</span> <span class="nf">imap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">iterable_of_args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sized</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">],</span> <span class="n">iterable_len</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">max_tasks_active</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">worker_lifespan</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">progress_bar</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+             <span class="n">progress_bar_position</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">worker_init</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">worker_exit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">task_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">worker_init_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">worker_exit_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">progress_bar_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+             <span class="n">progress_bar_style</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Same as ``multiprocessing.imap_unordered()``, but ordered. Also allows a user to set the maximum number of</span>
+<span class="sd">        tasks available in the queue.</span>
+
+<span class="sd">        :param func: Function to call each time new task arguments become available. When passing on the worker ID the</span>
+<span class="sd">            function should receive the worker ID as its first argument. If shared objects are provided the function</span>
+<span class="sd">            should receive those as the next argument. If the worker state has been enabled it should receive a state</span>
+<span class="sd">            variable as the next argument</span>
+<span class="sd">        :param iterable_of_args: A numpy array or an iterable containing tuples of arguments to pass to a worker, which</span>
+<span class="sd">            passes it to the function ``func``</span>
+<span class="sd">        :param iterable_len: Number of elements in the ``iterable_of_args``. When chunk_size is set to ``None`` it needs</span>
+<span class="sd">            to know the number of tasks. This can either be provided by implementing the ``__len__`` function on the</span>
+<span class="sd">            iterable object, or by specifying the number of tasks</span>
+<span class="sd">        :param max_tasks_active: Maximum number of active tasks in the queue. If ``None`` it will be converted to</span>
+<span class="sd">            ``n_jobs * chunk_size * 2``</span>
+<span class="sd">        :param chunk_size: Number of simultaneous tasks to give to a worker. When ``None`` it will use ``n_splits``.</span>
+<span class="sd">        :param n_splits: Number of splits to use when ``chunk_size`` is ``None``. When both ``chunk_size`` and</span>
+<span class="sd">            ``n_splits`` are ``None``, it will use ``n_splits = n_jobs * 64``.</span>
+<span class="sd">        :param worker_lifespan: Number of tasks a worker can handle before it is restarted. If ``None``, workers will</span>
+<span class="sd">            stay alive the entire time. Use this when workers use up too much memory over the course of time</span>
+<span class="sd">        :param progress_bar: When ``True`` it will display a progress bar</span>
+<span class="sd">        :param progress_bar_position: Denotes the position (line nr) of the progress bar. This is useful when using</span>
+<span class="sd">            multiple progress bars at the same time.</span>
+
+<span class="sd">            DEPRECATED in v2.6.0, to be removed in v2.10.0! Set the progress bar position using ``progress_bar_options``</span>
+<span class="sd">            instead.</span>
+<span class="sd">        :param worker_init: Function to call each time a new worker starts. When passing on the worker ID the function</span>
+<span class="sd">            should receive the worker ID as its first argument. If shared objects are provided the function should</span>
+<span class="sd">            receive those as the next argument. If the worker state has been enabled it should receive a state variable</span>
+<span class="sd">            as the next argument</span>
+<span class="sd">        :param worker_exit: Function to call each time a worker exits. Return values will be fetched and made available</span>
+<span class="sd">            through :obj:`mpire.WorkerPool.get_exit_results`. When passing on the worker ID the function should receive</span>
+<span class="sd">            the worker ID as its first argument. If shared objects are provided the function should receive those as the</span>
+<span class="sd">            next argument. If the worker state has been enabled it should receive a state variable as the next argument</span>
+<span class="sd">        :param task_timeout: Timeout in seconds for a single task. When the timeout is exceeded, MPIRE will raise a</span>
+<span class="sd">            ``TimeoutError``. Use ``None`` to disable (default). Note: the timeout doesn&#39;t apply to ``worker_init`` and</span>
+<span class="sd">            ``worker_exit`` functions, use `worker_init_timeout` and `worker_exit_timeout` for that, respectively</span>
+<span class="sd">        :param worker_init_timeout: Timeout in seconds for the ``worker_init`` function. When the timeout is exceeded,</span>
+<span class="sd">            MPIRE will raise a ``TimeoutError``. Use ``None`` to disable (default).</span>
+<span class="sd">        :param worker_exit_timeout: Timeout in seconds for the ``worker_exit`` function. When the timeout is exceeded,</span>
+<span class="sd">            MPIRE will raise a ``TimeoutError``. Use ``None`` to disable (default).</span>
+<span class="sd">        :param progress_bar_options: Dictionary containing keyword arguments to pass to the ``tqdm`` progress bar. See</span>
+<span class="sd">            ``tqdm.tqdm()`` for details. The arguments ``total`` and ``leave`` will be overwritten by MPIRE.</span>
+<span class="sd">        :param progress_bar_style: The progress bar style to use. Can be one of ``None``, ``&#39;std&#39;``, or ``&#39;notebook&#39;``</span>
+<span class="sd">        :return: Generator yielding ordered results</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Notify workers to keep order in mind</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">signal_keep_order</span><span class="p">()</span>
+
+        <span class="c1"># If we&#39;re dealing with numpy arrays, we have to chunk them here already</span>
+        <span class="k">if</span> <span class="n">NUMPY_INSTALLED</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">iterable_of_args</span><span class="p">,</span> <span class="n">iterable_len</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">,</span> <span class="n">n_splits</span> <span class="o">=</span> <span class="n">apply_numpy_chunking</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">,</span> <span class="n">iterable_len</span><span class="p">,</span>
+                                                                                        <span class="n">chunk_size</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">,</span>
+                                                                                        <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span>
+
+        <span class="c1"># Yield results in order</span>
+        <span class="n">next_result_idx</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">tmp_results</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">iterable_len</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">,</span> <span class="s1">&#39;__len__&#39;</span><span class="p">):</span>
+            <span class="n">iterable_len</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">result_idx</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">imap_unordered</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="p">((</span><span class="n">args_idx</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span> <span class="k">for</span> <span class="n">args_idx</span><span class="p">,</span> <span class="n">args</span>
+                                                             <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">)),</span> <span class="n">iterable_len</span><span class="p">,</span>
+                                                      <span class="n">max_tasks_active</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">,</span> <span class="n">worker_lifespan</span><span class="p">,</span>
+                                                      <span class="n">progress_bar</span><span class="p">,</span> <span class="n">progress_bar_position</span><span class="p">,</span> <span class="n">worker_init</span><span class="p">,</span> <span class="n">worker_exit</span><span class="p">,</span>
+                                                      <span class="n">task_timeout</span><span class="p">,</span> <span class="n">worker_init_timeout</span><span class="p">,</span> <span class="n">worker_exit_timeout</span><span class="p">,</span>
+                                                      <span class="n">progress_bar_options</span><span class="p">,</span> <span class="n">progress_bar_style</span><span class="p">):</span>
+
+            <span class="c1"># Check if the next one(s) to return is/are temporarily stored. We use a while-true block with dict.pop() to</span>
+            <span class="c1"># keep the temporary store as small as possible</span>
+            <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">next_result_idx</span> <span class="ow">in</span> <span class="n">tmp_results</span><span class="p">:</span>
+                    <span class="k">yield</span> <span class="n">tmp_results</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">next_result_idx</span><span class="p">)</span>
+                    <span class="n">next_result_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">break</span>
+
+            <span class="c1"># Check if the current result is the next one to return. If so, return it</span>
+            <span class="k">if</span> <span class="n">result_idx</span> <span class="o">==</span> <span class="n">next_result_idx</span><span class="p">:</span>
+                <span class="k">yield</span> <span class="n">result</span>
+                <span class="n">next_result_idx</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="c1"># Otherwise, temporarily store the current result</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">tmp_results</span><span class="p">[</span><span class="n">result_idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
+
+        <span class="c1"># Yield all remaining results</span>
+        <span class="k">for</span> <span class="n">result_idx</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">tmp_results</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="k">yield</span> <span class="n">tmp_results</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">result_idx</span><span class="p">)</span>
+
+        <span class="c1"># Notify workers to forget about order</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">clear_keep_order</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="WorkerPool.imap_unordered"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool.imap_unordered">[docs]</a>    <span class="k">def</span> <span class="nf">imap_unordered</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">iterable_of_args</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">Sized</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">],</span>
+                       <span class="n">iterable_len</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">max_tasks_active</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                       <span class="n">chunk_size</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                       <span class="n">worker_lifespan</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">progress_bar</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+                       <span class="n">progress_bar_position</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">worker_init</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                       <span class="n">worker_exit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">task_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                       <span class="n">worker_init_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">worker_exit_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                       <span class="n">progress_bar_options</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                       <span class="n">progress_bar_style</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">Any</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Same as ``multiprocessing.imap_unordered()``. Also allows a user to set the maximum number of tasks available in</span>
+<span class="sd">        the queue.</span>
+
+<span class="sd">        :param func: Function to call each time new task arguments become available. When passing on the worker ID the</span>
+<span class="sd">            function should receive the worker ID as its first argument. If shared objects are provided the function</span>
+<span class="sd">            should receive those as the next argument. If the worker state has been enabled it should receive a state</span>
+<span class="sd">            variable as the next argument</span>
+<span class="sd">        :param iterable_of_args: A numpy array or an iterable containing tuples of arguments to pass to a worker, which</span>
+<span class="sd">            passes it to the function ``func``</span>
+<span class="sd">        :param iterable_len: Number of elements in the ``iterable_of_args``. When chunk_size is set to ``None`` it needs</span>
+<span class="sd">            to know the number of tasks. This can either be provided by implementing the ``__len__`` function on the</span>
+<span class="sd">            iterable object, or by specifying the number of tasks</span>
+<span class="sd">        :param max_tasks_active: Maximum number of active tasks in the queue. If ``None`` it will be converted to</span>
+<span class="sd">            ``n_jobs * chunk_size * 2``</span>
+<span class="sd">        :param chunk_size: Number of simultaneous tasks to give to a worker. When ``None`` it will use ``n_splits``.</span>
+<span class="sd">        :param n_splits: Number of splits to use when ``chunk_size`` is ``None``. When both ``chunk_size`` and</span>
+<span class="sd">            ``n_splits`` are ``None``, it will use ``n_splits = n_jobs * 64``.</span>
+<span class="sd">        :param worker_lifespan: Number of tasks a worker can handle before it is restarted. If ``None``, workers will</span>
+<span class="sd">            stay alive the entire time. Use this when workers use up too much memory over the course of time</span>
+<span class="sd">        :param progress_bar: When ``True`` it will display a progress bar</span>
+<span class="sd">        :param progress_bar_position: Denotes the position (line nr) of the progress bar. This is useful when using</span>
+<span class="sd">            multiple progress bars at the same time.</span>
+
+<span class="sd">            DEPRECATED in v2.6.0, to be removed in v2.10.0! Set the progress bar position using ``progress_bar_options``</span>
+<span class="sd">            instead.</span>
+<span class="sd">        :param worker_init: Function to call each time a new worker starts. When passing on the worker ID the function</span>
+<span class="sd">            should receive the worker ID as its first argument. If shared objects are provided the function should</span>
+<span class="sd">            receive those as the next argument. If the worker state has been enabled it should receive a state variable</span>
+<span class="sd">            as the next argument</span>
+<span class="sd">        :param worker_exit: Function to call each time a worker exits. Return values will be fetched and made available</span>
+<span class="sd">            through :obj:`mpire.WorkerPool.get_exit_results`. When passing on the worker ID the function should receive</span>
+<span class="sd">            the worker ID as its first argument. If shared objects are provided the function should receive those as the</span>
+<span class="sd">            next argument. If the worker state has been enabled it should receive a state variable as the next argument</span>
+<span class="sd">        :param task_timeout: Timeout in seconds for a single task. When the timeout is exceeded, MPIRE will raise a</span>
+<span class="sd">            ``TimeoutError``. Use ``None`` to disable (default). Note: the timeout doesn&#39;t apply to ``worker_init`` and</span>
+<span class="sd">            ``worker_exit`` functions, use `worker_init_timeout` and `worker_exit_timeout` for that, respectively</span>
+<span class="sd">        :param worker_init_timeout: Timeout in seconds for the ``worker_init`` function. When the timeout is exceeded,</span>
+<span class="sd">            MPIRE will raise a ``TimeoutError``. Use ``None`` to disable (default).</span>
+<span class="sd">        :param worker_exit_timeout: Timeout in seconds for the ``worker_exit`` function. When the timeout is exceeded,</span>
+<span class="sd">            MPIRE will raise a ``TimeoutError``. Use ``None`` to disable (default).</span>
+<span class="sd">        :param progress_bar_options: Dictionary containing keyword arguments to pass to the ``tqdm`` progress bar. See</span>
+<span class="sd">            ``tqdm.tqdm()`` for details. The arguments ``total`` and ``leave`` will be overwritten by MPIRE.</span>
+<span class="sd">        :param progress_bar_style: The progress bar style to use. Can be one of ``None``, ``&#39;std&#39;``, or ``&#39;notebook&#39;``</span>
+<span class="sd">        :return: Generator yielding unordered results</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># If we&#39;re dealing with numpy arrays, we have to chunk them here already</span>
+        <span class="n">iterator_of_chunked_args</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">numpy_chunking</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">if</span> <span class="n">NUMPY_INSTALLED</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
+            <span class="n">iterator_of_chunked_args</span><span class="p">,</span> <span class="n">iterable_len</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">,</span> <span class="n">n_splits</span> <span class="o">=</span> <span class="n">apply_numpy_chunking</span><span class="p">(</span>
+                <span class="n">iterable_of_args</span><span class="p">,</span> <span class="n">iterable_len</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">n_jobs</span>
+            <span class="p">)</span>
+            <span class="n">numpy_chunking</span> <span class="o">=</span> <span class="kc">True</span>
+
+        <span class="c1"># Check parameters and thereby obtain the number of tasks. The chunk_size and progress bar parameters could be</span>
+        <span class="c1"># modified as well</span>
+        <span class="n">n_tasks</span><span class="p">,</span> <span class="n">max_tasks_active</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">,</span> <span class="n">progress_bar</span><span class="p">,</span> <span class="n">progress_bar_options</span> <span class="o">=</span> <span class="n">check_map_parameters</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="p">,</span> <span class="n">iterable_of_args</span><span class="p">,</span> <span class="n">iterable_len</span><span class="p">,</span> <span class="n">max_tasks_active</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">,</span> <span class="n">worker_lifespan</span><span class="p">,</span>
+            <span class="n">progress_bar</span><span class="p">,</span> <span class="n">progress_bar_position</span><span class="p">,</span> <span class="n">progress_bar_options</span><span class="p">,</span> <span class="n">progress_bar_style</span><span class="p">,</span> <span class="n">task_timeout</span><span class="p">,</span>
+            <span class="n">worker_init_timeout</span><span class="p">,</span> <span class="n">worker_exit_timeout</span>
+        <span class="p">)</span>
+        <span class="n">new_map_params</span> <span class="o">=</span> <span class="n">WorkerMapParams</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">worker_init</span><span class="p">,</span> <span class="n">worker_exit</span><span class="p">,</span> <span class="n">worker_lifespan</span><span class="p">,</span> <span class="n">progress_bar</span><span class="p">,</span> <span class="n">task_timeout</span><span class="p">,</span>
+                                         <span class="n">worker_init_timeout</span><span class="p">,</span> <span class="n">worker_exit_timeout</span><span class="p">)</span>
+
+        <span class="c1"># Chunk the function arguments. Make single arguments when we&#39;re not dealing with numpy arrays</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">numpy_chunking</span><span class="p">:</span>
+            <span class="n">iterator_of_chunked_args</span> <span class="o">=</span> <span class="n">chunk_tasks</span><span class="p">(</span><span class="n">iterable_of_args</span><span class="p">,</span> <span class="n">n_tasks</span><span class="p">,</span> <span class="n">chunk_size</span><span class="p">,</span> <span class="n">n_splits</span><span class="p">)</span>
+
+        <span class="c1"># Grab original lock in case we have a progress bar and we need to restore it</span>
+        <span class="n">tqdm</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">get_tqdm</span><span class="p">(</span><span class="n">progress_bar_style</span><span class="p">)</span>
+        <span class="n">original_tqdm_lock</span> <span class="o">=</span> <span class="n">tqdm</span><span class="o">.</span><span class="n">get_lock</span><span class="p">()</span>
+        <span class="n">tqdm_manager_owner</span> <span class="o">=</span> <span class="kc">False</span>
+
+        <span class="n">imap_iterator</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_running</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">signal_exception_thrown</span><span class="p">(</span><span class="n">MAIN_PROCESS</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">MAIN_PROCESS</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Cannot call &#39;map&#39; while another &#39;map&#39; is running&quot;</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_handle_exception</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_map_running</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="c1"># Start tqdm manager if a progress bar is desired. Will only start one when not already started. This has to</span>
+            <span class="c1"># be done before starting the workers in case nested pools are used</span>
+            <span class="k">if</span> <span class="n">progress_bar</span><span class="p">:</span>
+                <span class="n">tqdm_manager_owner</span> <span class="o">=</span> <span class="n">TqdmManager</span><span class="o">.</span><span class="n">start_manager</span><span class="p">()</span>
+
+            <span class="c1"># Start workers if there aren&#39;t any. If they already exist check if we need to pass on new parameters</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">is_initialized</span><span class="p">():</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="s2">&quot;WorkerPool parameters changed while keep_alive=True. Restarting workers.&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">stop_and_join</span><span class="p">(</span><span class="n">keep_alive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span> <span class="ow">and</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">map_params</span> <span class="o">!=</span> <span class="n">new_map_params</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">map_params</span> <span class="o">=</span> <span class="n">new_map_params</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">add_new_map_params</span><span class="p">(</span><span class="n">new_map_params</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">map_params</span> <span class="o">=</span> <span class="n">new_map_params</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_start_workers</span><span class="p">()</span>
+
+            <span class="c1"># Create async result objects. The imap_iterator container will be used to store the results from the</span>
+            <span class="c1"># workers. We can yield from that</span>
+            <span class="n">imap_iterator</span> <span class="o">=</span> <span class="n">UnorderedAsyncResultIterator</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">,</span> <span class="n">n_tasks</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">task_timeout</span><span class="p">)</span>
+            <span class="n">job_id</span> <span class="o">=</span> <span class="n">imap_iterator</span><span class="o">.</span><span class="n">job_id</span>
+
+            <span class="c1"># Create progress bar handler, which receives progress updates from the workers and updates the progress bar</span>
+            <span class="c1"># accordingly</span>
+            <span class="k">with</span> <span class="n">ProgressBarHandler</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">map_params</span><span class="p">,</span> <span class="n">progress_bar</span><span class="p">,</span> <span class="n">progress_bar_options</span><span class="p">,</span>
+                                    <span class="n">progress_bar_style</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="p">,</span>
+                                    <span class="bp">self</span><span class="o">.</span><span class="n">_worker_insights</span><span class="p">)</span> <span class="k">as</span> <span class="bp">self</span><span class="o">.</span><span class="n">_progress_bar_handler</span><span class="p">:</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="c1"># Process all args in the iterable</span>
+                    <span class="n">n_active</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="n">n_tasks</span> <span class="o">=</span> <span class="mi">0</span>
+                    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+
+                        <span class="c1"># Obtain next chunk of tasks</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">chunk_of_tasks</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="n">iterator_of_chunked_args</span><span class="p">)</span>
+                            <span class="n">n_tasks</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk_of_tasks</span><span class="p">)</span>
+                        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+                            <span class="k">break</span>
+
+                        <span class="c1"># To keep the number of active tasks below max_tasks_active, we have to wait for results</span>
+                        <span class="k">while</span> <span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">exception_thrown</span><span class="p">()</span> <span class="ow">and</span>
+                               <span class="n">n_active</span> <span class="o">+</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk_of_tasks</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">max_tasks_active</span><span class="p">):</span>
+                            <span class="k">try</span><span class="p">:</span>
+                                <span class="k">yield</span> <span class="n">imap_iterator</span><span class="o">.</span><span class="n">next</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+                                <span class="n">n_active</span> <span class="o">-=</span> <span class="mi">1</span>
+                            <span class="k">except</span> <span class="n">queue</span><span class="o">.</span><span class="n">Empty</span><span class="p">:</span>
+                                <span class="k">pass</span>
+
+                        <span class="c1"># If an exception has been thrown, stop now</span>
+                        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">exception_thrown</span><span class="p">():</span>
+                            <span class="k">break</span>
+
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">add_task</span><span class="p">(</span><span class="n">job_id</span><span class="p">,</span> <span class="n">chunk_of_tasks</span><span class="p">)</span>
+                        <span class="n">n_active</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">chunk_of_tasks</span><span class="p">)</span>
+
+                    <span class="c1"># Obtain the results not yet obtained</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">exception_thrown</span><span class="p">():</span>
+                        <span class="n">imap_iterator</span><span class="o">.</span><span class="n">set_length</span><span class="p">(</span><span class="n">n_tasks</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_progress_bar_handler</span><span class="o">.</span><span class="n">set_new_total</span><span class="p">(</span><span class="n">n_tasks</span><span class="p">)</span>
+                    <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">exception_thrown</span><span class="p">():</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="k">yield</span> <span class="n">imap_iterator</span><span class="o">.</span><span class="n">next</span><span class="p">(</span><span class="n">block</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+                        <span class="k">except</span> <span class="n">queue</span><span class="o">.</span><span class="n">Empty</span><span class="p">:</span>
+                            <span class="k">pass</span>
+                        <span class="k">except</span> <span class="ne">StopIteration</span><span class="p">:</span>
+                            <span class="k">break</span>
+
+                    <span class="c1"># Terminate if exception has been thrown at this point</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">exception_thrown</span><span class="p">():</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_handle_exception</span><span class="p">()</span>
+
+                    <span class="c1"># All results are in: it&#39;s clean up time</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">stop_and_join</span><span class="p">(</span><span class="n">keep_alive</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">keep_alive</span><span class="p">)</span>
+
+                    <span class="c1"># Wait for the progress bar to finish, before we clean it up</span>
+                    <span class="k">if</span> <span class="n">progress_bar</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">wait_until_progress_bar_is_complete</span><span class="p">()</span>
+
+                <span class="k">except</span> <span class="ne">KeyboardInterrupt</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_handle_exception</span><span class="p">()</span>
+
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">tqdm_manager_owner</span><span class="p">:</span>
+                <span class="n">tqdm</span><span class="o">.</span><span class="n">set_lock</span><span class="p">(</span><span class="n">original_tqdm_lock</span><span class="p">)</span>
+                <span class="n">TqdmManager</span><span class="o">.</span><span class="n">stop_manager</span><span class="p">()</span>
+
+            <span class="k">if</span> <span class="n">imap_iterator</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">imap_iterator</span><span class="o">.</span><span class="n">remove_from_cache</span><span class="p">()</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">_progress_bar_handler</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_map_running</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">reset_progress</span><span class="p">()</span>
+
+        <span class="c1"># Log insights</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">enable_insights</span><span class="p">:</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_worker_insights</span><span class="o">.</span><span class="n">get_insights_string</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="WorkerPool.apply"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool.apply">[docs]</a>    <span class="k">def</span> <span class="nf">apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="p">(),</span> <span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+              <span class="n">error_callback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">worker_init</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+              <span class="n">worker_exit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">task_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+              <span class="n">worker_init_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">worker_exit_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply a function to a single task. This is a blocking call.</span>
+
+<span class="sd">        :param func: Function to apply to the task. When passing on the worker ID the function should receive the</span>
+<span class="sd">            worker ID as its first argument. If shared objects are provided the function should receive those as the</span>
+<span class="sd">            next argument. If the worker state has been enabled it should receive a state variable as the next argument</span>
+<span class="sd">        :param args: Arguments to pass to a worker, which passes it to the function ``func`` as ``func(*args)``</span>
+<span class="sd">        :param kwargs: Keyword arguments to pass to a worker, which passes it to the function ``func`` as</span>
+<span class="sd">            ``func(**kwargs)``</span>
+<span class="sd">        :param callback: Callback function to call when the task is finished. The callback function receives the output</span>
+<span class="sd">            of the function ``func`` as its argument</span>
+<span class="sd">        :param error_callback: Callback function to call when the task has failed. The callback function receives the</span>
+<span class="sd">            exception as its argument</span>
+<span class="sd">        :param worker_init: Function to call each time a new worker starts. When passing on the worker ID the function</span>
+<span class="sd">            should receive the worker ID as its first argument. If shared objects are provided the function should</span>
+<span class="sd">            receive those as the next argument. If the worker state has been enabled it should receive a state variable</span>
+<span class="sd">            as the next argument</span>
+<span class="sd">        :param worker_exit: Function to call each time a worker exits. Return values will be fetched and made available</span>
+<span class="sd">            through :obj:`mpire.WorkerPool.get_exit_results`. When passing on the worker ID the function should receive</span>
+<span class="sd">            the worker ID as its first argument. If shared objects are provided the function should receive those as the</span>
+<span class="sd">            next argument. If the worker state has been enabled it should receive a state variable as the next argument</span>
+<span class="sd">        :param task_timeout: Timeout in seconds for a single task. When the timeout is exceeded, MPIRE will raise a</span>
+<span class="sd">            ``TimeoutError``. Use ``None`` to disable (default). Note: the timeout doesn&#39;t apply to ``worker_init`` and</span>
+<span class="sd">            ``worker_exit`` functions, use `worker_init_timeout` and `worker_exit_timeout` for that, respectively</span>
+<span class="sd">        :param worker_init_timeout: Timeout in seconds for the ``worker_init`` function. When the timeout is exceeded,</span>
+<span class="sd">            MPIRE will raise a ``TimeoutError``. Use ``None`` to disable (default).</span>
+<span class="sd">        :param worker_exit_timeout: Timeout in seconds for the ``worker_exit`` function. When the timeout is exceeded,</span>
+<span class="sd">            MPIRE will raise a ``TimeoutError``. Use ``None`` to disable (default).</span>
+<span class="sd">        :return: Result of the function ``func`` applied to the task</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="n">error_callback</span><span class="p">,</span> <span class="n">worker_init</span><span class="p">,</span> <span class="n">worker_exit</span><span class="p">,</span>
+                                <span class="n">task_timeout</span><span class="p">,</span> <span class="n">worker_init_timeout</span><span class="p">,</span> <span class="n">worker_exit_timeout</span><span class="p">)</span><span class="o">.</span><span class="n">get</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="WorkerPool.apply_async"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool.apply_async">[docs]</a>    <span class="k">def</span> <span class="nf">apply_async</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="p">(),</span> <span class="n">kwargs</span><span class="p">:</span> <span class="n">Dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">callback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">error_callback</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">worker_init</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">worker_exit</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">task_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">worker_init_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+                    <span class="n">worker_exit_timeout</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AsyncResult</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Apply a function to a single task. This is a non-blocking call.</span>
+
+<span class="sd">        :param func: Function to apply to the task. When passing on the worker ID the function should receive the</span>
+<span class="sd">            worker ID as its first argument. If shared objects are provided the function should receive those as the</span>
+<span class="sd">            next argument. If the worker state has been enabled it should receive a state variable as the next argument</span>
+<span class="sd">        :param args: Arguments to pass to a worker, which passes it to the function ``func`` as ``func(*args)``</span>
+<span class="sd">        :param kwargs: Keyword arguments to pass to a worker, which passes it to the function ``func`` as</span>
+<span class="sd">            ``func(**kwargs)``</span>
+<span class="sd">        :param callback: Callback function to call when the task is finished. The callback function receives the output</span>
+<span class="sd">            of the function ``func`` as its argument</span>
+<span class="sd">        :param error_callback: Callback function to call when the task has failed. The callback function receives the</span>
+<span class="sd">            exception as its argument</span>
+<span class="sd">        :param worker_init: Function to call each time a new worker starts. When passing on the worker ID the function</span>
+<span class="sd">            should receive the worker ID as its first argument. If shared objects are provided the function should</span>
+<span class="sd">            receive those as the next argument. If the worker state has been enabled it should receive a state variable</span>
+<span class="sd">            as the next argument</span>
+<span class="sd">        :param worker_exit: Function to call each time a worker exits. Return values will be fetched and made available</span>
+<span class="sd">            through :obj:`mpire.WorkerPool.get_exit_results`. When passing on the worker ID the function should receive</span>
+<span class="sd">            the worker ID as its first argument. If shared objects are provided the function should receive those as the</span>
+<span class="sd">            next argument. If the worker state has been enabled it should receive a state variable as the next argument</span>
+<span class="sd">        :param task_timeout: Timeout in seconds for a single task. When the timeout is exceeded, MPIRE will raise a</span>
+<span class="sd">            ``TimeoutError``. Use ``None`` to disable (default). Note: the timeout doesn&#39;t apply to ``worker_init`` and</span>
+<span class="sd">            ``worker_exit`` functions, use `worker_init_timeout` and `worker_exit_timeout` for that, respectively</span>
+<span class="sd">        :param worker_init_timeout: Timeout in seconds for the ``worker_init`` function. When the timeout is exceeded,</span>
+<span class="sd">            MPIRE will raise a ``TimeoutError``. Use ``None`` to disable (default).</span>
+<span class="sd">        :param worker_exit_timeout: Timeout in seconds for the ``worker_exit`` function. When the timeout is exceeded,</span>
+<span class="sd">            MPIRE will raise a ``TimeoutError``. Use ``None`` to disable (default).</span>
+<span class="sd">        :return: Result of the function ``func`` applied to the task</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Check if the pool has been started</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">map_params</span> <span class="o">=</span> <span class="n">WorkerMapParams</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">worker_init</span><span class="p">,</span> <span class="n">worker_exit</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span> <span class="n">task_timeout</span><span class="p">,</span>
+                                              <span class="n">worker_init_timeout</span><span class="p">,</span> <span class="n">worker_exit_timeout</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_start_workers</span><span class="p">()</span>
+
+        <span class="c1"># Add task to the queue</span>
+        <span class="n">result</span> <span class="o">=</span> <span class="n">AsyncResult</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">,</span> <span class="n">callback</span><span class="p">,</span> <span class="n">error_callback</span><span class="p">,</span> <span class="n">timeout</span><span class="o">=</span><span class="n">task_timeout</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">add_apply_task</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">job_id</span><span class="p">,</span> <span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">result</span></div>
+
+    <span class="k">def</span> <span class="nf">_handle_exception</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Handles exceptions thrown by workers and KeyboardInterrupts</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Obtain exception</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">exception_thrown</span><span class="p">():</span>
+            <span class="n">exception</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">exception_thrown_by</span><span class="p">()]</span><span class="o">.</span><span class="n">get_exception</span><span class="p">()</span>
+            <span class="n">cause</span> <span class="o">=</span> <span class="n">exception</span><span class="o">.</span><span class="n">__cause__</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">signal_exception_thrown</span><span class="p">(</span><span class="n">MAIN_PROCESS</span><span class="p">)</span>
+            <span class="n">exception</span> <span class="o">=</span> <span class="ne">KeyboardInterrupt</span><span class="p">()</span>
+            <span class="n">cause</span> <span class="o">=</span> <span class="n">exception</span>
+
+        <span class="c1"># Pass error to progress bar, if there is one. We are interested in the cause of the exception, as that contains</span>
+        <span class="c1"># the traceback from the worker. If there is no cause, we use the exception itself (e.g., a TimeoutError thrown</span>
+        <span class="c1"># in the timeout handler)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_progress_bar_handler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_progress_bar_handler</span><span class="o">.</span><span class="n">set_exception</span><span class="p">(</span><span class="n">cause</span> <span class="ow">or</span> <span class="n">exception</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_progress_bar_handler</span><span class="o">.</span><span class="n">thread</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_progress_bar_handler</span><span class="o">.</span><span class="n">thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_progress_bar_handler</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+
+        <span class="c1"># Clear keep order event so we can safely reuse the WorkerPool and use (i)map_unordered after an (i)map call</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">clear_keep_order</span><span class="p">()</span>
+
+        <span class="c1"># Raise</span>
+        <span class="k">raise</span> <span class="n">exception</span>
+
+<div class="viewcode-block" id="WorkerPool.stop_and_join"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool.stop_and_join">[docs]</a>    <span class="k">def</span> <span class="nf">stop_and_join</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">keep_alive</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        When ``keep_alive=False``: inserts a poison pill, grabs the exit results, waits until the tasks/results queues</span>
+<span class="sd">        are done, and waits until all workers are finished.</span>
+<span class="sd">        When ``keep_alive=True``: inserts a non-lethal poison pill, and waits until the tasks/results queues are done.</span>
+
+<span class="sd">        ``join``and ``stop_and_join`` are aliases.</span>
+
+<span class="sd">        :param keep_alive: Whether to keep the workers alive</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">:</span>
+            <span class="c1"># All tasks have been processed and results are in. Insert (non-lethal) poison pill</span>
+            <span class="k">if</span> <span class="n">keep_alive</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">insert_non_lethal_poison_pill</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">insert_poison_pill</span><span class="p">()</span>
+
+            <span class="c1"># Wait until all (non-lethal) poison pills have been consumed. When a worker&#39;s lifetime has been reached</span>
+            <span class="c1"># just before consuming the poison pill, we need to restart them</span>
+            <span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">join_task_queues</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">keep_alive</span><span class="p">,))</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">daemon</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+            <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">exception_thrown</span><span class="p">():</span>
+                <span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">0.01</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="n">t</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+                    <span class="k">break</span>
+
+            <span class="c1"># When an exception occurred in the above process (i.e., the worker init function raises), we need to</span>
+            <span class="c1"># handle the exception (i.e., terminate and raise)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">exception_thrown</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_handle_exception</span><span class="p">()</span>
+
+            <span class="c1"># Join workers</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">keep_alive</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">wid</span><span class="p">,</span> <span class="n">worker_process</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">):</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">worker_process</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+                    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                        <span class="k">raise</span>
+                    <span class="c1"># Added since Python 3.7. This will clean up any resources that are left. For some reason though,</span>
+                    <span class="c1"># when using daemon processes and nested pools, a process can still be alive after the join when</span>
+                    <span class="c1"># close is called and a ValueError is raised. So we wait a bit and check if the process will die. If</span>
+                    <span class="c1"># not, then the GC can clean up the resources later.</span>
+                    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">worker_process</span><span class="p">,</span> <span class="s1">&#39;close&#39;</span><span class="p">):</span>
+                        <span class="n">try_count</span> <span class="o">=</span> <span class="mi">5</span>
+                        <span class="k">while</span> <span class="n">worker_process</span><span class="o">.</span><span class="n">is_alive</span><span class="p">()</span> <span class="ow">and</span> <span class="n">try_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                            <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.01</span><span class="p">)</span>
+                            <span class="n">try_count</span> <span class="o">-=</span> <span class="mi">1</span>
+                        <span class="k">try</span><span class="p">:</span>
+                            <span class="n">worker_process</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+                        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                            <span class="k">pass</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span> <span class="o">=</span> <span class="p">[]</span>
+
+            <span class="c1"># Join the results queue, but do not close it. All results should be in the cache at this point (including</span>
+            <span class="c1"># exit results, because the workers joined successfully or keep_alive=True and the exit function isn&#39;t</span>
+            <span class="c1"># called), but we still need this queue for closing the results listener thread</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">join_results_queues</span><span class="p">(</span><span class="n">keep_alive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># If an exception occurred in the exit function, we need to handle the exception (i.e., terminate and raise)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">exception_thrown</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_handle_exception</span><span class="p">()</span>
+
+            <span class="c1"># Stop handler threads and join and close the results queue if we&#39;re not keeping the workers alive</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">keep_alive</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_stop_handler_threads</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">join_results_queues</span><span class="p">(</span><span class="n">keep_alive</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+    <span class="n">join</span> <span class="o">=</span> <span class="n">stop_and_join</span>
+
+<div class="viewcode-block" id="WorkerPool.terminate"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool.terminate">[docs]</a>    <span class="k">def</span> <span class="nf">terminate</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Tries to do a graceful shutdown of the workers, by interrupting them. In the case processes deadlock it will</span>
+<span class="sd">        send a sigkill.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Set exception thrown so workers know to stop fetching new tasks</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">exception_thrown</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">signal_exception_thrown</span><span class="p">(</span><span class="n">MAIN_PROCESS</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">MAIN_PROCESS</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Pool was terminated&quot;</span><span class="p">))</span>
+
+        <span class="c1"># If this function is called from handle_exception, the progress bar is already terminated. If not, we need to</span>
+        <span class="c1"># terminate it here</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_progress_bar_handler</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_progress_bar_handler</span><span class="o">.</span><span class="n">set_exception</span><span class="p">(</span><span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Pool was terminated&quot;</span><span class="p">))</span>
+
+        <span class="c1"># When we&#39;re working with threads we have to wait for them to join. We can&#39;t kill threads in Python</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">start_method</span> <span class="o">==</span> <span class="s1">&#39;threading&#39;</span><span class="p">:</span>
+            <span class="n">threads</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Create cleanup threads such that processes can get killed simultaneously, which can save quite some time</span>
+            <span class="n">threads</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="n">dont_wait_event</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">()</span>
+            <span class="n">dont_wait_event</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">worker_id</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">):</span>
+                <span class="n">t</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">(</span><span class="n">target</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_terminate_worker</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">worker_id</span><span class="p">,</span> <span class="n">dont_wait_event</span><span class="p">))</span>
+                <span class="n">t</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
+                <span class="n">threads</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">t</span><span class="p">)</span>
+
+        <span class="c1"># Wait until cleanup threads are done</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">threads</span><span class="p">:</span>
+            <span class="n">t</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+
+        <span class="c1"># Stop handler threads</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_stop_handler_threads</span><span class="p">()</span>
+
+        <span class="c1"># Drain and join the queues</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">drain_queues</span><span class="p">()</span>
+
+        <span class="c1"># Reset workers and cache. Keep only the main process, init and exit results objects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span> <span class="o">=</span> <span class="p">{</span><span class="n">key</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="p">(</span><span class="n">MAIN_PROCESS</span><span class="p">,</span> <span class="n">INIT_FUNC</span><span class="p">,</span> <span class="n">EXIT_FUNC</span><span class="p">)}</span></div>
+
+    <span class="k">def</span> <span class="nf">_terminate_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">worker_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">dont_wait_event</span><span class="p">:</span> <span class="n">threading</span><span class="o">.</span><span class="n">Event</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Terminates a single worker process.</span>
+
+<span class="sd">        When a process.join() raises an AssertionError, it means the worker hasn&#39;t started yet. In that case, we simply</span>
+<span class="sd">        return. A ValueError can be raised on Windows systems.</span>
+
+<span class="sd">        :param worker_id: Worker ID</span>
+<span class="sd">        :param dont_wait_event: Event object to indicate whether other termination threads should continue. I.e., when</span>
+<span class="sd">            we set it to False, threads should wait.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># When a worker didn&#39;t start in the first place, we don&#39;t have to do anything</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">[</span><span class="n">worker_id</span><span class="p">]</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">[</span><span class="n">worker_id</span><span class="p">]</span><span class="o">.</span><span class="n">pid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Send a kill signal to the worker</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_send_kill_signal_to_worker</span><span class="p">(</span><span class="n">worker_id</span><span class="p">)</span>
+
+        <span class="c1"># We wait until workers are done terminating. However, we don&#39;t have all the patience in the world. When the</span>
+        <span class="c1"># patience runs out we terminate them.</span>
+        <span class="n">try_count</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="k">while</span> <span class="n">try_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">[</span><span class="n">worker_id</span><span class="p">]</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">[</span><span class="n">worker_id</span><span class="p">]</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+                <span class="k">break</span>
+
+            <span class="c1"># For properly joining, it can help if we try to get some results here. Workers can still be busy putting</span>
+            <span class="c1"># items in queues under the hood</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">drain_results_queue_terminate_worker</span><span class="p">(</span><span class="n">dont_wait_event</span><span class="p">)</span>
+            <span class="n">try_count</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">dont_wait_event</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
+                <span class="n">dont_wait_event</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+        <span class="c1"># Join the worker process</span>
+        <span class="n">try_count</span> <span class="o">=</span> <span class="mi">10</span>
+        <span class="k">while</span> <span class="n">try_count</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">[</span><span class="n">worker_id</span><span class="p">]</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mf">0.1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">[</span><span class="n">worker_id</span><span class="p">]</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+                    <span class="k">break</span>
+            <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+            <span class="c1"># For properly joining, it can help if we try to get some results here. Workers can still be busy putting</span>
+            <span class="c1"># items in queues under the hood, even at this point.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">drain_results_queue_terminate_worker</span><span class="p">(</span><span class="n">dont_wait_event</span><span class="p">)</span>
+            <span class="n">try_count</span> <span class="o">-=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">dont_wait_event</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
+                <span class="n">dont_wait_event</span><span class="o">.</span><span class="n">wait</span><span class="p">()</span>
+
+        <span class="c1"># If, after all this, the worker is still alive, we terminate it with a brutal kill signal. This shouldn&#39;t</span>
+        <span class="c1"># really happen. But, better safe than sorry</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">[</span><span class="n">worker_id</span><span class="p">]</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">[</span><span class="n">worker_id</span><span class="p">]</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">[</span><span class="n">worker_id</span><span class="p">]</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+        <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+        <span class="c1"># Added since Python 3.7</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">[</span><span class="n">worker_id</span><span class="p">],</span> <span class="s1">&#39;close&#39;</span><span class="p">):</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">[</span><span class="n">worker_id</span><span class="p">]</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">except</span> <span class="ne">AssertionError</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_send_kill_signal_to_worker</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">worker_id</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Sends a kill signal to a worker process, but only if we know it&#39;s running a task.</span>
+
+<span class="sd">        :param worker_id: Worker ID</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Signal handling in Windows is cumbersome, to say the least. Therefore, it handles error handling</span>
+        <span class="c1"># differently. See Worker::_exit_gracefully_windows for more information.</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">RUNNING_WINDOWS</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">start_method</span> <span class="o">!=</span> <span class="s2">&quot;threading&quot;</span><span class="p">:</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">get_worker_running_task_lock</span><span class="p">(</span><span class="n">worker_id</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">get_worker_running_task</span><span class="p">(</span><span class="n">worker_id</span><span class="p">):</span>
+                    <span class="c1"># A signal should only be send once</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">set_worker_running_task</span><span class="p">(</span><span class="n">worker_id</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+
+                    <span class="c1"># Send signal</span>
+                    <span class="k">try</span><span class="p">:</span>
+                        <span class="n">os</span><span class="o">.</span><span class="n">kill</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">[</span><span class="n">worker_id</span><span class="p">]</span><span class="o">.</span><span class="n">pid</span><span class="p">,</span> <span class="n">signal</span><span class="o">.</span><span class="n">SIGUSR1</span><span class="p">)</span>
+                    <span class="k">except</span> <span class="p">(</span><span class="ne">ProcessLookupError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">):</span>
+                        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_stop_handler_threads</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Stops results, restart, timeout, and unexpected death handler threads.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_handler_threads_stop_event</span><span class="o">.</span><span class="n">set</span><span class="p">()</span>
+
+        <span class="c1"># Join results listener thread</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results_handler_thread</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_results_handler_thread</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">insert_poison_pill_results_listener</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_results_handler_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_results_handler_thread</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Join restart thread</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_restart_handler_thread</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_restart_handler_thread</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">signal_worker_restart_condition</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_restart_handler_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_restart_handler_thread</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Join timeout handler thread</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_handler_thread</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_handler_thread</span><span class="o">.</span><span class="n">is_alive</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_handler_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_timeout_handler_thread</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Join unexpected death handler thread</span>
+        <span class="k">if</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_unexpected_death_handler_thread</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_unexpected_death_handler_thread</span><span class="o">.</span><span class="n">is_alive</span><span class="p">()):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_unexpected_death_handler_thread</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_unexpected_death_handler_thread</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="WorkerPool.print_insights"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool.print_insights">[docs]</a>    <span class="k">def</span> <span class="nf">print_insights</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Prints insights per worker</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_worker_insights</span><span class="o">.</span><span class="n">get_insights_string</span><span class="p">())</span></div>
+
+<div class="viewcode-block" id="WorkerPool.get_insights"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool.get_insights">[docs]</a>    <span class="k">def</span> <span class="nf">get_insights</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Creates insights from the raw insight data</span>
+
+<span class="sd">        :return: Dictionary containing worker insights</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_insights</span><span class="o">.</span><span class="n">get_insights</span><span class="p">()</span></div></div>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2023, Sybren Jansen
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: v1.1.3
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Tags</dt>
+            <dd><a href="../../../v1.1.2/index.html">v1.1.2</a></dd>
+            <dd><a href="pool.html">v1.1.3</a></dd>
+            <dd><a href="../../../v1.2.0/index.html">v1.2.0</a></dd>
+            <dd><a href="../../../v1.2.1/index.html">v1.2.1</a></dd>
+            <dd><a href="../../../v1.2.2/index.html">v1.2.2</a></dd>
+            <dd><a href="../../../v2.0.0/index.html">v2.0.0</a></dd>
+            <dd><a href="../../../v2.1.0/index.html">v2.1.0</a></dd>
+            <dd><a href="../../../v2.1.1/index.html">v2.1.1</a></dd>
+            <dd><a href="../../../v2.2.0/index.html">v2.2.0</a></dd>
+            <dd><a href="../../../v2.2.1/index.html">v2.2.1</a></dd>
+            <dd><a href="../../../v2.3.0/index.html">v2.3.0</a></dd>
+            <dd><a href="../../../v2.3.1/index.html">v2.3.1</a></dd>
+            <dd><a href="../../../v2.3.2/index.html">v2.3.2</a></dd>
+            <dd><a href="../../../v2.3.3/index.html">v2.3.3</a></dd>
+            <dd><a href="../../../v2.3.4/index.html">v2.3.4</a></dd>
+            <dd><a href="../../../v2.3.5/index.html">v2.3.5</a></dd>
+            <dd><a href="../../../v2.4.0/index.html">v2.4.0</a></dd>
+            <dd><a href="../../../v2.5.0/index.html">v2.5.0</a></dd>
+            <dd><a href="../../../v2.6.0/index.html">v2.6.0</a></dd>
+            <dd><a href="../../../v2.7.0/index.html">v2.7.0</a></dd>
+            <dd><a href="../../../v2.7.1/index.html">v2.7.1</a></dd>
+        </dl>
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="../../../master/index.html">master</a></dd>
+        </dl>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

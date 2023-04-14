@@ -1,0 +1,416 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Apply family &mdash; mpire 2.7.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/banner.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../_static/sphinxcontrib-images/LightBox2/lightbox2/css/lightbox.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
+        <script src="../_static/jquery.js"></script>
+        <script src="../_static/underscore.js"></script>
+        <script src="../_static/doctools.js"></script>
+        <script src="../_static/language_data.js"></script>
+        <script src="../_static/sphinxcontrib-images/LightBox2/lightbox2/js/jquery-1.11.0.min.js"></script>
+        <script src="../_static/sphinxcontrib-images/LightBox2/lightbox2/js/lightbox.min.js"></script>
+        <script src="../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js"></script>
+    
+    <script type="text/javascript" src="../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Dashboard" href="dashboard.html" />
+    <link rel="prev" title="Numpy arrays" href="map/numpy.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../index.html" class="icon icon-home" alt="Documentation Home"> mpire
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.7.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../index.html">Welcome to the MPIRE documentation!</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../getting_started.html">Getting started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="index.html">Usage</a><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="workerpool/index.html">WorkerPool</a></li>
+<li class="toctree-l2"><a class="reference internal" href="map/index.html">Map family</a></li>
+<li class="toctree-l2 current"><a class="current reference internal" href="#">Apply family</a></li>
+<li class="toctree-l2"><a class="reference internal" href="dashboard.html">Dashboard</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../index.html">mpire</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="index.html">Usage</a> &raquo;</li>
+        
+      <li>Apply family</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../_sources/usage/apply.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="apply-family">
+<span id="id1"></span><h1>Apply family<a class="headerlink" href="#apply-family" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#apply" id="id2"><code class="docutils literal notranslate"><span class="pre">apply</span></code></a></p></li>
+<li><p><a class="reference internal" href="#apply-async" id="id3"><code class="docutils literal notranslate"><span class="pre">apply_async</span></code></a></p></li>
+<li><p><a class="reference internal" href="#asyncresult" id="id4">AsyncResult</a></p></li>
+<li><p><a class="reference internal" href="#callbacks" id="id5">Callbacks</a></p></li>
+<li><p><a class="reference internal" href="#worker-init-and-exit" id="id6">Worker init and exit</a></p></li>
+<li><p><a class="reference internal" href="#timeouts" id="id7">Timeouts</a></p></li>
+</ul>
+</div>
+<p><a class="reference internal" href="../reference/index.html#mpire.WorkerPool" title="mpire.WorkerPool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpire.WorkerPool</span></code></a> implements two <code class="docutils literal notranslate"><span class="pre">apply</span></code> functions, which are very similar to the ones in the
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">multiprocessing</span></code> module:</p>
+<dl class="simple">
+<dt><a class="reference internal" href="../reference/index.html#mpire.WorkerPool.apply" title="mpire.WorkerPool.apply"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mpire.WorkerPool.apply()</span></code></a></dt><dd><p>Apply a function to a single task. This is a blocking call.</p>
+</dd>
+<dt><a class="reference internal" href="../reference/index.html#mpire.WorkerPool.apply_async" title="mpire.WorkerPool.apply_async"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mpire.WorkerPool.apply_async()</span></code></a></dt><dd><p>A variant of the above, but which is non-blocking. This returns an <a class="reference internal" href="../reference/index.html#mpire.async_result.AsyncResult" title="mpire.async_result.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpire.async_result.AsyncResult</span></code></a> object.</p>
+</dd>
+</dl>
+<section id="apply">
+<h2><a class="toc-backref" href="#id2"><code class="docutils literal notranslate"><span class="pre">apply</span></code></a><a class="headerlink" href="#apply" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">apply</span></code> function is a blocking call, which means that it will not return until the task is completed. If you want
+to run multiple different tasks in parallel, you should use the <code class="docutils literal notranslate"><span class="pre">apply_async</span></code> function instead. If you require
+to run the same function for many tasks in parallel, use the <code class="docutils literal notranslate"><span class="pre">map</span></code> functions instead.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">apply</span></code> function takes a function, positional arguments, and keyword arguments, similar to how
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">multiprocessing</span></code> does it.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">task</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">d</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span> <span class="o">+</span> <span class="n">c</span> <span class="o">+</span> <span class="n">d</span>
+
+<span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">),</span> <span class="n">kwargs</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;d&#39;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span> <span class="s1">&#39;c&#39;</span><span class="p">:</span> <span class="mi">3</span><span class="p">})</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="apply-async">
+<h2><a class="toc-backref" href="#id3"><code class="docutils literal notranslate"><span class="pre">apply_async</span></code></a><a class="headerlink" href="#apply-async" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">apply_async</span></code> function is a non-blocking call, which means that it will return immediately. It returns an
+<a class="reference internal" href="../reference/index.html#mpire.async_result.AsyncResult" title="mpire.async_result.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpire.async_result.AsyncResult</span></code></a> object, which can be used to get the result of the task at a later moment in time.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">apply_async</span></code> function takes the same parameters as the <code class="docutils literal notranslate"><span class="pre">apply</span></code> function.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">task</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="n">b</span>
+
+<span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="n">async_results</span> <span class="o">=</span> <span class="p">[</span><span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+    <span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">async_result</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="k">for</span> <span class="n">async_result</span> <span class="ow">in</span> <span class="n">async_results</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>Obtaining the results should happen while the pool is still running! E.g., the following will deadlock:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="n">async_results</span> <span class="o">=</span> <span class="p">[</span><span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+
+<span class="c1"># Will wait forever</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">async_result</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="k">for</span> <span class="n">async_result</span> <span class="ow">in</span> <span class="n">async_results</span><span class="p">]</span>
+</pre></div>
+</div>
+<p>You can, however, make use of the <a class="reference internal" href="../reference/index.html#mpire.WorkerPool.stop_and_join" title="mpire.WorkerPool.stop_and_join"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mpire.WorkerPool.stop_and_join()</span></code></a> function to stop the workers and join the
+pool. This will make sure that all tasks are completed before the pool exits.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="n">async_results</span> <span class="o">=</span> <span class="p">[</span><span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">))</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">)]</span>
+    <span class="n">pool</span><span class="o">.</span><span class="n">stop_and_join</span><span class="p">()</span>
+
+<span class="c1"># Will not deadlock</span>
+<span class="n">results</span> <span class="o">=</span> <span class="p">[</span><span class="n">async_result</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="k">for</span> <span class="n">async_result</span> <span class="ow">in</span> <span class="n">async_results</span><span class="p">]</span>
+</pre></div>
+</div>
+</section>
+<section id="asyncresult">
+<h2><a class="toc-backref" href="#id4">AsyncResult</a><a class="headerlink" href="#asyncresult" title="Permalink to this headline">¶</a></h2>
+<p>The <a class="reference internal" href="../reference/index.html#mpire.async_result.AsyncResult" title="mpire.async_result.AsyncResult"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpire.async_result.AsyncResult</span></code></a> object has the following convenient methods:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="n">async_result</span> <span class="o">=</span> <span class="n">pool</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="n">args</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+    <span class="c1"># Check if the task is completed</span>
+    <span class="n">is_completed</span> <span class="o">=</span> <span class="n">async_result</span><span class="o">.</span><span class="n">ready</span><span class="p">()</span>
+
+    <span class="c1"># Wait until the task is completed, or until the timeout is reached.</span>
+    <span class="n">async_result</span><span class="o">.</span><span class="n">wait</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+
+    <span class="c1"># Get the result of the task. This will block until the task is completed,</span>
+    <span class="c1"># or until the timeout is reached.</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">async_result</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">timeout</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
+
+    <span class="c1"># Check if the task was successful (i.e., did not raise an exception).</span>
+    <span class="c1"># This will raise an exception if the task is not completed yet.</span>
+    <span class="n">is_successful</span> <span class="o">=</span> <span class="n">async_result</span><span class="o">.</span><span class="n">successful</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="callbacks">
+<h2><a class="toc-backref" href="#id5">Callbacks</a><a class="headerlink" href="#callbacks" title="Permalink to this headline">¶</a></h2>
+<p>Each <code class="docutils literal notranslate"><span class="pre">apply</span></code> function has a <code class="docutils literal notranslate"><span class="pre">callback</span></code> and <code class="docutils literal notranslate"><span class="pre">error_callback</span></code> argument. These are functions which are called when
+the task is finished. The <code class="docutils literal notranslate"><span class="pre">callback</span></code> function is called with the result of the task when the task was completed
+successfully, and the <code class="docutils literal notranslate"><span class="pre">error_callback</span></code> is called with the exception when the task failed.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">task</span><span class="p">(</span><span class="n">a</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">a</span> <span class="o">+</span> <span class="mi">1</span>
+
+<span class="k">def</span> <span class="nf">callback</span><span class="p">(</span><span class="n">result</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Task completed successfully with result:&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">error_callback</span><span class="p">(</span><span class="n">exception</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Task failed with exception:&quot;</span><span class="p">,</span> <span class="n">exception</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="n">pool</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">callback</span><span class="p">,</span> <span class="n">error_callback</span><span class="o">=</span><span class="n">error_callback</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="worker-init-and-exit">
+<h2><a class="toc-backref" href="#id6">Worker init and exit</a><a class="headerlink" href="#worker-init-and-exit" title="Permalink to this headline">¶</a></h2>
+<p>As with the <code class="docutils literal notranslate"><span class="pre">map</span></code> family of functions, the <code class="docutils literal notranslate"><span class="pre">apply</span></code> family of functions also has <code class="docutils literal notranslate"><span class="pre">worker_init</span></code> and <code class="docutils literal notranslate"><span class="pre">worker_exit</span></code>
+arguments. These are functions which are called when a worker is started and stopped, respectively. See
+<a class="reference internal" href="map/worker_init_exit.html#worker-init-exit"><span class="std std-ref">Worker init and exit</span></a> for more information on these functions.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">worker_init</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Worker started&quot;</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">worker_exit</span><span class="p">():</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Worker stopped&quot;</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="n">pool</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">task</span><span class="p">,</span> <span class="mi">42</span><span class="p">,</span> <span class="n">worker_init</span><span class="o">=</span><span class="n">worker_init</span><span class="p">,</span> <span class="n">worker_exit</span><span class="o">=</span><span class="n">worker_exit</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>There’s a caveat though. When the first <code class="docutils literal notranslate"><span class="pre">apply</span></code> or <code class="docutils literal notranslate"><span class="pre">apply_async</span></code> function is executed, the entire pool of workers
+is started. This means that in the above example all five workers are started, while only one was needed. This also
+means that the <code class="docutils literal notranslate"><span class="pre">worker_init</span></code> function is set for all those workers at once. This means you cannot have a different
+<code class="docutils literal notranslate"><span class="pre">worker_init</span></code> function for each apply task. A second, different <code class="docutils literal notranslate"><span class="pre">worker_init</span></code> function will simply be ignored.</p>
+<p>Similarly, the <code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> function can only be set once as well. Additionally, exit functions are only called when
+a worker exits, which in this case translates to when the pool exits. This means that if you call <code class="docutils literal notranslate"><span class="pre">apply</span></code> or
+<code class="docutils literal notranslate"><span class="pre">apply_async</span></code> multiple times, the <code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> function is only called once at the end. Use
+<a class="reference internal" href="../reference/index.html#mpire.WorkerPool.stop_and_join" title="mpire.WorkerPool.stop_and_join"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mpire.WorkerPool.stop_and_join()</span></code></a> to stop the workers, which will cause the <code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> function to be
+triggered for each worker.</p>
+</section>
+<section id="timeouts">
+<h2><a class="toc-backref" href="#id7">Timeouts</a><a class="headerlink" href="#timeouts" title="Permalink to this headline">¶</a></h2>
+<p>The <code class="docutils literal notranslate"><span class="pre">apply</span></code> family of functions also has <code class="docutils literal notranslate"><span class="pre">task_timeout</span></code>, <code class="docutils literal notranslate"><span class="pre">worker_init_timeout</span></code> and <code class="docutils literal notranslate"><span class="pre">worker_exit_timeout</span></code>
+arguments. These are timeouts for the task, the <code class="docutils literal notranslate"><span class="pre">worker_init</span></code> function and the <code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> function, respectively.
+They work completely the same as for the <code class="docutils literal notranslate"><span class="pre">map</span></code> functions. See <a class="reference internal" href="map/timeouts.html#timeouts"><span class="std std-ref">Timeouts</span></a> for more information.</p>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="dashboard.html" class="btn btn-neutral float-right" title="Dashboard" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="map/numpy.html" class="btn btn-neutral float-left" title="Numpy arrays" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2023, Sybren Jansen
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: master
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Tags</dt>
+            <dd><a href="../v1.1.2/index.html">v1.1.2</a></dd>
+            <dd><a href="../v1.1.3/index.html">v1.1.3</a></dd>
+            <dd><a href="../v1.2.0/index.html">v1.2.0</a></dd>
+            <dd><a href="../v1.2.1/index.html">v1.2.1</a></dd>
+            <dd><a href="../v1.2.2/index.html">v1.2.2</a></dd>
+            <dd><a href="../v2.0.0/index.html">v2.0.0</a></dd>
+            <dd><a href="../v2.1.0/index.html">v2.1.0</a></dd>
+            <dd><a href="../v2.1.1/index.html">v2.1.1</a></dd>
+            <dd><a href="../v2.2.0/index.html">v2.2.0</a></dd>
+            <dd><a href="../v2.2.1/index.html">v2.2.1</a></dd>
+            <dd><a href="../v2.3.0/index.html">v2.3.0</a></dd>
+            <dd><a href="../v2.3.1/index.html">v2.3.1</a></dd>
+            <dd><a href="../v2.3.2/index.html">v2.3.2</a></dd>
+            <dd><a href="../v2.3.3/index.html">v2.3.3</a></dd>
+            <dd><a href="../v2.3.4/index.html">v2.3.4</a></dd>
+            <dd><a href="../v2.3.5/index.html">v2.3.5</a></dd>
+            <dd><a href="../v2.4.0/index.html">v2.4.0</a></dd>
+            <dd><a href="../v2.5.0/index.html">v2.5.0</a></dd>
+            <dd><a href="../v2.6.0/index.html">v2.6.0</a></dd>
+            <dd><a href="../v2.7.0/usage/apply.html">v2.7.0</a></dd>
+            <dd><a href="../v2.7.1/usage/apply.html">v2.7.1</a></dd>
+        </dl>
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="../master/usage/apply.html">master</a></dd>
+        </dl>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
