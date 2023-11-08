@@ -164,8 +164,10 @@
            <div itemprop="articleBody">
             
   <h1>Source code for mpire.pool</h1><div class="highlight"><pre>
-<span></span><span class="kn">import</span> <span class="nn">logging</span>
+<span></span><span class="kn">import</span> <span class="nn">gc</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">os</span>
+<span class="kn">import</span> <span class="nn">platform</span>
 <span class="kn">import</span> <span class="nn">queue</span>
 <span class="kn">import</span> <span class="nn">signal</span>
 <span class="kn">import</span> <span class="nn">threading</span>
@@ -407,7 +409,7 @@
 
                 <span class="k">try</span><span class="p">:</span>
                     <span class="k">if</span> <span class="n">success</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="kc">True</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">success</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="n">result</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="n">err</span><span class="p">,</span> <span class="n">traceback_err</span> <span class="o">=</span> <span class="n">populate_exception</span><span class="p">(</span><span class="o">*</span><span class="n">result</span><span class="p">)</span>
                         <span class="n">err</span><span class="o">.</span><span class="n">__cause__</span> <span class="o">=</span> <span class="n">traceback_err</span>
@@ -417,7 +419,7 @@
                         <span class="n">job_ids</span> <span class="o">=</span> <span class="p">((</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="p">{</span><span class="n">MAIN_PROCESS</span><span class="p">,</span> <span class="n">EXIT_FUNC</span><span class="p">})</span> <span class="k">if</span> <span class="n">job_id</span> <span class="o">==</span> <span class="n">INIT_FUNC</span> <span class="k">else</span>
                                    <span class="p">{</span><span class="n">job_id</span><span class="p">})</span>
                         <span class="k">for</span> <span class="n">_job_id</span> <span class="ow">in</span> <span class="n">job_ids</span><span class="p">:</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">_job_id</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">_job_id</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">success</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="n">err</span><span class="p">)</span>
                 <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
                     <span class="c1"># This can happen if the job has already been removed from the cache, which can occur if the job</span>
                     <span class="c1"># has been cancelled, or if the job has been removed from the cache because the timeout has</span>
@@ -476,7 +478,7 @@
                     <span class="c1"># yet to failed</span>
                     <span class="n">job_ids</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="p">{</span><span class="n">MAIN_PROCESS</span><span class="p">}</span>
                     <span class="k">for</span> <span class="n">job_id</span> <span class="ow">in</span> <span class="n">job_ids</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">success</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="n">err</span><span class="p">)</span>
                     <span class="k">return</span>
 
             <span class="c1"># Check this every once in a while</span>
@@ -510,18 +512,28 @@
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">timeout_func_name</span><span class="p">,</span> <span class="n">timeout_var</span><span class="p">,</span> <span class="n">has_timed_out_func</span> <span class="o">=</span> <span class="n">_get_task_config</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
 
-                <span class="c1"># If timeout has expired, then send kill signal and set job to failed</span>
+                <span class="c1"># If timeout has expired set job to failed</span>
                 <span class="k">if</span> <span class="n">timeout_var</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">has_timed_out_func</span><span class="p">(</span><span class="n">worker_id</span><span class="p">,</span> <span class="n">timeout_var</span><span class="p">):</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">signal_exception_thrown</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
+
+                    <span class="c1"># If we&#39;re dealing with a map/init/exit task, send a kill signal to all workers. Otherwise, we&#39;re</span>
+                    <span class="c1"># dealing with an apply task and we only interrupt that one</span>
+                    <span class="n">kill_pool</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">job_id</span> <span class="ow">in</span> <span class="p">{</span><span class="n">INIT_FUNC</span><span class="p">,</span> <span class="n">EXIT_FUNC</span><span class="p">}</span> <span class="ow">or</span>
+                        <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">job_id</span><span class="p">],</span> <span class="n">UnorderedAsyncResultIterator</span><span class="p">)</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">kill_pool</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">signal_exception_thrown</span><span class="p">(</span><span class="n">job_id</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_send_kill_signal_to_worker</span><span class="p">(</span><span class="n">worker_id</span><span class="p">)</span>
-                    <span class="n">err</span> <span class="o">=</span> <span class="ne">TimeoutError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Worker-</span><span class="si">{</span><span class="n">worker_id</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">timeout_func_name</span><span class="si">}</span><span class="s2"> timed out (timeout=</span><span class="si">{</span><span class="n">timeout_var</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
 
                     <span class="c1"># When a worker_init times out, the pool shuts down and we set all tasks that haven&#39;t completed yet</span>
                     <span class="c1"># to failed</span>
+                    <span class="n">err</span> <span class="o">=</span> <span class="ne">TimeoutError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Worker-</span><span class="si">{</span><span class="n">worker_id</span><span class="si">}</span><span class="s2"> </span><span class="si">{</span><span class="n">timeout_func_name</span><span class="si">}</span><span class="s2"> timed out (timeout=</span><span class="si">{</span><span class="n">timeout_var</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
                     <span class="n">job_ids</span> <span class="o">=</span> <span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span> <span class="o">-</span> <span class="p">{</span><span class="n">MAIN_PROCESS</span><span class="p">,</span> <span class="n">EXIT_FUNC</span><span class="p">})</span> <span class="k">if</span> <span class="n">job_id</span> <span class="o">==</span> <span class="n">INIT_FUNC</span> <span class="k">else</span> <span class="p">{</span><span class="n">job_id</span><span class="p">}</span>
                     <span class="k">for</span> <span class="n">job_id</span> <span class="ow">in</span> <span class="n">job_ids</span><span class="p">:</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="n">err</span><span class="p">)</span>
-                    <span class="k">return</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">job_id</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">success</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="n">err</span><span class="p">)</span>
+
+                    <span class="k">if</span> <span class="n">kill_pool</span><span class="p">:</span>
+                        <span class="k">return</span>
 
             <span class="c1"># Check this every once in a while</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
@@ -876,7 +888,8 @@
         <span class="k">try</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_map_running</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">signal_exception_thrown</span><span class="p">(</span><span class="n">MAIN_PROCESS</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">MAIN_PROCESS</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Cannot call &#39;map&#39; while another &#39;map&#39; is running&quot;</span><span class="p">))</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">MAIN_PROCESS</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">success</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> 
+                                               <span class="n">result</span><span class="o">=</span><span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Cannot call &#39;map&#39; while another &#39;map&#39; is running&quot;</span><span class="p">))</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_handle_exception</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_map_running</span> <span class="o">=</span> <span class="kc">True</span>
 
@@ -1165,12 +1178,16 @@
 <span class="sd">        send a sigkill.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">platform</span><span class="o">.</span><span class="n">system</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;Darwin&quot;</span><span class="p">:</span>
+                <span class="c1"># Force collection of semaphore objects.</span>
+                <span class="c1"># TODO: This is a workaround for semaphore leakage on macOS.</span>
+                <span class="n">gc</span><span class="o">.</span><span class="n">collect</span><span class="p">()</span>
             <span class="k">return</span>
 
         <span class="c1"># Set exception thrown so workers know to stop fetching new tasks</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">exception_thrown</span><span class="p">():</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">signal_exception_thrown</span><span class="p">(</span><span class="n">MAIN_PROCESS</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">MAIN_PROCESS</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="kc">False</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Pool was terminated&quot;</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="p">[</span><span class="n">MAIN_PROCESS</span><span class="p">]</span><span class="o">.</span><span class="n">_set</span><span class="p">(</span><span class="n">success</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">result</span><span class="o">=</span><span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">&quot;Pool was terminated&quot;</span><span class="p">))</span>
 
         <span class="c1"># If this function is called from handle_exception, the progress bar is already terminated. If not, we need to</span>
         <span class="c1"># terminate it here</span>
@@ -1407,9 +1424,11 @@
             <dd><a href="../../../v2.7.0/index.html">v2.7.0</a></dd>
             <dd><a href="pool.html">v2.7.1</a></dd>
             <dd><a href="../../../v2.8.0/index.html">v2.8.0</a></dd>
+            <dd><a href="../../../v2.8.1/index.html">v2.8.1</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../../../exclude_tests_from_dists/index.html">exclude_tests_from_dists</a></dd>
             <dd><a href="../../../master/index.html">master</a></dd>
         </dl>
     </div>

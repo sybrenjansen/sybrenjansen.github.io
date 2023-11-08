@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Apply family &mdash; mpire 2.8.0 documentation</title>
+  <title>Apply family &mdash; mpire 2.8.1 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                2.8.0
+                2.8.1
               </div>
             
           
@@ -316,7 +316,10 @@ triggered for each worker.</p>
 <h2><a class="toc-backref" href="#id7">Timeouts</a><a class="headerlink" href="#timeouts" title="Permalink to this headline">¶</a></h2>
 <p>The <code class="docutils literal notranslate"><span class="pre">apply</span></code> family of functions also has <code class="docutils literal notranslate"><span class="pre">task_timeout</span></code>, <code class="docutils literal notranslate"><span class="pre">worker_init_timeout</span></code> and <code class="docutils literal notranslate"><span class="pre">worker_exit_timeout</span></code>
 arguments. These are timeouts for the task, the <code class="docutils literal notranslate"><span class="pre">worker_init</span></code> function and the <code class="docutils literal notranslate"><span class="pre">worker_exit</span></code> function, respectively.
-They work completely the same as for the <code class="docutils literal notranslate"><span class="pre">map</span></code> functions. See <a class="reference internal" href="map/timeouts.html#timeouts"><span class="std std-ref">Timeouts</span></a> for more information.</p>
+They work similarly as those for the <code class="docutils literal notranslate"><span class="pre">map</span></code> functions.</p>
+<p>When a single task times out, only that task is cancelled. The other tasks will continue to run. When a worker init or
+exit times out, the entire pool is stopped.</p>
+<p>See <a class="reference internal" href="map/timeouts.html#timeouts"><span class="std std-ref">Timeouts</span></a> for more information.</p>
 </section>
 </section>
 
@@ -394,9 +397,11 @@ They work completely the same as for the <code class="docutils literal notransla
             <dd><a href="../v2.7.0/usage/apply.html">v2.7.0</a></dd>
             <dd><a href="../v2.7.1/usage/apply.html">v2.7.1</a></dd>
             <dd><a href="../v2.8.0/usage/apply.html">v2.8.0</a></dd>
+            <dd><a href="../v2.8.1/usage/apply.html">v2.8.1</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../exclude_tests_from_dists/usage/apply.html">exclude_tests_from_dists</a></dd>
             <dd><a href="../master/usage/apply.html">master</a></dd>
         </dl>
     </div>

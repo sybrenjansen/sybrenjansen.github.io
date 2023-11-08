@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Troubleshooting &mdash; mpire 2.8.0 documentation</title>
+  <title>Troubleshooting &mdash; mpire 2.8.1 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                2.8.0
+                2.8.1
               </div>
             
           
@@ -186,6 +186,7 @@
 <li><p><a class="reference internal" href="#unpicklable-tasks-results" id="id6">Unpicklable tasks/results</a></p></li>
 <li><p><a class="reference internal" href="#attributeerror-can-t-get-attribute-some-function-on-module-main-built-in" id="id7">AttributeError: Can’t get attribute ‘&lt;some_function&gt;’ on &lt;module ‘__main__’ (built-in)&gt;</a></p></li>
 <li><p><a class="reference internal" href="#windows" id="id8">Windows</a></p></li>
+<li><p><a class="reference internal" href="#macos" id="id9">macOS</a></p></li>
 </ul>
 </div>
 <section id="progress-bar-issues-with-jupyter-notebooks">
@@ -297,6 +298,15 @@ define your function in a file that can be imported by the child process, or you
 <code class="docutils literal notranslate"><span class="pre">OSError</span></code> messages in the terminal, but they can be safely ignored.</p></li>
 </ul>
 </section>
+<section id="macos">
+<span id="troubleshooting-macos"></span><h2><a class="toc-backref" href="#id9">macOS</a><a class="headerlink" href="#macos" title="Permalink to this headline">¶</a></h2>
+<p>macOS is not yet officially supported. It seems to work mostly fine, with these caveats:</p>
+<ul class="simple">
+<li><p>Use <code class="docutils literal notranslate"><span class="pre">ulimit</span> <span class="pre">-n</span> <span class="pre">&lt;number&gt;</span></code> to increase the limit of the number of open files.
+This is required because mpire uses a lot of file-descriptor based synchronization primitives.
+<cite>&lt;Number&gt;</cite> should be large enough to accomodate all of mpire’s file descriptors, eg. <cite>&lt;number&gt; = 65536</cite>.</p></li>
+</ul>
+</section>
 </section>
 
 
@@ -373,9 +383,11 @@ define your function in a file that can be imported by the child process, or you
             <dd><a href="v2.7.0/troubleshooting.html">v2.7.0</a></dd>
             <dd><a href="v2.7.1/troubleshooting.html">v2.7.1</a></dd>
             <dd><a href="v2.8.0/troubleshooting.html">v2.8.0</a></dd>
+            <dd><a href="v2.8.1/troubleshooting.html">v2.8.1</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="exclude_tests_from_dists/troubleshooting.html">exclude_tests_from_dists</a></dd>
             <dd><a href="master/troubleshooting.html">master</a></dd>
         </dl>
     </div>

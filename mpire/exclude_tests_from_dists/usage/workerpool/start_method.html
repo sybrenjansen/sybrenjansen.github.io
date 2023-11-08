@@ -1,0 +1,375 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Process start method &mdash; mpire 2.8.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/banner.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/sphinxcontrib-images/LightBox2/lightbox2/css/lightbox.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/jquery-1.11.0.min.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/lightbox.min.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="CPU pinning" href="cpu_pinning.html" />
+    <link rel="prev" title="Starting a WorkerPool" href="setup.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> mpire
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.8.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Welcome to the MPIRE documentation!</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Usage</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">WorkerPool</a><ul class="current">
+<li class="toctree-l3"><a class="reference internal" href="setup.html">Starting a WorkerPool</a></li>
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Process start method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_pinning.html">CPU pinning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="worker_id.html">Accessing the worker ID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shared_objects.html">Shared objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="worker_state.html">Worker state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="keep_alive.html">Keep alive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="worker_insights.html">Worker insights</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dill.html">Dill</a></li>
+<li class="toctree-l3"><a class="reference internal" href="order_tasks.html">Order tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../map/index.html">Map family</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apply.html">Apply family</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contribution guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">mpire</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Usage</a> &raquo;</li>
+        
+          <li><a href="index.html">WorkerPool</a> &raquo;</li>
+        
+      <li>Process start method</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/usage/workerpool/start_method.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="process-start-method">
+<span id="start-methods"></span><h1>Process start method<a class="headerlink" href="#process-start-method" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#spawn-and-forkserver" id="id1">Spawn and forkserver</a></p></li>
+</ul>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">multiprocessing</span></code> package allows you to start processes using a few different methods: <code class="docutils literal notranslate"><span class="pre">'fork'</span></code>, <code class="docutils literal notranslate"><span class="pre">'spawn'</span></code> or
+<code class="docutils literal notranslate"><span class="pre">'forkserver'</span></code>. Threading is also available by using <code class="docutils literal notranslate"><span class="pre">'threading'</span></code>. For detailed information on the multiprocessing
+contexts, please refer to the multiprocessing <a class="reference external" href="https://docs.python.org/3/library/multiprocessing.html#contexts-and-start-methods">documentation</a> and <a class="reference external" href="https://docs.python.org/3/library/multiprocessing.html#the-spawn-and-forkserver-start-methods">caveats</a> section. In short:</p>
+<dl class="simple">
+<dt>fork</dt><dd><p>Copies the parent process such that the child process is effectively identical. This includes copying everything
+currently in memory. This is sometimes useful, but other times useless or even a serious bottleneck. <code class="docutils literal notranslate"><span class="pre">fork</span></code>
+enables the use of copy-on-write shared objects (see <a class="reference internal" href="shared_objects.html#shared-objects"><span class="std std-ref">Shared objects</span></a>).</p>
+</dd>
+<dt>spawn</dt><dd><p>Starts a fresh python interpreter where only those resources necessary are inherited.</p>
+</dd>
+<dt>forkserver</dt><dd><p>First starts a server process (using <code class="docutils literal notranslate"><span class="pre">'spawn'</span></code>). Whenever a new process is needed the parent process requests the
+server to fork a new process.</p>
+</dd>
+<dt>threading</dt><dd><p>Starts child threads. Suffers from the Global Interpreter Lock (GIL), but works fine for I/O intensive tasks.</p>
+</dd>
+</dl>
+<p>For an overview of start method availability and defaults, please refer to the following table:</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 33%" />
+<col style="width: 33%" />
+<col style="width: 33%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Start method</p></th>
+<th class="head"><p>Available on Unix</p></th>
+<th class="head"><p>Available on Windows</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">fork</span></code></p></td>
+<td><p>Yes (default)</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">spawn</span></code></p></td>
+<td><p>Yes</p></td>
+<td><p>Yes (default)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">forkserver</span></code></p></td>
+<td><p>Yes</p></td>
+<td><p>No</p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">threading</span></code></p></td>
+<td><p>Yes</p></td>
+<td><p>Yes</p></td>
+</tr>
+</tbody>
+</table>
+<section id="spawn-and-forkserver">
+<h2><a class="toc-backref" href="#id1">Spawn and forkserver</a><a class="headerlink" href="#spawn-and-forkserver" title="Permalink to this headline">¶</a></h2>
+<p>When using <code class="docutils literal notranslate"><span class="pre">spawn</span></code> or <code class="docutils literal notranslate"><span class="pre">forkserver</span></code> as start method, be aware that global variables (constants are fine) might have a
+different value than you might expect. You also have to import packages within the called function:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">os</span>
+
+<span class="k">def</span> <span class="nf">failing_job</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+
+<span class="c1"># This will fail because &#39;os&#39; is not copied to the child processes</span>
+<span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">start_method</span><span class="o">=</span><span class="s1">&#39;spawn&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">failing_job</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;folder&#39;</span><span class="p">,</span> <span class="s1">&#39;0.p3&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;folder&#39;</span><span class="p">,</span> <span class="s1">&#39;1.p3&#39;</span><span class="p">)])</span>
+</pre></div>
+</div>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">working_job</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="kn">import</span> <span class="nn">os</span>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">folder</span><span class="p">,</span> <span class="n">filename</span><span class="p">)</span>
+
+<span class="c1"># This will work</span>
+<span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">start_method</span><span class="o">=</span><span class="s1">&#39;spawn&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">working_job</span><span class="p">,</span> <span class="p">[(</span><span class="s1">&#39;folder&#39;</span><span class="p">,</span> <span class="s1">&#39;0.p3&#39;</span><span class="p">),</span> <span class="p">(</span><span class="s1">&#39;folder&#39;</span><span class="p">,</span> <span class="s1">&#39;1.p3&#39;</span><span class="p">)])</span>
+</pre></div>
+</div>
+<p>A lot of effort has been put into making the progress bar, dashboard, and nested pools (with multiple progress bars)
+work well with <code class="docutils literal notranslate"><span class="pre">spawn</span></code> and <code class="docutils literal notranslate"><span class="pre">forkserver</span></code>. So, everything should work fine.</p>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="cpu_pinning.html" class="btn btn-neutral float-right" title="CPU pinning" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="setup.html" class="btn btn-neutral float-left" title="Starting a WorkerPool" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2023, Sybren Jansen
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: exclude_tests_from_dists
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Tags</dt>
+            <dd><a href="../../../v1.1.2/index.html">v1.1.2</a></dd>
+            <dd><a href="../../../v1.1.3/index.html">v1.1.3</a></dd>
+            <dd><a href="../../../v1.2.0/index.html">v1.2.0</a></dd>
+            <dd><a href="../../../v1.2.1/index.html">v1.2.1</a></dd>
+            <dd><a href="../../../v1.2.2/index.html">v1.2.2</a></dd>
+            <dd><a href="../../../v2.0.0/index.html">v2.0.0</a></dd>
+            <dd><a href="../../../v2.1.0/index.html">v2.1.0</a></dd>
+            <dd><a href="../../../v2.1.1/index.html">v2.1.1</a></dd>
+            <dd><a href="../../../v2.2.0/index.html">v2.2.0</a></dd>
+            <dd><a href="../../../v2.2.1/index.html">v2.2.1</a></dd>
+            <dd><a href="../../../v2.3.0/usage/workerpool/start_method.html">v2.3.0</a></dd>
+            <dd><a href="../../../v2.3.1/usage/workerpool/start_method.html">v2.3.1</a></dd>
+            <dd><a href="../../../v2.3.2/usage/workerpool/start_method.html">v2.3.2</a></dd>
+            <dd><a href="../../../v2.3.3/usage/workerpool/start_method.html">v2.3.3</a></dd>
+            <dd><a href="../../../v2.3.4/usage/workerpool/start_method.html">v2.3.4</a></dd>
+            <dd><a href="../../../v2.3.5/usage/workerpool/start_method.html">v2.3.5</a></dd>
+            <dd><a href="../../../v2.4.0/usage/workerpool/start_method.html">v2.4.0</a></dd>
+            <dd><a href="../../../v2.5.0/usage/workerpool/start_method.html">v2.5.0</a></dd>
+            <dd><a href="../../../v2.6.0/usage/workerpool/start_method.html">v2.6.0</a></dd>
+            <dd><a href="../../../v2.7.0/usage/workerpool/start_method.html">v2.7.0</a></dd>
+            <dd><a href="../../../v2.7.1/usage/workerpool/start_method.html">v2.7.1</a></dd>
+            <dd><a href="../../../v2.8.0/usage/workerpool/start_method.html">v2.8.0</a></dd>
+            <dd><a href="../../../v2.8.1/usage/workerpool/start_method.html">v2.8.1</a></dd>
+        </dl>
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="start_method.html">exclude_tests_from_dists</a></dd>
+            <dd><a href="../../../master/usage/workerpool/start_method.html">master</a></dd>
+        </dl>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
