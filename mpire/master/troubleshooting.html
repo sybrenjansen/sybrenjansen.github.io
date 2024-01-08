@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Troubleshooting &mdash; mpire 2.8.1 documentation</title>
+  <title>Troubleshooting &mdash; mpire 2.9.0 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                2.8.1
+                2.9.0
               </div>
             
           
@@ -292,10 +292,9 @@ define your function in a file that can be imported by the child process, or you
 <span id="troubleshooting-windows"></span><h2><a class="toc-backref" href="#id8">Windows</a><a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h2>
 <p>Windows support has some caveats:</p>
 <ul class="simple">
-<li><p>When using worker insights the arguments of the top 5 longest tasks are not available;</p></li>
-<li><p>Progress bar is not supported when using threading as start method;</p></li>
 <li><p>When using <code class="docutils literal notranslate"><span class="pre">dill</span></code> and an exception occurs, or when the exception occurs in an exit function, it can print additional
 <code class="docutils literal notranslate"><span class="pre">OSError</span></code> messages in the terminal, but they can be safely ignored.</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">mpire-dashboard</span></code> script does not work on Windows.</p></li>
 </ul>
 </section>
 <section id="macos">
@@ -330,7 +329,7 @@ This is required because mpire uses a lot of file-descriptor based synchronizati
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2023, Sybren Jansen
+        &copy; Copyright 2024, Sybren Jansen
 
     </p>
   </div>
@@ -384,9 +383,11 @@ This is required because mpire uses a lot of file-descriptor based synchronizati
             <dd><a href="../v2.7.1/troubleshooting.html">v2.7.1</a></dd>
             <dd><a href="../v2.8.0/troubleshooting.html">v2.8.0</a></dd>
             <dd><a href="../v2.8.1/troubleshooting.html">v2.8.1</a></dd>
+            <dd><a href="../v2.9.0/troubleshooting.html">v2.9.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../dashboard-only-progress/troubleshooting.html">dashboard-only-progress</a></dd>
             <dd><a href="../exclude_tests_from_dists/troubleshooting.html">exclude_tests_from_dists</a></dd>
             <dd><a href="troubleshooting.html">master</a></dd>
         </dl>

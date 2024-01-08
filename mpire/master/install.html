@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; mpire 2.8.1 documentation</title>
+  <title>Installation &mdash; mpire 2.9.0 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                2.8.1
+                2.9.0
               </div>
             
           
@@ -180,19 +180,14 @@
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>conda<span class="w"> </span>install<span class="w"> </span>-c<span class="w"> </span>conda-forge<span class="w"> </span>mpire
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>MPIRE is available for Python &gt;= 3.6.</p>
-</div>
 <section id="dependencies">
 <h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li><p>Python &gt;= 3.6</p></li>
+<li><p>Python &gt;= 3.8</p></li>
 </ul>
 <p>Python packages (installed automatically when installing MPIRE):</p>
 <ul class="simple">
 <li><p>tqdm</p></li>
-<li><p>dataclasses (Python 3.6 only)</p></li>
 <li><p>pygments</p></li>
 <li><p>pywin32 (Windows only)</p></li>
 </ul>
@@ -213,6 +208,13 @@ to use it, the license of MPIRE will change to a BSD license as well, as require
 </div>
 <p>This will install <a class="reference external" href="https://github.com/uqfoundation/multiprocess">multiprocess</a>, which uses <code class="docutils literal notranslate"><span class="pre">dill</span></code> under the hood. You can enable the use of <code class="docutils literal notranslate"><span class="pre">dill</span></code> by setting
 <code class="docutils literal notranslate"><span class="pre">use_dill=True</span></code> in the <a class="reference internal" href="reference/index.html#mpire.WorkerPool" title="mpire.WorkerPool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpire.WorkerPool</span></code></a> constructor.</p>
+</section>
+<section id="rich-progress-bars">
+<span id="richdep"></span><h3>Rich progress bars<a class="headerlink" href="#rich-progress-bars" title="Permalink to this headline">¶</a></h3>
+<p>If you want to use <a class="reference external" href="https://github.com/Textualize/rich">rich</a> progress bars, you have to install the dependencies for it manually:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>rich
+</pre></div>
+</div>
 </section>
 <section id="dashboard">
 <span id="dashboarddep"></span><h3>Dashboard<a class="headerlink" href="#dashboard" title="Permalink to this headline">¶</a></h3>
@@ -250,7 +252,7 @@ enable this:</p>
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2023, Sybren Jansen
+        &copy; Copyright 2024, Sybren Jansen
 
     </p>
   </div>
@@ -304,9 +306,11 @@ enable this:</p>
             <dd><a href="../v2.7.1/install.html">v2.7.1</a></dd>
             <dd><a href="../v2.8.0/install.html">v2.8.0</a></dd>
             <dd><a href="../v2.8.1/install.html">v2.8.1</a></dd>
+            <dd><a href="../v2.9.0/install.html">v2.9.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../dashboard-only-progress/install.html">dashboard-only-progress</a></dd>
             <dd><a href="../exclude_tests_from_dists/install.html">exclude_tests_from_dists</a></dd>
             <dd><a href="install.html">master</a></dd>
         </dl>

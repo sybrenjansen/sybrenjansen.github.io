@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Dashboard &mdash; mpire 2.8.1 documentation</title>
+  <title>Dashboard &mdash; mpire 2.9.0 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                2.8.1
+                2.9.0
               </div>
             
           
@@ -215,7 +215,7 @@ until it finds an unused one. In the rare case that no ports are available up to
 </div>
 <p>The returned dictionary contains the port number that is ultimately chosen. It also contains information on how to
 connect to this dashboard remotely.</p>
-<p>Another way of starting a dashboard is by using the bash script:</p>
+<p>Another way of starting a dashboard is by using the bash script (this doesn’t work on Windows!):</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>$<span class="w"> </span>mpire-dashboard
 </pre></div>
 </div>
@@ -268,7 +268,7 @@ up, like here:</p>
 </div>
 <p>This will show something like:</p>
 <a class=""
-               data-lightbox="group-982b03a6-7f12-45e8-8dc1-591beb3d8820"
+               data-lightbox="group-75d850e6-d23c-4968-b52c-50de3d9a0a87"
                href="../_images/mpire_dashboard1.png"
                title="MPIRE dashboard"
                data-title="MPIRE dashboard"
@@ -281,7 +281,7 @@ up, like here:</p>
 the screenshot above).</p>
 <p>It will let you know when a <code class="docutils literal notranslate"><span class="pre">KeyboardInterrupt</span></code> signal was send to the running process:</p>
 <a class=""
-               data-lightbox="group-7b179664-9684-4e29-8b06-5ef1c5bc41a3"
+               data-lightbox="group-cb22b7cd-0416-416c-9f0a-a0a00a589ce5"
                href="../_images/mpire_dashboard_keyboard_interrupt1.png"
                title="MPIRE dashboard - KeyboardInterrupt has been raised"
                data-title="MPIRE dashboard - KeyboardInterrupt has been raised"
@@ -292,7 +292,7 @@ the screenshot above).</p>
                      alt=""/>
                 </a><p>or show the traceback information in case of an exception:</p>
 <a class=""
-               data-lightbox="group-2a602320-2ffd-47ba-9b07-bb3152fe3850"
+               data-lightbox="group-f2ded925-91d7-4cc0-90b3-d29e314c6910"
                href="../_images/mpire_dashboard_error1.png"
                title="MPIRE dashboard - Error traceback"
                data-title="MPIRE dashboard - Error traceback"
@@ -303,7 +303,7 @@ the screenshot above).</p>
                      alt=""/>
                 </a><p>In case you have enabled <a class="reference internal" href="workerpool/worker_insights.html#worker-insights"><span class="std std-ref">Worker insights</span></a> these insights will be shown real-time in the dashboard:</p>
 <a class=""
-               data-lightbox="group-7b828768-db23-4cf2-8364-ddc8d7a8ce9b"
+               data-lightbox="group-244e057f-b09f-4662-a7d9-26bd941831b9"
                href="../_images/mpire_dashboard_insights1.png"
                title="MPIRE dashboard - Worker insights"
                data-title="MPIRE dashboard - Worker insights"
@@ -338,7 +338,7 @@ the screenshot above).</p>
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2023, Sybren Jansen
+        &copy; Copyright 2024, Sybren Jansen
 
     </p>
   </div>
@@ -392,9 +392,11 @@ the screenshot above).</p>
             <dd><a href="../v2.7.1/usage/dashboard.html">v2.7.1</a></dd>
             <dd><a href="../v2.8.0/usage/dashboard.html">v2.8.0</a></dd>
             <dd><a href="../v2.8.1/usage/dashboard.html">v2.8.1</a></dd>
+            <dd><a href="../v2.9.0/usage/dashboard.html">v2.9.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
+            <dd><a href="../dashboard-only-progress/usage/dashboard.html">dashboard-only-progress</a></dd>
             <dd><a href="../exclude_tests_from_dists/usage/dashboard.html">exclude_tests_from_dists</a></dd>
             <dd><a href="../master/usage/dashboard.html">master</a></dd>
         </dl>
