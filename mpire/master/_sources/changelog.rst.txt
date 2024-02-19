@@ -1,6 +1,34 @@
 Changelog
 =========
 
+2.10.0
+------
+
+*(2024-02-19)*
+
+* Added support for macOS (`#27`_, `#79`_, `#91`_)
+
+  - Fixes memory leaks on macOS
+  - Reduced the amount of semaphores used
+  - Issues a warning when ``cpu_ids`` is used on macOS
+
+* Added :meth:`mpire.dashboard.set_stacklevel` to set the stack level in the dashboard. This influences what line to 
+  display in the 'Invoked on line' section. (`#118`_)
+* Use function details from the `__call__` method on the dashboard in case the
+  callable being executed is a class instance (`#117`_)
+* Use (global) average rate for the estimate on the dashboard when smoothing=0
+  (`#117`_)
+* Make it possible to reuse the same `progress_bar_options` without raising warnings (`#117`_)
+* Removed deprecated `progress_bar_position` parameter from the `map` functions. Use 
+  `progress_bar_options['position']` instead (added since v2.6.0)
+
+.. _#27: https://github.com/sybrenjansen/mpire/issues/27
+.. _#79: https://github.com/sybrenjansen/mpire/issues/79
+.. _#91: https://github.com/sybrenjansen/mpire/issues/91
+.. _#117: https://github.com/sybrenjansen/mpire/pull/117
+.. _#118: https://github.com/sybrenjansen/mpire/pull/118
+
+
 2.9.0
 -----
 

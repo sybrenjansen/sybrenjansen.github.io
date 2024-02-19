@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Troubleshooting &mdash; mpire 2.9.0 documentation</title>
+  <title>Troubleshooting &mdash; mpire 2.10.0 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                2.9.0
+                2.10.0
               </div>
             
           
@@ -290,7 +290,6 @@ define your function in a file that can be imported by the child process, or you
 </section>
 <section id="windows">
 <span id="troubleshooting-windows"></span><h2><a class="toc-backref" href="#id8">Windows</a><a class="headerlink" href="#windows" title="Permalink to this headline">¶</a></h2>
-<p>Windows support has some caveats:</p>
 <ul class="simple">
 <li><p>When using <code class="docutils literal notranslate"><span class="pre">dill</span></code> and an exception occurs, or when the exception occurs in an exit function, it can print additional
 <code class="docutils literal notranslate"><span class="pre">OSError</span></code> messages in the terminal, but they can be safely ignored.</p></li>
@@ -299,11 +298,13 @@ define your function in a file that can be imported by the child process, or you
 </section>
 <section id="macos">
 <span id="troubleshooting-macos"></span><h2><a class="toc-backref" href="#id9">macOS</a><a class="headerlink" href="#macos" title="Permalink to this headline">¶</a></h2>
-<p>macOS is not yet officially supported. It seems to work mostly fine, with these caveats:</p>
 <ul class="simple">
-<li><p>Use <code class="docutils literal notranslate"><span class="pre">ulimit</span> <span class="pre">-n</span> <span class="pre">&lt;number&gt;</span></code> to increase the limit of the number of open files.
-This is required because mpire uses a lot of file-descriptor based synchronization primitives.
-<cite>&lt;Number&gt;</cite> should be large enough to accomodate all of mpire’s file descriptors, eg. <cite>&lt;number&gt; = 65536</cite>.</p></li>
+<li><p>When encountering <code class="docutils literal notranslate"><span class="pre">OSError:</span> <span class="pre">[Errno</span> <span class="pre">24]</span> <span class="pre">Too</span> <span class="pre">many</span> <span class="pre">open</span> <span class="pre">files</span></code> errors, use <code class="docutils literal notranslate"><span class="pre">ulimit</span> <span class="pre">-n</span> <span class="pre">&lt;number&gt;</span></code> to increase the
+limit of the number of open files. This is required because MPIRE uses file-descriptor based synchronization
+primitives and macOS has a very low default limit. For example, MPIRE uses about 190 file descriptors when using 10
+workers.</p></li>
+<li><p>Pinning of processes to CPU cores is not supported on macOS. This is because macOS does not support the
+<code class="docutils literal notranslate"><span class="pre">sched_setaffinity</span></code> system call. A warning will be printed when trying to use this feature.</p></li>
 </ul>
 </section>
 </section>
@@ -368,6 +369,7 @@ This is required because mpire uses a lot of file-descriptor based synchronizati
             <dd><a href="v2.0.0/troubleshooting.html">v2.0.0</a></dd>
             <dd><a href="v2.1.0/troubleshooting.html">v2.1.0</a></dd>
             <dd><a href="v2.1.1/troubleshooting.html">v2.1.1</a></dd>
+            <dd><a href="v2.10.0/troubleshooting.html">v2.10.0</a></dd>
             <dd><a href="v2.2.0/troubleshooting.html">v2.2.0</a></dd>
             <dd><a href="v2.2.1/troubleshooting.html">v2.2.1</a></dd>
             <dd><a href="v2.3.0/troubleshooting.html">v2.3.0</a></dd>
@@ -387,8 +389,6 @@ This is required because mpire uses a lot of file-descriptor based synchronizati
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="dashboard-only-progress/troubleshooting.html">dashboard-only-progress</a></dd>
-            <dd><a href="exclude_tests_from_dists/troubleshooting.html">exclude_tests_from_dists</a></dd>
             <dd><a href="master/troubleshooting.html">master</a></dd>
         </dl>
     </div>

@@ -8,7 +8,7 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>CPU pinning &mdash; mpire 2.9.0 documentation</title>
+  <title>CPU pinning &mdash; mpire 2.10.0 documentation</title>
   
 
   
@@ -68,7 +68,7 @@
             
             
               <div class="version">
-                2.9.0
+                2.10.0
               </div>
             
           
@@ -220,7 +220,7 @@ constructor:</p>
 <a class="reference internal" href="../../reference/index.html#mpire.cpu_count" title="mpire.cpu_count"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mpire.cpu_count()</span></code></a>). Use <code class="docutils literal notranslate"><span class="pre">None</span></code> to disable CPU pinning (which is the default).</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Pinning processes to CPU IDs doesn’t work when using threading.</p>
+<p>Pinning processes to CPU IDs doesn’t work when using threading or when you’re on macOS.</p>
 </div>
 </section>
 
@@ -284,6 +284,7 @@ constructor:</p>
             <dd><a href="../../../v2.0.0/index.html">v2.0.0</a></dd>
             <dd><a href="../../../v2.1.0/index.html">v2.1.0</a></dd>
             <dd><a href="../../../v2.1.1/index.html">v2.1.1</a></dd>
+            <dd><a href="../../../v2.10.0/usage/workerpool/cpu_pinning.html">v2.10.0</a></dd>
             <dd><a href="../../../v2.2.0/index.html">v2.2.0</a></dd>
             <dd><a href="../../../v2.2.1/index.html">v2.2.1</a></dd>
             <dd><a href="../../../v2.3.0/usage/workerpool/cpu_pinning.html">v2.3.0</a></dd>
@@ -303,8 +304,6 @@ constructor:</p>
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../../dashboard-only-progress/usage/workerpool/cpu_pinning.html">dashboard-only-progress</a></dd>
-            <dd><a href="../../../exclude_tests_from_dists/usage/workerpool/cpu_pinning.html">exclude_tests_from_dists</a></dd>
             <dd><a href="cpu_pinning.html">master</a></dd>
         </dl>
     </div>

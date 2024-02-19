@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>mpire.utils &mdash; mpire 2.9.0 documentation</title>
+  <title>mpire.utils &mdash; mpire 2.10.0 documentation</title>
   
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                2.9.0
+                2.10.0
               </div>
             
           
@@ -168,11 +168,12 @@
 <span></span><span class="kn">import</span> <span class="nn">heapq</span>
 <span class="kn">import</span> <span class="nn">itertools</span>
 <span class="kn">import</span> <span class="nn">math</span>
-<span class="kn">import</span> <span class="nn">multiprocessing</span>
 <span class="kn">import</span> <span class="nn">os</span>
-<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
-<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Array</span><span class="p">,</span> <span class="n">cpu_count</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">timedelta</span>
+<span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">cpu_count</span>
 <span class="kn">from</span> <span class="nn">multiprocessing.managers</span> <span class="kn">import</span> <span class="n">SyncManager</span>
+<span class="kn">from</span> <span class="nn">multiprocessing.sharedctypes</span> <span class="kn">import</span> <span class="n">SynchronizedArray</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Collection</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Iterable</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="k">try</span><span class="p">:</span>
@@ -182,7 +183,7 @@
     <span class="n">np</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">NUMPY_INSTALLED</span> <span class="o">=</span> <span class="kc">False</span>
 
-<span class="kn">from</span> <span class="nn">mpire.context</span> <span class="kn">import</span> <span class="n">RUNNING_WINDOWS</span>
+<span class="kn">from</span> <span class="nn">mpire.context</span> <span class="kn">import</span> <span class="n">RUNNING_MACOS</span><span class="p">,</span> <span class="n">RUNNING_WINDOWS</span>
 
 <span class="c1"># Needed for setting CPU affinity</span>
 <span class="k">if</span> <span class="n">RUNNING_WINDOWS</span><span class="p">:</span>
@@ -223,6 +224,9 @@
         <span class="c1"># Get handle and set affinity</span>
         <span class="n">handle</span> <span class="o">=</span> <span class="n">win32api</span><span class="o">.</span><span class="n">OpenProcess</span><span class="p">(</span><span class="n">win32con</span><span class="o">.</span><span class="n">PROCESS_ALL_ACCESS</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">pid</span><span class="p">)</span>
         <span class="n">win32process</span><span class="o">.</span><span class="n">SetProcessAffinityMask</span><span class="p">(</span><span class="n">handle</span><span class="p">,</span> <span class="n">windows_mask</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">RUNNING_MACOS</span><span class="p">:</span>
+        <span class="c1"># On MacOS we can&#39;t set CPU affinity</span>
+        <span class="k">pass</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="n">os</span><span class="o">.</span><span class="n">sched_setaffinity</span><span class="p">(</span><span class="n">pid</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
 
@@ -384,7 +388,8 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; Simple class that provides a context manager for keeping track of task duration and adds the total number</span>
 <span class="sd">     of seconds in a designated output array &quot;&quot;&quot;</span>
 
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cum_time_array</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">],</span> <span class="n">array_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">max_time_array</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Array</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cum_time_array</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SynchronizedArray</span><span class="p">],</span> <span class="n">array_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> 
+                 <span class="n">max_time_array</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">SynchronizedArray</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> 
                  <span class="n">format_args_func</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        :param cum_time_array: Optional array to store cumulative time in</span>
@@ -398,13 +403,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">array_idx</span> <span class="o">=</span> <span class="n">array_idx</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">max_time_array</span> <span class="o">=</span> <span class="n">max_time_array</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">format_args_func</span> <span class="o">=</span> <span class="n">format_args_func</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">start_dt</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="fm">__enter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">start_dt</span> <span class="o">=</span> <span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
 
     <span class="k">def</span> <span class="fm">__exit__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exc_type</span><span class="p">,</span> <span class="n">exc_val</span><span class="p">,</span> <span class="n">exc_tb</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">duration</span> <span class="o">=</span> <span class="p">(</span><span class="n">datetime</span><span class="o">.</span><span class="n">now</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_dt</span><span class="p">)</span><span class="o">.</span><span class="n">total_seconds</span><span class="p">()</span>
+        <span class="n">duration</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_time</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">cum_time_array</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">cum_time_array</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">array_idx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">duration</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_time_array</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">duration</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_time_array</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]:</span>
@@ -412,43 +417,32 @@
                               <span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_args_func</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_args_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">))</span>
 
     
-<span class="k">class</span> <span class="nc">PicklableSyncManager</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot; SyncManager wrapper that can be pickled &quot;&quot;&quot;</span>
+<span class="k">class</span> <span class="nc">NonPickledSyncManager</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot; SyncManager wrapper that won&#39;t be pickled &quot;&quot;&quot;</span>
     
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">authkey</span><span class="p">:</span> <span class="nb">bytes</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">authkey</span> <span class="o">=</span> <span class="n">authkey</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span> <span class="o">=</span> <span class="n">SyncManager</span><span class="p">(</span><span class="n">authkey</span><span class="o">=</span><span class="n">authkey</span><span class="p">)</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span> <span class="o">=</span> <span class="n">SyncManager</span><span class="p">()</span>
         
     <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Returns the state excluding the manager object, as this is not picklable. The address of the manager is added</span>
-<span class="sd">        to the state instead, which can be used to reconnect to the manager.</span>
+<span class="sd">        Returns the state excluding the manager object, as this is not picklable and not needed.</span>
 <span class="sd">        </span>
 <span class="sd">        :return: State dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-        <span class="n">state</span><span class="p">[</span><span class="s2">&quot;manager_address&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">address</span>
-        <span class="k">del</span> <span class="n">state</span><span class="p">[</span><span class="s2">&quot;manager&quot;</span><span class="p">]</span>
+        <span class="n">state</span><span class="p">[</span><span class="s2">&quot;manager&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">return</span> <span class="n">state</span>
 
     <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Set the state and reconnect to the manager using the stored address.</span>
+<span class="sd">        Set the state.</span>
 <span class="sd">        </span>
 <span class="sd">        :param state: State dict</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">address</span> <span class="o">=</span> <span class="n">state</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;manager_address&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span> <span class="o">=</span> <span class="n">state</span>
-        
-        <span class="c1"># This line is needed because otherwise we can get &quot;multiprocessing.context.AuthenticationError: digest sent </span>
-        <span class="c1"># was rejected&quot; errors. See https://bugs.python.org/issue7503 for more information</span>
-        <span class="n">multiprocessing</span><span class="o">.</span><span class="n">current_process</span><span class="p">()</span><span class="o">.</span><span class="n">authkey</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">authkey</span>
-        
-        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span> <span class="o">=</span> <span class="n">SyncManager</span><span class="p">(</span><span class="n">address</span><span class="o">=</span><span class="n">address</span><span class="p">,</span> <span class="n">authkey</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">authkey</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
 </pre></div>
 
            </div>
@@ -501,6 +495,7 @@
             <dd><a href="../../v2.0.0/index.html">v2.0.0</a></dd>
             <dd><a href="../../v2.1.0/index.html">v2.1.0</a></dd>
             <dd><a href="../../v2.1.1/index.html">v2.1.1</a></dd>
+            <dd><a href="../../v2.10.0/index.html">v2.10.0</a></dd>
             <dd><a href="../../v2.2.0/index.html">v2.2.0</a></dd>
             <dd><a href="../../v2.2.1/index.html">v2.2.1</a></dd>
             <dd><a href="../../v2.3.0/index.html">v2.3.0</a></dd>
@@ -520,8 +515,6 @@
         </dl>
         <dl>
             <dt>Branches</dt>
-            <dd><a href="../../dashboard-only-progress/index.html">dashboard-only-progress</a></dd>
-            <dd><a href="../../exclude_tests_from_dists/index.html">exclude_tests_from_dists</a></dd>
             <dd><a href="../../master/_modules/mpire/utils.html">master</a></dd>
         </dl>
     </div>

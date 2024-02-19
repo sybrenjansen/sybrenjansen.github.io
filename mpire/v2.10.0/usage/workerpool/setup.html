@@ -1,0 +1,382 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Starting a WorkerPool &mdash; mpire 2.10.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/banner.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../_static/sphinxcontrib-images/LightBox2/lightbox2/css/lightbox.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../" src="../../_static/documentation_options.js"></script>
+        <script src="../../_static/jquery.js"></script>
+        <script src="../../_static/underscore.js"></script>
+        <script src="../../_static/doctools.js"></script>
+        <script src="../../_static/language_data.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/jquery-1.11.0.min.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/lightbox.min.js"></script>
+        <script src="../../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js"></script>
+    
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Process start method" href="start_method.html" />
+    <link rel="prev" title="WorkerPool" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../index.html" class="icon icon-home" alt="Documentation Home"> mpire
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.10.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../index.html">Welcome to the MPIRE documentation!</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1 current"><a class="reference internal" href="../index.html">Usage</a><ul class="current">
+<li class="toctree-l2 current"><a class="reference internal" href="index.html">WorkerPool</a><ul class="current">
+<li class="toctree-l3 current"><a class="current reference internal" href="#">Starting a WorkerPool</a></li>
+<li class="toctree-l3"><a class="reference internal" href="start_method.html">Process start method</a></li>
+<li class="toctree-l3"><a class="reference internal" href="cpu_pinning.html">CPU pinning</a></li>
+<li class="toctree-l3"><a class="reference internal" href="worker_id.html">Accessing the worker ID</a></li>
+<li class="toctree-l3"><a class="reference internal" href="shared_objects.html">Shared objects</a></li>
+<li class="toctree-l3"><a class="reference internal" href="worker_state.html">Worker state</a></li>
+<li class="toctree-l3"><a class="reference internal" href="keep_alive.html">Keep alive</a></li>
+<li class="toctree-l3"><a class="reference internal" href="worker_insights.html">Worker insights</a></li>
+<li class="toctree-l3"><a class="reference internal" href="dill.html">Dill</a></li>
+<li class="toctree-l3"><a class="reference internal" href="order_tasks.html">Order tasks</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="../map/index.html">Map family</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../apply.html">Apply family</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../dashboard.html">Dashboard</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../contributing.html">Contribution guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">mpire</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../index.html">Usage</a> &raquo;</li>
+        
+          <li><a href="index.html">WorkerPool</a> &raquo;</li>
+        
+      <li>Starting a WorkerPool</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="../../_sources/usage/workerpool/setup.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="starting-a-workerpool">
+<h1>Starting a WorkerPool<a class="headerlink" href="#starting-a-workerpool" title="Permalink to this headline">¶</a></h1>
+<div class="contents local topic" id="contents">
+<p class="topic-title">Contents</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#nested-workerpools" id="id1">Nested WorkerPools</a></p></li>
+</ul>
+</div>
+<p>The <a class="reference internal" href="../../reference/index.html#mpire.WorkerPool" title="mpire.WorkerPool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpire.WorkerPool</span></code></a> class controls a pool of worker processes similarly to a <code class="docutils literal notranslate"><span class="pre">multiprocessing.Pool</span></code>. It
+contains all the <code class="docutils literal notranslate"><span class="pre">map</span></code> like functions (with the addition of <a class="reference internal" href="../../reference/index.html#mpire.WorkerPool.map_unordered" title="mpire.WorkerPool.map_unordered"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mpire.WorkerPool.map_unordered()</span></code></a>), together with
+the <code class="docutils literal notranslate"><span class="pre">apply</span></code> and <code class="docutils literal notranslate"><span class="pre">apply_async</span></code> functions (see <a class="reference internal" href="../apply.html#apply-family"><span class="std std-ref">Apply family</span></a>).</p>
+<p>An <a class="reference internal" href="../../reference/index.html#mpire.WorkerPool" title="mpire.WorkerPool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpire.WorkerPool</span></code></a> can be started in two different ways. The first and recommended way to do so is using a
+context manager:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">mpire</span> <span class="kn">import</span> <span class="n">WorkerPool</span>
+
+<span class="c1"># Start a pool of 4 workers</span>
+<span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="c1"># Do some processing here</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>The <code class="docutils literal notranslate"><span class="pre">with</span></code> statement takes care of properly joining/terminating the spawned worker processes after the block has
+ended.</p>
+<p>The other way is to do it manually:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Start a pool of 4 workers</span>
+<span class="n">pool</span> <span class="o">=</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+
+<span class="c1"># Do some processing here</span>
+<span class="k">pass</span>
+
+<span class="c1"># Only needed when keep_alive=True:</span>
+<span class="c1"># Clean up pool (this will block until all processing has completed)</span>
+<span class="n">pool</span><span class="o">.</span><span class="n">stop_and_join</span><span class="p">()</span>  <span class="c1"># or use pool.join() which is an alias of stop_and_join()</span>
+
+<span class="c1"># In the case you want to kill the processes, even though they are still busy</span>
+<span class="n">pool</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>When using <code class="docutils literal notranslate"><span class="pre">n_jobs=None</span></code> MPIRE will spawn as many processes as there are CPUs on your system. Specifying more jobs
+than you have CPUs is, of course, possible as well.</p>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>In the manual approach, the results queue should be drained before joining the workers, otherwise you can get a
+deadlock. If you want to join either way, use <a class="reference internal" href="../../reference/index.html#mpire.WorkerPool.terminate" title="mpire.WorkerPool.terminate"><code class="xref py py-meth docutils literal notranslate"><span class="pre">mpire.WorkerPool.terminate()</span></code></a>. For more information, see the
+warnings in the Python docs <a class="reference external" href="https://docs.python.org/3/library/multiprocessing.html#pipes-and-queues">here</a>.</p>
+</div>
+<section id="nested-workerpools">
+<h2><a class="toc-backref" href="#id1">Nested WorkerPools</a><a class="headerlink" href="#nested-workerpools" title="Permalink to this headline">¶</a></h2>
+<p>By default, the <a class="reference internal" href="../../reference/index.html#mpire.WorkerPool" title="mpire.WorkerPool"><code class="xref py py-obj docutils literal notranslate"><span class="pre">mpire.WorkerPool</span></code></a> class spawns daemon child processes who are not able to create child processes
+themselves, so nested pools are not allowed. There’s an option to create non-daemon child processes to allow for nested
+structures:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">job</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+    <span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span> <span class="k">as</span> <span class="n">p</span><span class="p">:</span>
+        <span class="c1"># Do some work</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">start_method</span><span class="o">=</span><span class="s1">&#39;spawn&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="c1"># This will raise an AssertionError telling you daemon processes</span>
+    <span class="c1"># can&#39;t start child processes</span>
+    <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">job</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+
+<span class="k">with</span> <span class="n">WorkerPool</span><span class="p">(</span><span class="n">n_jobs</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">daemon</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">start_method</span><span class="o">=</span><span class="s1">&#39;spawn&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">pool</span><span class="p">:</span>
+    <span class="c1"># This will work just fine</span>
+    <span class="n">pool</span><span class="o">.</span><span class="n">map</span><span class="p">(</span><span class="n">job</span><span class="p">,</span> <span class="o">...</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Nested pools aren’t supported when using threading.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Spawning processes is not <a class="reference external" href="https://bugs.python.org/issue40860">thread-safe</a>! Both <code class="docutils literal notranslate"><span class="pre">start</span></code> and <code class="docutils literal notranslate"><span class="pre">join</span></code> methods of the <code class="docutils literal notranslate"><span class="pre">process</span></code> class alter global
+variables. If you still want to have nested pools, the safest bet is to use <code class="docutils literal notranslate"><span class="pre">spawn</span></code> as start method.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Due to a strange bug in Python, using <code class="docutils literal notranslate"><span class="pre">forkserver</span></code> as start method in a nested pool is not allowed when the
+outer pool is using <code class="docutils literal notranslate"><span class="pre">fork</span></code>, as the forkserver will not have been started there. For it to work your outer pool
+will have to have either <code class="docutils literal notranslate"><span class="pre">spawn</span></code> or <code class="docutils literal notranslate"><span class="pre">forkserver</span></code> as start method.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>Nested pools aren’t production ready. Error handling and keyboard interrupts when using nested pools can, on some
+rare occassions (~1% of the time), still cause deadlocks. Use at your own risk.</p>
+<p>When a function is guaranteed to finish successfully, using nested pools is absolutely fine.</p>
+</div>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="start_method.html" class="btn btn-neutral float-right" title="Process start method" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="WorkerPool" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2024, Sybren Jansen
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: v2.10.0
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Tags</dt>
+            <dd><a href="../../../v1.1.2/index.html">v1.1.2</a></dd>
+            <dd><a href="../../../v1.1.3/index.html">v1.1.3</a></dd>
+            <dd><a href="../../../v1.2.0/index.html">v1.2.0</a></dd>
+            <dd><a href="../../../v1.2.1/index.html">v1.2.1</a></dd>
+            <dd><a href="../../../v1.2.2/index.html">v1.2.2</a></dd>
+            <dd><a href="../../../v2.0.0/index.html">v2.0.0</a></dd>
+            <dd><a href="../../../v2.1.0/index.html">v2.1.0</a></dd>
+            <dd><a href="../../../v2.1.1/index.html">v2.1.1</a></dd>
+            <dd><a href="setup.html">v2.10.0</a></dd>
+            <dd><a href="../../../v2.2.0/index.html">v2.2.0</a></dd>
+            <dd><a href="../../../v2.2.1/index.html">v2.2.1</a></dd>
+            <dd><a href="../../../v2.3.0/usage/workerpool/setup.html">v2.3.0</a></dd>
+            <dd><a href="../../../v2.3.1/usage/workerpool/setup.html">v2.3.1</a></dd>
+            <dd><a href="../../../v2.3.2/usage/workerpool/setup.html">v2.3.2</a></dd>
+            <dd><a href="../../../v2.3.3/usage/workerpool/setup.html">v2.3.3</a></dd>
+            <dd><a href="../../../v2.3.4/usage/workerpool/setup.html">v2.3.4</a></dd>
+            <dd><a href="../../../v2.3.5/usage/workerpool/setup.html">v2.3.5</a></dd>
+            <dd><a href="../../../v2.4.0/usage/workerpool/setup.html">v2.4.0</a></dd>
+            <dd><a href="../../../v2.5.0/usage/workerpool/setup.html">v2.5.0</a></dd>
+            <dd><a href="../../../v2.6.0/usage/workerpool/setup.html">v2.6.0</a></dd>
+            <dd><a href="../../../v2.7.0/usage/workerpool/setup.html">v2.7.0</a></dd>
+            <dd><a href="../../../v2.7.1/usage/workerpool/setup.html">v2.7.1</a></dd>
+            <dd><a href="../../../v2.8.0/usage/workerpool/setup.html">v2.8.0</a></dd>
+            <dd><a href="../../../v2.8.1/usage/workerpool/setup.html">v2.8.1</a></dd>
+            <dd><a href="../../../v2.9.0/usage/workerpool/setup.html">v2.9.0</a></dd>
+        </dl>
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="../../../master/usage/workerpool/setup.html">master</a></dd>
+        </dl>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

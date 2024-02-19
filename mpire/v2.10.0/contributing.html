@@ -1,0 +1,305 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  <meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Contribution guidelines &mdash; mpire 2.10.0 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/banner.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="_static/sphinxcontrib-images/LightBox2/lightbox2/css/lightbox.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script src="_static/sphinxcontrib-images/LightBox2/lightbox2/js/jquery-1.11.0.min.js"></script>
+        <script src="_static/sphinxcontrib-images/LightBox2/lightbox2/js/lightbox.min.js"></script>
+        <script src="_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Changelog" href="changelog.html" />
+    <link rel="prev" title="API Reference" href="reference/index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home" alt="Documentation Home"> mpire
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.10.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="index.html">Welcome to the MPIRE documentation!</a></li>
+</ul>
+<ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="usage/index.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="reference/index.html">API Reference</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Contribution guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">mpire</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Contribution guidelines</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/contributing.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <section id="contribution-guidelines">
+<h1>Contribution guidelines<a class="headerlink" href="#contribution-guidelines" title="Permalink to this headline">¶</a></h1>
+<p>If you want to contribute to MPIRE, great! Please follow the steps below to ensure a smooth process:</p>
+<ol class="arabic simple">
+<li><p>Clone the project.</p></li>
+<li><p>Create a new branch for your feature or bug fix. Give you branch a meaningful name.</p></li>
+<li><p>Make your feature addition or bug fix.</p></li>
+<li><p>Add tests for it and test it yourself. Make sure it both works for Unix and Windows based systems, or make sure to
+document why it doesn’t work for one of the platforms.</p></li>
+<li><p>Add documentation for it. Don’t forget about the changelog:</p>
+<ul class="simple">
+<li><p>Reference the issue number from GitHub in the changelog, if applicable (see current changelog for examples).</p></li>
+<li><p>Don’t mention a date or a version number here, but use <code class="docutils literal notranslate"><span class="pre">Unreleased</span></code> instead.</p></li>
+</ul>
+</li>
+<li><p>Commit with a meaningful commit message (e.g. the changelog).</p></li>
+<li><p>Open a pull request.</p></li>
+<li><p>Resolve any issues or comments by the reviewer.</p></li>
+<li><p>Merge PR by squashing all your individual commits.</p></li>
+</ol>
+<section id="making-a-release">
+<h2>Making a release<a class="headerlink" href="#making-a-release" title="Permalink to this headline">¶</a></h2>
+<p>A release is only made by the project maintainer. The following steps are required:</p>
+<ol class="arabic simple">
+<li><p>Update the changelog with the release date and version number. Version numbers follow the <a class="reference external" href="https://semver.org/">Semantic Versioning</a>
+guidelines</p></li>
+<li><p>Update the version number in <code class="docutils literal notranslate"><span class="pre">setup.py</span></code> and <code class="docutils literal notranslate"><span class="pre">docs/conf.py</span></code>.</p></li>
+<li><p>Commit and push the changes.</p></li>
+<li><p>Make sure the tests pass on GitHub Actions.</p></li>
+<li><p>Create a tag for the release by using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">tag</span> <span class="pre">-a</span> <span class="pre">vX.Y.Z</span> <span class="pre">-m</span> <span class="pre">&quot;vX.Y.Z&quot;</span></code>.</p></li>
+<li><p>Push the tag to GitHub by using <code class="docutils literal notranslate"><span class="pre">git</span> <span class="pre">push</span> <span class="pre">origin</span> <span class="pre">vX.Y.Z</span></code>.</p></li>
+</ol>
+</section>
+</section>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="changelog.html" class="btn btn-neutral float-right" title="Changelog" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="reference/index.html" class="btn btn-neutral float-left" title="API Reference" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2024, Sybren Jansen
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: v2.10.0
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Tags</dt>
+            <dd><a href="../v1.1.2/index.html">v1.1.2</a></dd>
+            <dd><a href="../v1.1.3/index.html">v1.1.3</a></dd>
+            <dd><a href="../v1.2.0/index.html">v1.2.0</a></dd>
+            <dd><a href="../v1.2.1/index.html">v1.2.1</a></dd>
+            <dd><a href="../v1.2.2/index.html">v1.2.2</a></dd>
+            <dd><a href="../v2.0.0/index.html">v2.0.0</a></dd>
+            <dd><a href="../v2.1.0/index.html">v2.1.0</a></dd>
+            <dd><a href="../v2.1.1/index.html">v2.1.1</a></dd>
+            <dd><a href="contributing.html">v2.10.0</a></dd>
+            <dd><a href="../v2.2.0/index.html">v2.2.0</a></dd>
+            <dd><a href="../v2.2.1/index.html">v2.2.1</a></dd>
+            <dd><a href="../v2.3.0/index.html">v2.3.0</a></dd>
+            <dd><a href="../v2.3.1/index.html">v2.3.1</a></dd>
+            <dd><a href="../v2.3.2/index.html">v2.3.2</a></dd>
+            <dd><a href="../v2.3.3/index.html">v2.3.3</a></dd>
+            <dd><a href="../v2.3.4/index.html">v2.3.4</a></dd>
+            <dd><a href="../v2.3.5/index.html">v2.3.5</a></dd>
+            <dd><a href="../v2.4.0/index.html">v2.4.0</a></dd>
+            <dd><a href="../v2.5.0/index.html">v2.5.0</a></dd>
+            <dd><a href="../v2.6.0/index.html">v2.6.0</a></dd>
+            <dd><a href="../v2.7.0/index.html">v2.7.0</a></dd>
+            <dd><a href="../v2.7.1/index.html">v2.7.1</a></dd>
+            <dd><a href="../v2.8.0/contributing.html">v2.8.0</a></dd>
+            <dd><a href="../v2.8.1/contributing.html">v2.8.1</a></dd>
+            <dd><a href="../v2.9.0/contributing.html">v2.9.0</a></dd>
+        </dl>
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="../master/contributing.html">master</a></dd>
+        </dl>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
