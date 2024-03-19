@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>mpire.pool &mdash; mpire 2.10.0 documentation</title>
+  <title>mpire.pool &mdash; mpire 2.10.1 documentation</title>
   
 
   
@@ -65,7 +65,7 @@
             
             
               <div class="version">
-                2.10.0
+                2.10.1
               </div>
             
           
@@ -281,7 +281,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_progress_bar_handler</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># Worker insights, used for profiling</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_worker_insights</span> <span class="o">=</span> <span class="n">WorkerInsights</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ctx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_worker_insights</span> <span class="o">=</span> <span class="n">WorkerInsights</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ctx</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">n_jobs</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">use_dill</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="WorkerPool.pass_on_worker_id"><a class="viewcode-back" href="../../reference/index.html#mpire.WorkerPool.pass_on_worker_id">[docs]</a>    <span class="k">def</span> <span class="nf">pass_on_worker_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">pass_on</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
@@ -504,10 +504,11 @@
 
         <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">exception_thrown</span><span class="p">()</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_handler_threads_stop_event</span><span class="o">.</span><span class="n">is_set</span><span class="p">():</span>
             
+            <span class="c1"># We&#39;re making a shallow copy here to avoid dictionary changes size during iteration errors</span>
             <span class="k">if</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">map_params</span><span class="o">.</span><span class="n">worker_init_timeout</span> <span class="ow">is</span> <span class="kc">None</span>
                 <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">map_params</span><span class="o">.</span><span class="n">worker_exit_timeout</span> <span class="ow">is</span> <span class="kc">None</span>
-                <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">_timeout</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">job</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+                <span class="ow">and</span> <span class="nb">all</span><span class="p">(</span><span class="n">job</span><span class="o">.</span><span class="n">_timeout</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">job</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cache</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
             <span class="p">):</span>
                 <span class="c1"># No timeouts set, so no need to check</span>
                 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
@@ -885,7 +886,7 @@
             <span class="c1"># Start tqdm manager if a progress bar is desired. Will only start one when not already started. This has to</span>
             <span class="c1"># be done before starting the workers in case nested pools are used</span>
             <span class="k">if</span> <span class="n">progress_bar</span><span class="p">:</span>
-                <span class="n">tqdm_manager_owner</span> <span class="o">=</span> <span class="n">TqdmManager</span><span class="o">.</span><span class="n">start_manager</span><span class="p">()</span>
+                <span class="n">tqdm_manager_owner</span> <span class="o">=</span> <span class="n">TqdmManager</span><span class="o">.</span><span class="n">start_manager</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pool_params</span><span class="o">.</span><span class="n">use_dill</span><span class="p">)</span>
 
             <span class="c1"># Start workers if there aren&#39;t any. If they already exist check if we need to pass on new parameters</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_workers</span> <span class="ow">and</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_worker_comms</span><span class="o">.</span><span class="n">is_initialized</span><span class="p">():</span>
@@ -1379,6 +1380,7 @@
             <dd><a href="../../v2.1.0/index.html">v2.1.0</a></dd>
             <dd><a href="../../v2.1.1/index.html">v2.1.1</a></dd>
             <dd><a href="../../v2.10.0/index.html">v2.10.0</a></dd>
+            <dd><a href="../../v2.10.1/index.html">v2.10.1</a></dd>
             <dd><a href="../../v2.2.0/index.html">v2.2.0</a></dd>
             <dd><a href="../../v2.2.1/index.html">v2.2.1</a></dd>
             <dd><a href="../../v2.3.0/index.html">v2.3.0</a></dd>

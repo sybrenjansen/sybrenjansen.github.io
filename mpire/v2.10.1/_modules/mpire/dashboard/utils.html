@@ -1,0 +1,443 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>mpire.dashboard.utils &mdash; mpire 2.10.1 documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="../../../_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/banner.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/css/custom.css" type="text/css" />
+  <link rel="stylesheet" href="../../../_static/sphinxcontrib-images/LightBox2/lightbox2/css/lightbox.css" type="text/css" />
+
+  
+  
+  
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="../../../_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="../../../" src="../../../_static/documentation_options.js"></script>
+        <script src="../../../_static/jquery.js"></script>
+        <script src="../../../_static/underscore.js"></script>
+        <script src="../../../_static/doctools.js"></script>
+        <script src="../../../_static/language_data.js"></script>
+        <script src="../../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/jquery-1.11.0.min.js"></script>
+        <script src="../../../_static/sphinxcontrib-images/LightBox2/lightbox2/js/lightbox.min.js"></script>
+        <script src="../../../_static/sphinxcontrib-images/LightBox2/lightbox2-customize/jquery-noconflict.js"></script>
+    
+    <script type="text/javascript" src="../../../_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="../../../index.html" class="icon icon-home" alt="Documentation Home"> mpire
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                2.10.1
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../index.html">Welcome to the MPIRE documentation!</a></li>
+</ul>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../install.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting started</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../usage/index.html">Usage</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../troubleshooting.html">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../reference/index.html">API Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contribution guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../changelog.html">Changelog</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">mpire</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../../index.html" class="icon icon-home"></a> &raquo;</li>
+        
+          <li><a href="../../index.html">Module code</a> &raquo;</li>
+        
+      <li>mpire.dashboard.utils</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for mpire.dashboard.utils</h1><div class="highlight"><pre>
+<span></span><span class="kn">import</span> <span class="nn">getpass</span>
+<span class="kn">import</span> <span class="nn">inspect</span>
+<span class="kn">import</span> <span class="nn">socket</span>
+<span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">partial</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Dict</span><span class="p">,</span> <span class="n">List</span><span class="p">,</span> <span class="n">Sequence</span><span class="p">,</span> <span class="n">Tuple</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">import</span> <span class="nn">types</span>
+
+<span class="n">DASHBOARD_FUNCTION_STACKLEVEL</span> <span class="o">=</span> <span class="mi">1</span>
+
+
+<span class="k">def</span> <span class="nf">get_two_available_ports</span><span class="p">(</span><span class="n">port_range</span><span class="p">:</span> <span class="n">Sequence</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Get two available ports, one from the start and one from the end of the range</span>
+
+<span class="sd">    :param port_range: Port range to try. Reverses the list and will then pick the first one available</span>
+<span class="sd">    :raises OSError: If there are not enough ports available</span>
+<span class="sd">    :return: Two available ports</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">_port_available</span><span class="p">(</span><span class="n">port_nr</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        Checks if a port is available</span>
+
+<span class="sd">        :param port_nr: Port number to check</span>
+<span class="sd">        :return: True if available, False otherwise</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">s</span> <span class="o">=</span> <span class="n">socket</span><span class="o">.</span><span class="n">socket</span><span class="p">(</span><span class="n">socket</span><span class="o">.</span><span class="n">AF_INET</span><span class="p">,</span> <span class="n">socket</span><span class="o">.</span><span class="n">SOCK_STREAM</span><span class="p">)</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">bind</span><span class="p">((</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">port_nr</span><span class="p">))</span>
+            <span class="n">s</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="k">except</span> <span class="ne">OSError</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+
+    <span class="n">available_ports</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">port_nr</span> <span class="ow">in</span> <span class="n">port_range</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">_port_available</span><span class="p">(</span><span class="n">port_nr</span><span class="p">):</span>
+            <span class="n">available_ports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">port_nr</span><span class="p">)</span>
+            <span class="k">break</span>
+
+    <span class="k">for</span> <span class="n">port_nr</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">port_range</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">_port_available</span><span class="p">(</span><span class="n">port_nr</span><span class="p">):</span>
+            <span class="n">available_ports</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">port_nr</span><span class="p">)</span>
+            <span class="k">break</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">available_ports</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">OSError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dashboard Manager Server: there are not enough ports available: </span><span class="si">{</span><span class="n">port_range</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">sorted</span><span class="p">(</span><span class="n">available_ports</span><span class="p">))</span>
+
+
+<div class="viewcode-block" id="get_stacklevel"><a class="viewcode-back" href="../../../reference/index.html#mpire.dashboard.get_stacklevel">[docs]</a><span class="k">def</span> <span class="nf">get_stacklevel</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Gets the stack level to use when obtaining function details (used for the dashboard)</span>
+
+<span class="sd">    :return: Stack level</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">DASHBOARD_FUNCTION_STACKLEVEL</span></div>
+
+
+<div class="viewcode-block" id="set_stacklevel"><a class="viewcode-back" href="../../../reference/index.html#mpire.dashboard.set_stacklevel">[docs]</a><span class="k">def</span> <span class="nf">set_stacklevel</span><span class="p">(</span><span class="n">stacklevel</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Sets the stack level to use when obtaining function details (used for the dashboard)</span>
+
+<span class="sd">    :param stacklevel: Stack level</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">global</span> <span class="n">DASHBOARD_FUNCTION_STACKLEVEL</span>
+    <span class="n">DASHBOARD_FUNCTION_STACKLEVEL</span> <span class="o">=</span> <span class="n">stacklevel</span></div>
+     
+
+<span class="k">def</span> <span class="nf">get_function_details</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Obtain function details, including:</span>
+
+<span class="sd">    - function filename</span>
+<span class="sd">    - function line number</span>
+<span class="sd">    - function name</span>
+<span class="sd">    - invoked from filename</span>
+<span class="sd">    - invoked from line number</span>
+<span class="sd">    - invoked code context</span>
+
+<span class="sd">    :param func: Function to call each time new task arguments become available. When passing on the worker ID the</span>
+<span class="sd">        function should receive the worker ID as its first argument. If shared objects are provided the function should</span>
+<span class="sd">        receive those as the next argument. If the worker state has been enabled it should receive a state variable as</span>
+<span class="sd">        the next argument</span>
+<span class="sd">    :return: Function details dictionary</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Get the frame in which the pool.map(...) was called. We obtain the current stack and skip all frames which</span>
+    <span class="c1"># involve the current mpire module. If the desired stack level is higher than 1, we continue until we&#39;ve reached </span>
+    <span class="c1"># the desired stack level. We then obtain the code context of that frame.</span>
+    <span class="n">invoked_frame</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">stacklevel</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">frame_info</span> <span class="ow">in</span> <span class="n">inspect</span><span class="o">.</span><span class="n">stack</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">frame_info</span><span class="o">.</span><span class="n">frame</span><span class="o">.</span><span class="n">f_globals</span><span class="p">[</span><span class="s1">&#39;__name__&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span> <span class="o">!=</span> <span class="s1">&#39;mpire&#39;</span> <span class="ow">or</span> <span class="n">stacklevel</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">invoked_frame</span> <span class="o">=</span> <span class="n">frame_info</span>
+            <span class="n">stacklevel</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">if</span> <span class="n">stacklevel</span> <span class="o">==</span> <span class="n">DASHBOARD_FUNCTION_STACKLEVEL</span><span class="p">:</span>
+                <span class="k">break</span>
+
+    <span class="c1"># Obtain proper code context. Usually the last line of the invoked code is returned, but we want the complete</span>
+    <span class="c1"># code snippet that called this function. That&#39;s why we increase the context size and need to find the start and</span>
+    <span class="c1"># ending of the snippet. A context size of 10 should suffice. The end of the snippet is where we encounter the</span>
+    <span class="c1"># line found when context=1 (i.e., what is returned in invoked_frame.code_context). The start is where we see</span>
+    <span class="c1"># something along the lines of `.[i]map[_unordered](`.</span>
+    <span class="n">code_context</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getframeinfo</span><span class="p">(</span><span class="n">invoked_frame</span><span class="o">.</span><span class="n">frame</span><span class="p">,</span> <span class="n">context</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span><span class="o">.</span><span class="n">code_context</span>
+    <span class="k">if</span> <span class="n">code_context</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">code_context</span> <span class="o">=</span> <span class="n">code_context</span><span class="p">[:</span><span class="n">code_context</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">invoked_frame</span><span class="o">.</span><span class="n">code_context</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">code_context</span> <span class="o">=</span> <span class="n">find_calling_lines</span><span class="p">(</span><span class="n">code_context</span><span class="p">)</span>
+        <span class="n">invoked_line_no</span> <span class="o">=</span> <span class="n">invoked_frame</span><span class="o">.</span><span class="n">lineno</span> <span class="o">-</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">code_context</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">code_context</span> <span class="o">=</span> <span class="s1">&#39; &#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">code_context</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">invoked_line_no</span> <span class="o">=</span> <span class="s1">&#39;N/A&#39;</span>
+
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">partial</span><span class="p">):</span>
+        <span class="c1"># If we&#39;re dealing with a partial, obtain the function within</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="n">func</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="s1">&#39;__call__&#39;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="p">(</span><span class="nb">type</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">FunctionType</span><span class="p">,</span> <span class="n">types</span><span class="o">.</span><span class="n">MethodType</span><span class="p">)):</span>
+        <span class="c1"># If we&#39;re dealing with a callable class instance, use its __call__ method</span>
+        <span class="n">func</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="fm">__call__</span>
+
+    <span class="c1"># We use a try/except block as some constructs don&#39;t allow this. E.g., in the case the function is a MagicMock</span>
+    <span class="c1"># (i.e., in unit tests) these inspections will fail</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">function_filename</span> <span class="o">=</span> <span class="n">inspect</span><span class="o">.</span><span class="n">getabsfile</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+        <span class="n">function_line_no</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__code__</span><span class="o">.</span><span class="n">co_firstlineno</span>
+        <span class="n">function_name</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span>
+    <span class="k">except</span><span class="p">:</span>
+        <span class="n">function_filename</span> <span class="o">=</span> <span class="s1">&#39;n/a&#39;</span>
+        <span class="n">function_line_no</span> <span class="o">=</span> <span class="s1">&#39;n/a&#39;</span>
+        <span class="n">function_name</span> <span class="o">=</span> <span class="s1">&#39;n/a&#39;</span>
+
+    <span class="c1"># Populate details</span>
+    <span class="n">func_details</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">getpass</span><span class="o">.</span><span class="n">getuser</span><span class="p">()</span><span class="si">}</span><span class="s1">@</span><span class="si">{</span><span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+                    <span class="s1">&#39;function_filename&#39;</span><span class="p">:</span> <span class="n">function_filename</span><span class="p">,</span>
+                    <span class="s1">&#39;function_line_no&#39;</span><span class="p">:</span> <span class="n">function_line_no</span><span class="p">,</span>
+                    <span class="s1">&#39;function_name&#39;</span><span class="p">:</span> <span class="n">function_name</span><span class="p">,</span>
+                    <span class="s1">&#39;invoked_filename&#39;</span><span class="p">:</span> <span class="n">invoked_frame</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span>
+                    <span class="s1">&#39;invoked_line_no&#39;</span><span class="p">:</span> <span class="n">invoked_line_no</span><span class="p">,</span>
+                    <span class="s1">&#39;invoked_code_context&#39;</span><span class="p">:</span> <span class="n">code_context</span><span class="p">}</span>
+
+    <span class="k">return</span> <span class="n">func_details</span>
+
+
+<span class="k">def</span> <span class="nf">find_calling_lines</span><span class="p">(</span><span class="n">code_context</span><span class="p">:</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">List</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Tries to find the lines corresponding to the calling function</span>
+
+<span class="sd">    :param code_context: List of code lines</span>
+<span class="sd">    :return: List of code lines</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># Traverse the lines in reverse order. We need a closing bracket to indicate the end of the calling function. From</span>
+    <span class="c1"># that point on we work our way backward until we find the corresponding opening bracket. There can be more bracket</span>
+    <span class="c1"># groups in between, so we have to keep counting brackets until we&#39;ve found the right one.</span>
+    <span class="n">n_parentheses_groups</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">found_parentheses_group</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">inside_string</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="n">inside_string_ch</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">line_nr</span> <span class="o">=</span> <span class="mi">1</span>
+    <span class="k">for</span> <span class="n">line_nr</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">reversed</span><span class="p">(</span><span class="n">code_context</span><span class="p">),</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">ch</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">line</span><span class="p">):</span>
+
+            <span class="c1"># If we&#39;re inside a string keep ignoring characters until we find the closing string character</span>
+            <span class="k">if</span> <span class="n">inside_string</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">ch</span> <span class="o">==</span> <span class="n">inside_string_ch</span><span class="p">:</span>
+                    <span class="n">inside_string</span> <span class="o">=</span> <span class="kc">False</span>
+
+            <span class="c1"># Check if a string has started</span>
+            <span class="k">elif</span> <span class="n">ch</span> <span class="ow">in</span> <span class="p">{</span><span class="s1">&#39;&quot;&#39;</span><span class="p">,</span> <span class="s2">&quot;&#39;&quot;</span><span class="p">}:</span>
+                <span class="n">inside_string</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="n">inside_string_ch</span> <span class="o">=</span> <span class="n">ch</span>
+
+            <span class="c1"># Closing parenthesis group</span>
+            <span class="k">elif</span> <span class="n">ch</span> <span class="o">==</span> <span class="s1">&#39;)&#39;</span><span class="p">:</span>
+                <span class="n">n_parentheses_groups</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">found_parentheses_group</span> <span class="o">=</span> <span class="kc">True</span>
+
+            <span class="c1"># Starting parenthesis group</span>
+            <span class="k">elif</span> <span class="n">ch</span> <span class="o">==</span> <span class="s1">&#39;(&#39;</span><span class="p">:</span>
+                <span class="n">n_parentheses_groups</span> <span class="o">-=</span> <span class="mi">1</span>
+
+        <span class="c1"># Check if we&#39;ve found the corresponding opening bracket</span>
+        <span class="k">if</span> <span class="n">found_parentheses_group</span> <span class="ow">and</span> <span class="n">n_parentheses_groups</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">break</span>
+
+    <span class="k">return</span> <span class="n">code_context</span><span class="p">[</span><span class="o">-</span><span class="n">line_nr</span><span class="p">:]</span>
+</pre></div>
+
+           </div>
+           
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        
+        &copy; Copyright 2024, Sybren Jansen
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+<div class="rst-versions" data-toggle="rst-versions" role="note" aria-label="versions">
+    <span class="rst-current-version" data-toggle="rst-current-version">
+        <span class="fa fa-book"> Other Versions</span>
+        v: v2.10.1
+        <span class="fa fa-caret-down"></span>
+    </span>
+    <div class="rst-other-versions">
+        <dl>
+            <dt>Tags</dt>
+            <dd><a href="../../../../v1.1.2/index.html">v1.1.2</a></dd>
+            <dd><a href="../../../../v1.1.3/index.html">v1.1.3</a></dd>
+            <dd><a href="../../../../v1.2.0/index.html">v1.2.0</a></dd>
+            <dd><a href="../../../../v1.2.1/index.html">v1.2.1</a></dd>
+            <dd><a href="../../../../v1.2.2/index.html">v1.2.2</a></dd>
+            <dd><a href="../../../../v2.0.0/index.html">v2.0.0</a></dd>
+            <dd><a href="../../../../v2.1.0/index.html">v2.1.0</a></dd>
+            <dd><a href="../../../../v2.1.1/index.html">v2.1.1</a></dd>
+            <dd><a href="../../../../v2.10.0/index.html">v2.10.0</a></dd>
+            <dd><a href="utils.html">v2.10.1</a></dd>
+            <dd><a href="../../../../v2.2.0/index.html">v2.2.0</a></dd>
+            <dd><a href="../../../../v2.2.1/index.html">v2.2.1</a></dd>
+            <dd><a href="../../../../v2.3.0/index.html">v2.3.0</a></dd>
+            <dd><a href="../../../../v2.3.1/index.html">v2.3.1</a></dd>
+            <dd><a href="../../../../v2.3.2/index.html">v2.3.2</a></dd>
+            <dd><a href="../../../../v2.3.3/index.html">v2.3.3</a></dd>
+            <dd><a href="../../../../v2.3.4/index.html">v2.3.4</a></dd>
+            <dd><a href="../../../../v2.3.5/index.html">v2.3.5</a></dd>
+            <dd><a href="../../../../v2.4.0/index.html">v2.4.0</a></dd>
+            <dd><a href="../../../../v2.5.0/index.html">v2.5.0</a></dd>
+            <dd><a href="../../../../v2.6.0/index.html">v2.6.0</a></dd>
+            <dd><a href="../../../../v2.7.0/index.html">v2.7.0</a></dd>
+            <dd><a href="../../../../v2.7.1/index.html">v2.7.1</a></dd>
+            <dd><a href="../../../../v2.8.0/index.html">v2.8.0</a></dd>
+            <dd><a href="../../../../v2.8.1/index.html">v2.8.1</a></dd>
+            <dd><a href="../../../../v2.9.0/index.html">v2.9.0</a></dd>
+        </dl>
+        <dl>
+            <dt>Branches</dt>
+            <dd><a href="../../../../master/index.html">master</a></dd>
+        </dl>
+    </div>
+</div>
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

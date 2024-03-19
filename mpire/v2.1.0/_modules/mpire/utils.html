@@ -182,7 +182,7 @@
     <span class="n">np</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">NUMPY_INSTALLED</span> <span class="o">=</span> <span class="kc">False</span>
 
-<span class="kn">from</span> <span class="nn">mpire.context</span> <span class="kn">import</span> <span class="n">RUNNING_MACOS</span><span class="p">,</span> <span class="n">RUNNING_WINDOWS</span>
+<span class="kn">from</span> <span class="nn">mpire.context</span> <span class="kn">import</span> <span class="n">RUNNING_MACOS</span><span class="p">,</span> <span class="n">RUNNING_WINDOWS</span><span class="p">,</span> <span class="n">mp_dill</span>
 
 <span class="c1"># Needed for setting CPU affinity</span>
 <span class="k">if</span> <span class="n">RUNNING_WINDOWS</span><span class="p">:</span>
@@ -415,14 +415,28 @@
             <span class="n">heapq</span><span class="o">.</span><span class="n">heappushpop</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">max_time_array</span><span class="p">,</span>
                               <span class="p">(</span><span class="n">duration</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_args_func</span><span class="p">()</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">format_args_func</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="kc">None</span><span class="p">))</span>
 
+
+<span class="k">def</span> <span class="nf">create_sync_manager</span><span class="p">(</span><span class="n">use_dill</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SyncManager</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Create a SyncManager instance</span>
+
+<span class="sd">    :param use_dill: Whether dill is used as serialization library</span>
+<span class="sd">    :return: SyncManager instance</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">authkey</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">urandom</span><span class="p">(</span><span class="mi">24</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">mp_dill</span><span class="o">.</span><span class="n">managers</span><span class="o">.</span><span class="n">SyncManager</span><span class="p">(</span><span class="n">authkey</span><span class="o">=</span><span class="n">authkey</span><span class="p">)</span> <span class="k">if</span> <span class="n">use_dill</span> <span class="k">else</span> <span class="n">SyncManager</span><span class="p">(</span><span class="n">authkey</span><span class="o">=</span><span class="n">authkey</span><span class="p">)</span>
+
     
 <span class="k">class</span> <span class="nc">NonPickledSyncManager</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot; SyncManager wrapper that won&#39;t be pickled &quot;&quot;&quot;</span>
     
-    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span> <span class="o">=</span> <span class="n">SyncManager</span><span class="p">()</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">use_dill</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">        :param use_dill: Whether dill is used as serialization library</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manager</span> <span class="o">=</span> <span class="n">create_sync_manager</span><span class="p">(</span><span class="n">use_dill</span><span class="p">)</span>
         
-    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__getattr__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
         <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">manager</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
@@ -495,6 +509,7 @@
             <dd><a href="utils.html">v2.1.0</a></dd>
             <dd><a href="../../../v2.1.1/index.html">v2.1.1</a></dd>
             <dd><a href="../../../v2.10.0/index.html">v2.10.0</a></dd>
+            <dd><a href="../../../v2.10.1/index.html">v2.10.1</a></dd>
             <dd><a href="../../../v2.2.0/index.html">v2.2.0</a></dd>
             <dd><a href="../../../v2.2.1/index.html">v2.2.1</a></dd>
             <dd><a href="../../../v2.3.0/index.html">v2.3.0</a></dd>
