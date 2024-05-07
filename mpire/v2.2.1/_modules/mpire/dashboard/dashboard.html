@@ -175,7 +175,6 @@
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">signal</span>
 <span class="kn">import</span> <span class="nn">socket</span>
-<span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span>
 <span class="kn">from</span> <span class="nn">multiprocessing</span> <span class="kn">import</span> <span class="n">Event</span><span class="p">,</span> <span class="n">Process</span>
 <span class="kn">from</span> <span class="nn">multiprocessing.managers</span> <span class="kn">import</span> <span class="n">BaseProxy</span>
@@ -211,7 +210,13 @@
 
 <span class="sd">    :return: HTML</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;index.html&#39;</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">getpass</span><span class="o">.</span><span class="n">getuser</span><span class="p">(),</span> <span class="n">hostname</span><span class="o">=</span><span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">(),</span>
+    <span class="c1"># Obtain user. This can fail when the current uid refers to a non-existing user, which can happen when running in a</span>
+    <span class="c1"># container as a non-root user. See https://github.com/sybrenjansen/mpire/issues/128.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getuser</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="s2">&quot;n/a&quot;</span>
+    <span class="k">return</span> <span class="n">render_template</span><span class="p">(</span><span class="s1">&#39;index.html&#39;</span><span class="p">,</span> <span class="n">username</span><span class="o">=</span><span class="n">user</span><span class="p">,</span> <span class="n">hostname</span><span class="o">=</span><span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">(),</span>
                            <span class="n">manager_host</span><span class="o">=</span><span class="n">DASHBOARD_MANAGER_CONNECTION_DETAILS</span><span class="o">.</span><span class="n">host</span> <span class="ow">or</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span>
                            <span class="n">manager_port_nr</span><span class="o">=</span><span class="n">DASHBOARD_MANAGER_CONNECTION_DETAILS</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
 
@@ -427,6 +432,7 @@
             <dd><a href="../../../../v2.1.1/index.html">v2.1.1</a></dd>
             <dd><a href="../../../../v2.10.0/index.html">v2.10.0</a></dd>
             <dd><a href="../../../../v2.10.1/index.html">v2.10.1</a></dd>
+            <dd><a href="../../../../v2.10.2/index.html">v2.10.2</a></dd>
             <dd><a href="../../../../v2.2.0/index.html">v2.2.0</a></dd>
             <dd><a href="dashboard.html">v2.2.1</a></dd>
             <dd><a href="../../../../v2.3.0/index.html">v2.3.0</a></dd>

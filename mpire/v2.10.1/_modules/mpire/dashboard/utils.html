@@ -295,8 +295,15 @@
         <span class="n">function_line_no</span> <span class="o">=</span> <span class="s1">&#39;n/a&#39;</span>
         <span class="n">function_name</span> <span class="o">=</span> <span class="s1">&#39;n/a&#39;</span>
 
+    <span class="c1"># Obtain user. This can fail when the current uid refers to a non-existing user, which can happen when running in a</span>
+    <span class="c1"># container as a non-root user. See https://github.com/sybrenjansen/mpire/issues/128.</span>
+    <span class="k">try</span><span class="p">:</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="n">getpass</span><span class="o">.</span><span class="n">getuser</span><span class="p">()</span>
+    <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+        <span class="n">user</span> <span class="o">=</span> <span class="s2">&quot;n/a&quot;</span>
+        
     <span class="c1"># Populate details</span>
-    <span class="n">func_details</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">getpass</span><span class="o">.</span><span class="n">getuser</span><span class="p">()</span><span class="si">}</span><span class="s1">@</span><span class="si">{</span><span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
+    <span class="n">func_details</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;user&#39;</span><span class="p">:</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">user</span><span class="si">}</span><span class="s1">@</span><span class="si">{</span><span class="n">socket</span><span class="o">.</span><span class="n">gethostname</span><span class="p">()</span><span class="si">}</span><span class="s1">&#39;</span><span class="p">,</span>
                     <span class="s1">&#39;function_filename&#39;</span><span class="p">:</span> <span class="n">function_filename</span><span class="p">,</span>
                     <span class="s1">&#39;function_line_no&#39;</span><span class="p">:</span> <span class="n">function_line_no</span><span class="p">,</span>
                     <span class="s1">&#39;function_name&#39;</span><span class="p">:</span> <span class="n">function_name</span><span class="p">,</span>
@@ -403,6 +410,7 @@
             <dd><a href="../../../../v2.1.1/index.html">v2.1.1</a></dd>
             <dd><a href="../../../../v2.10.0/index.html">v2.10.0</a></dd>
             <dd><a href="utils.html">v2.10.1</a></dd>
+            <dd><a href="../../../../v2.10.2/index.html">v2.10.2</a></dd>
             <dd><a href="../../../../v2.2.0/index.html">v2.2.0</a></dd>
             <dd><a href="../../../../v2.2.1/index.html">v2.2.1</a></dd>
             <dd><a href="../../../../v2.3.0/index.html">v2.3.0</a></dd>
