@@ -14,6 +14,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/banner.css" type="text/css" />
   <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
 
@@ -29,10 +31,12 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -96,14 +100,14 @@
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Basic usage</a></li>
 <li class="toctree-l1"><a class="reference internal" href="reference.html">API reference</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Change log</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#section-1">0.4.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#section-2">0.3.2</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#section-3">0.3.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#section-4">0.3.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#section-5">0.2.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#section-6">0.2.0</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#section-7">0.1.1</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#section-8">0.1.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id1">0.4.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id2">0.3.2</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id3">0.3.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id4">0.3.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id5">0.2.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id6">0.2.0</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id7">0.1.1</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#id8">0.1.0</a></li>
 </ul>
 </li>
 </ul>
@@ -172,74 +176,74 @@
            <div itemprop="articleBody">
             
   <section id="change-log">
-<h1>Change log<a class="headerlink" href="#change-log" title="Permalink to this headline">¶</a></h1>
-<section id="section-1">
-<h2>0.4.0<a class="headerlink" href="#section-1" title="Permalink to this headline">¶</a></h2>
+<h1>Change log<a class="headerlink" href="#change-log" title="Permalink to this heading">¶</a></h1>
+<section id="id1">
+<h2>0.4.0<a class="headerlink" href="#id1" title="Permalink to this heading">¶</a></h2>
 <p><em>(2022-05-27)</em></p>
 <ul class="simple">
 <li><p>Common country replacements have been updated to allow for fuzzy matching</p></li>
-<li><p>Country codes added such that they can be matched through <a class="reference internal" href="reference.html#text_scrubber.geo.normalize_country" title="text_scrubber.geo.normalize_country"><code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.normalize_country()</span></code></a></p></li>
+<li><p>Country codes added such that they can be matched through <code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.normalize_country()</span></code></p></li>
 <li><p>The geo normalize functions now return the canonical name together with the matched name</p></li>
-<li><p>The geo normalize functions now return a <a class="reference internal" href="reference.html#text_scrubber.geo.normalize.Location" title="text_scrubber.geo.normalize.Location"><code class="xref py py-class docutils literal notranslate"><span class="pre">text_scrubber.geo.normalize.Location</span></code></a> object</p></li>
-<li><p>The geo find in string functions now return a <a class="reference internal" href="reference.html#text_scrubber.geo.find_in_string.ExtractedLocation" title="text_scrubber.geo.find_in_string.ExtractedLocation"><code class="xref py py-class docutils literal notranslate"><span class="pre">text_scrubber.geo.find_in_string.ExtractedLocation</span></code></a> object</p></li>
+<li><p>The geo normalize functions now return a <code class="xref py py-class docutils literal notranslate"><span class="pre">text_scrubber.geo.normalize.Location</span></code> object</p></li>
+<li><p>The geo find in string functions now return a <code class="xref py py-class docutils literal notranslate"><span class="pre">text_scrubber.geo.find_in_string.ExtractedLocation</span></code> object</p></li>
 </ul>
 </section>
-<section id="section-2">
-<h2>0.3.2<a class="headerlink" href="#section-2" title="Permalink to this headline">¶</a></h2>
+<section id="id2">
+<h2>0.3.2<a class="headerlink" href="#id2" title="Permalink to this heading">¶</a></h2>
 <p><em>(2022-05-19)</em></p>
 <ul class="simple">
 <li><p>Updated MANIFEST.in file to include the Cython files</p></li>
 </ul>
 </section>
-<section id="section-3">
-<h2>0.3.1<a class="headerlink" href="#section-3" title="Permalink to this headline">¶</a></h2>
+<section id="id3">
+<h2>0.3.1<a class="headerlink" href="#id3" title="Permalink to this heading">¶</a></h2>
 <p><em>(2022-05-19)</em></p>
 <ul class="simple">
 <li><p>Optimized Levenshtein and trigram similarity functions, and all normalization functions. Speed-ups of x20-40 are to be
 expected</p></li>
 </ul>
 </section>
-<section id="section-4">
-<h2>0.3.0<a class="headerlink" href="#section-4" title="Permalink to this headline">¶</a></h2>
+<section id="id4">
+<h2>0.3.0<a class="headerlink" href="#id4" title="Permalink to this heading">¶</a></h2>
 <p><em>(2022-04-13)</em></p>
 <ul class="simple">
-<li><p>Renamed <cite>normalize_state</cite> to <a class="reference internal" href="reference.html#text_scrubber.geo.normalize_region" title="text_scrubber.geo.normalize_region"><code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.normalize_region()</span></code></a>, as it now handles all kinds of regions</p></li>
+<li><p>Renamed <cite>normalize_state</cite> to <code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.normalize_region()</span></code>, as it now handles all kinds of regions</p></li>
 <li><p>Expanded countries, regions, and cities with geonames database, increasing the completeness of the geo database</p></li>
-<li><p><a class="reference internal" href="reference.html#text_scrubber.geo.normalize_country" title="text_scrubber.geo.normalize_country"><code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.normalize_country()</span></code></a>, <a class="reference internal" href="reference.html#text_scrubber.geo.normalize_region" title="text_scrubber.geo.normalize_region"><code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.normalize_region()</span></code></a>, and
-<a class="reference internal" href="reference.html#text_scrubber.geo.normalize_city" title="text_scrubber.geo.normalize_city"><code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.normalize_city()</span></code></a> now return the match scores as well</p></li>
-<li><p><a class="reference internal" href="reference.html#text_scrubber.geo.normalize_region" title="text_scrubber.geo.normalize_region"><code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.normalize_region()</span></code></a> and <a class="reference internal" href="reference.html#text_scrubber.geo.normalize_city" title="text_scrubber.geo.normalize_city"><code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.normalize_city()</span></code></a> also return the corresponding
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.normalize_country()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.normalize_region()</span></code>, and
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.normalize_city()</span></code> now return the match scores as well</p></li>
+<li><p><code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.normalize_region()</span></code> and <code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.normalize_city()</span></code> also return the corresponding
 normalized country</p></li>
-<li><p>Added <a class="reference internal" href="reference.html#text_scrubber.geo.find_country_in_string" title="text_scrubber.geo.find_country_in_string"><code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.find_country_in_string()</span></code></a>, <a class="reference internal" href="reference.html#text_scrubber.geo.find_city_in_string" title="text_scrubber.geo.find_city_in_string"><code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.find_city_in_string()</span></code></a>, and
-<a class="reference internal" href="reference.html#text_scrubber.geo.find_region_in_string" title="text_scrubber.geo.find_region_in_string"><code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.find_region_in_string()</span></code></a> functions that find a location in a string</p></li>
-<li><p>Updated cleaning pipeline of <a class="reference internal" href="reference.html#text_scrubber.geo.clean_country" title="text_scrubber.geo.clean_country"><code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.clean_country()</span></code></a>, <a class="reference internal" href="reference.html#text_scrubber.geo.clean_city" title="text_scrubber.geo.clean_city"><code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.clean_city()</span></code></a>, and
-<a class="reference internal" href="reference.html#text_scrubber.geo.clean_region" title="text_scrubber.geo.clean_region"><code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.clean_region()</span></code></a></p></li>
-<li><p>Added <code class="docutils literal notranslate"><span class="pre">case_sensitive</span></code> boolean flag to <a class="reference internal" href="reference.html#text_scrubber.text_scrubber.TextScrubber.remove_stop_words" title="text_scrubber.text_scrubber.TextScrubber.remove_stop_words"><code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.text_scrubber.TextScrubber.remove_stop_words()</span></code></a></p></li>
+<li><p>Added <code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.find_country_in_string()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.find_city_in_string()</span></code>, and
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.find_region_in_string()</span></code> functions that find a location in a string</p></li>
+<li><p>Updated cleaning pipeline of <code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.clean_country()</span></code>, <code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.clean_city()</span></code>, and
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.geo.clean_region()</span></code></p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">case_sensitive</span></code> boolean flag to <code class="xref py py-meth docutils literal notranslate"><span class="pre">text_scrubber.text_scrubber.TextScrubber.remove_stop_words()</span></code></p></li>
 <li><p>Improved speed of trigram matching by mapping trigrams to integer indices</p></li>
 </ul>
 </section>
-<section id="section-5">
-<h2>0.2.1<a class="headerlink" href="#section-5" title="Permalink to this headline">¶</a></h2>
+<section id="id5">
+<h2>0.2.1<a class="headerlink" href="#id5" title="Permalink to this heading">¶</a></h2>
 <p><em>(2022-03-02)</em></p>
 <ul class="simple">
 <li><p>Information about the cities in a country is loaded on the fly.</p></li>
 </ul>
 </section>
-<section id="section-6">
-<h2>0.2.0<a class="headerlink" href="#section-6" title="Permalink to this headline">¶</a></h2>
+<section id="id6">
+<h2>0.2.0<a class="headerlink" href="#id6" title="Permalink to this heading">¶</a></h2>
 <p><em>(2021-05-10)</em></p>
 <ul class="simple">
 <li><p>Replaced <cite>unidecode</cite> by <cite>anyascii</cite>, which has a more relaxed license. Output of <cite>to_ascii</cite> can change because of it</p></li>
 </ul>
 </section>
-<section id="section-7">
-<h2>0.1.1<a class="headerlink" href="#section-7" title="Permalink to this headline">¶</a></h2>
+<section id="id7">
+<h2>0.1.1<a class="headerlink" href="#id7" title="Permalink to this heading">¶</a></h2>
 <p><em>(2020-09-10)</em></p>
 <ul class="simple">
 <li><p>Removed Python 3.5 support</p></li>
 </ul>
 </section>
-<section id="section-8">
-<h2>0.1.0<a class="headerlink" href="#section-8" title="Permalink to this headline">¶</a></h2>
+<section id="id8">
+<h2>0.1.0<a class="headerlink" href="#id8" title="Permalink to this heading">¶</a></h2>
 <p><em>(2020-09-10)</em></p>
 <ul class="simple">
 <li><p>First release</p></li>
@@ -266,7 +270,7 @@ normalized country</p></li>
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2023, Slimmer AI
+        &copy; Copyright 2024, Slimmer AI
 
     </p>
   </div>
@@ -306,6 +310,7 @@ normalized country</p></li>
             <dd><a href="changelog.html">v0.4.0</a></dd>
             <dd><a href="../v0.4.1/changelog.html">v0.4.1</a></dd>
             <dd><a href="../v0.4.2/changelog.html">v0.4.2</a></dd>
+            <dd><a href="../v0.5.0/changelog.html">v0.5.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>

@@ -8,12 +8,14 @@
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Installation &mdash; text-scrubber 0.4.2 documentation</title>
+  <title>Installation &mdash; text-scrubber 0.5.0 documentation</title>
   
 
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/banner.css" type="text/css" />
   <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
 
@@ -29,10 +31,12 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -64,7 +68,7 @@
             
             
               <div class="version">
-                0.4.2
+                0.5.0
               </div>
             
           
@@ -166,21 +170,22 @@
            <div itemprop="articleBody">
             
   <section id="installation">
-<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this headline">¶</a></h1>
+<h1>Installation<a class="headerlink" href="#installation" title="Permalink to this heading">¶</a></h1>
 <p><code class="docutils literal notranslate"><span class="pre">text-scrubber</span></code> builds are distributed through <a class="reference external" href="https://pypi.org/project/text-scrubber/">PyPi</a> and can be installed through pip:</p>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>text-scrubber
 </pre></div>
 </div>
 <section id="dependencies">
-<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this headline">¶</a></h2>
+<h2>Dependencies<a class="headerlink" href="#dependencies" title="Permalink to this heading">¶</a></h2>
 <p>Python packages (installed automatically when installing <code class="docutils literal notranslate"><span class="pre">text-scrubber</span></code>):</p>
 <ul class="simple">
 <li><p>anyascii</p></li>
 <li><p>cython</p></li>
-<li><p>dataclasses (only for Python &lt; 3.7)</p></li>
+<li><p>ftfy</p></li>
 <li><p>num2words</p></li>
 <li><p>numpy</p></li>
-<li><p>python-Levenshtein</p></li>
+<li><p>pylatexenc</p></li>
+<li><p>rapidfuzz</p></li>
 <li><p>scipy</p></li>
 <li><p>tqdm</p></li>
 </ul>
@@ -208,7 +213,7 @@
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2023, Sybren Jansen
+        &copy; Copyright 2024, Sybren Jansen
 
     </p>
   </div>
@@ -248,6 +253,7 @@
             <dd><a href="../v0.4.0/install.html">v0.4.0</a></dd>
             <dd><a href="../v0.4.1/install.html">v0.4.1</a></dd>
             <dd><a href="../v0.4.2/install.html">v0.4.2</a></dd>
+            <dd><a href="../v0.5.0/install.html">v0.5.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>

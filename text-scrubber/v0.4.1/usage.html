@@ -14,6 +14,8 @@
   
   <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
   <link rel="stylesheet" href="_static/banner.css" type="text/css" />
   <link rel="stylesheet" href="_static/css/custom.css" type="text/css" />
 
@@ -29,10 +31,12 @@
   
     
       <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
         <script src="_static/jquery.js"></script>
         <script src="_static/underscore.js"></script>
+        <script src="_static/_sphinx_javascript_frameworks_compat.js"></script>
         <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
+        <script src="_static/sphinx_highlight.js"></script>
     
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
@@ -171,22 +175,22 @@
            <div itemprop="articleBody">
             
   <section id="basic-usage">
-<h1>Basic usage<a class="headerlink" href="#basic-usage" title="Permalink to this headline">¶</a></h1>
+<h1>Basic usage<a class="headerlink" href="#basic-usage" title="Permalink to this heading">¶</a></h1>
 <nav class="contents local" id="contents">
 <p class="topic-title">Contents</p>
 <ul class="simple">
-<li><p><a class="reference internal" href="#textscrubber" id="toc-entry-1">TextScrubber</a></p></li>
-<li><p><a class="reference internal" href="#geo" id="toc-entry-2">Geo</a></p>
+<li><p><a class="reference internal" href="#textscrubber" id="id1">TextScrubber</a></p></li>
+<li><p><a class="reference internal" href="#geo" id="id2">Geo</a></p>
 <ul>
-<li><p><a class="reference internal" href="#resource-loading" id="toc-entry-3">Resource loading</a></p></li>
-<li><p><a class="reference internal" href="#cleaning" id="toc-entry-4">Cleaning</a></p></li>
+<li><p><a class="reference internal" href="#resource-loading" id="id3">Resource loading</a></p></li>
+<li><p><a class="reference internal" href="#cleaning" id="id4">Cleaning</a></p></li>
 </ul>
 </li>
 </ul>
 </nav>
 <section id="textscrubber">
-<h2><a class="toc-backref" href="#toc-entry-1" role="doc-backlink">TextScrubber</a><a class="headerlink" href="#textscrubber" title="Permalink to this headline">¶</a></h2>
-<p>The <a class="reference internal" href="reference.html#text_scrubber.text_scrubber.TextScrubber" title="text_scrubber.text_scrubber.TextScrubber"><code class="xref py py-obj docutils literal notranslate"><span class="pre">text_scrubber.text_scrubber.TextScrubber</span></code></a> class cleans a single or a collection of strings. It can be easily
+<h2><a class="toc-backref" href="#id1" role="doc-backlink">TextScrubber</a><a class="headerlink" href="#textscrubber" title="Permalink to this heading">¶</a></h2>
+<p>The <code class="xref py py-obj docutils literal notranslate"><span class="pre">text_scrubber.text_scrubber.TextScrubber</span></code> class cleans a single or a collection of strings. It can be easily
 constructed and configured with building blocks:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">text_scrubber</span> <span class="kn">import</span> <span class="n">TextScrubber</span>
 
@@ -205,11 +209,11 @@ constructed and configured with building blocks:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">ts</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="s1">&#39;héLlô there, WòrlD&#39;</span><span class="p">,</span> <span class="s1">&#39;slímm̀er ÀI&#39;</span><span class="p">])</span>  <span class="c1"># outputs [&#39;hello world&#39;, &#39;slimmer AI&#39;]</span>
 </pre></div>
 </div>
-<p>For a complete list of building blocks please refer to the <a class="reference internal" href="reference.html#text_scrubber.text_scrubber.TextScrubber" title="text_scrubber.text_scrubber.TextScrubber"><code class="xref py py-obj docutils literal notranslate"><span class="pre">text_scrubber.text_scrubber.TextScrubber</span></code></a> API
+<p>For a complete list of building blocks please refer to the <code class="xref py py-obj docutils literal notranslate"><span class="pre">text_scrubber.text_scrubber.TextScrubber</span></code> API
 reference.</p>
 </section>
 <section id="geo">
-<h2><a class="toc-backref" href="#toc-entry-2" role="doc-backlink">Geo</a><a class="headerlink" href="#geo" title="Permalink to this headline">¶</a></h2>
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Geo</a><a class="headerlink" href="#geo" title="Permalink to this heading">¶</a></h2>
 <p>The <code class="xref py py-obj docutils literal notranslate"><span class="pre">text_scrubber.geo</span></code> module contains functions to normalize geographical data which deal with spelling errors,
 country name variations, etc.:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">text_scrubber.geo</span> <span class="kn">import</span> <span class="n">normalize_country</span><span class="p">,</span> <span class="n">normalize_region</span><span class="p">,</span> <span class="n">normalize_city</span>
@@ -285,7 +289,7 @@ stems from the fact that some countries, cities, or regions can have alternative
 <p class="admonition-title">Note</p>
 <p>When normalizing a country or finding countries in a string, the <code class="docutils literal notranslate"><span class="pre">country</span></code> attribute of a <code class="docutils literal notranslate"><span class="pre">LocationMatch</span></code> object
 is always <code class="docutils literal notranslate"><span class="pre">None</span></code>. The normalized name can be found using the <code class="docutils literal notranslate"><span class="pre">canonical_name</span></code> attribute.</p>
-</aside>
+</div>
 <p>The <code class="xref py py-obj docutils literal notranslate"><span class="pre">text_scrubber.geo</span></code> module also contains functions to find the name of places (country, region, and city) in
 text dealing with spelling errors, country name variations, etc.:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">text_scrubber.geo</span> <span class="kn">import</span> <span class="p">(</span><span class="n">find_city_in_string</span><span class="p">,</span> <span class="n">find_country_in_string</span><span class="p">,</span>
@@ -368,9 +372,9 @@ text dealing with spelling errors, country name variations, etc.:</p>
 <p class="admonition-title">Note</p>
 <p>Whenever a country is considered part of another country <code class="docutils literal notranslate"><span class="pre">normalize_country</span></code> will return the latter.
 E.g., <code class="docutils literal notranslate"><span class="pre">Puerto</span> <span class="pre">Rico</span></code> is mapped to <code class="docutils literal notranslate"><span class="pre">United</span> <span class="pre">States</span></code> and <code class="docutils literal notranslate"><span class="pre">Greenland</span></code> to <code class="docutils literal notranslate"><span class="pre">Denmark</span></code>.</p>
-</aside>
+</div>
 <section id="resource-loading">
-<h3><a class="toc-backref" href="#toc-entry-3" role="doc-backlink">Resource loading</a><a class="headerlink" href="#resource-loading" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Resource loading</a><a class="headerlink" href="#resource-loading" title="Permalink to this heading">¶</a></h3>
 <p>Resources for cities and regions aren’t all loaded when you import <code class="docutils literal notranslate"><span class="pre">TextScrubber</span></code>, they’re loaded on the fly per
 country. This means that the first time you do a query it can take a while. The second time around the same query will
 be much faster, as will all other queries involving the same countr(y)(ies). You can load in resources per country in
@@ -386,10 +390,10 @@ advance by using:</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Whenever a country is considered part of another country <code class="docutils literal notranslate"><span class="pre">normalize_country_to_country_codes</span></code> returns both.</p>
-</aside>
+</div>
 </section>
 <section id="cleaning">
-<h3><a class="toc-backref" href="#toc-entry-4" role="doc-backlink">Cleaning</a><a class="headerlink" href="#cleaning" title="Permalink to this headline">¶</a></h3>
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">Cleaning</a><a class="headerlink" href="#cleaning" title="Permalink to this heading">¶</a></h3>
 <p>There are clean functions available for countries/regions/cities, which all follow the same cleaning pipeline:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">text_scrubber.geo</span> <span class="kn">import</span> <span class="n">clean_country</span><span class="p">,</span> <span class="n">clean_region</span><span class="p">,</span> <span class="n">clean_city</span>
 
@@ -424,7 +428,7 @@ advance by using:</p>
   <div role="contentinfo">
     <p>
         
-        &copy; Copyright 2023, Slimmer AI
+        &copy; Copyright 2024, Slimmer AI
 
     </p>
   </div>
@@ -464,6 +468,7 @@ advance by using:</p>
             <dd><a href="../v0.4.0/usage.html">v0.4.0</a></dd>
             <dd><a href="usage.html">v0.4.1</a></dd>
             <dd><a href="../v0.4.2/usage.html">v0.4.2</a></dd>
+            <dd><a href="../v0.5.0/usage.html">v0.5.0</a></dd>
         </dl>
         <dl>
             <dt>Branches</dt>
