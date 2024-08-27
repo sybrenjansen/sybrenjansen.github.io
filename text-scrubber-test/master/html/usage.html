@@ -1,0 +1,681 @@
+
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+      
+      
+      <link rel="icon" href="">
+    
+    
+      
+        <title>Basic usage - text-scrubber 0.5.0 documentation</title>
+      
+    
+    
+      
+        
+        
+      
+      
+
+    
+    
+    
+      
+        
+        
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+        <link rel="stylesheet" type="text/css" href="_static/sphinx_immaterial_theme.3625f807144f53acf.min.css?v=fbfc4466" />
+    <script>__md_scope=new URL(".",location),__md_hash=e=>[...e].reduce((e,_)=>(e<<5)-e+_.charCodeAt(0),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+    
+  </head>
+  
+  
+    
+    
+      
+    
+    
+    
+    
+    <body dir="ltr" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="light-blue">
+  
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&"object"==typeof palette.color)for(var key of Object.keys(palette.color))document.body.setAttribute("data-md-color-"+key,palette.color[key])</script>
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+      <div data-md-component="outdated" hidden>
+        
+      </div>
+    
+    
+      
+
+<header class="md-header" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="index.html" title="text-scrubber 0.5.0 documentation" class="md-header__button md-logo" aria-label="text-scrubber 0.5.0 documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3V6m0 5h18v2H3v-2m0 5h18v2H3v-2Z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            text-scrubber 0.5.0 documentation
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Basic usage
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+      <form class="md-header__option" data-md-component="palette">
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: light)" data-md-color-scheme="default" data-md-color-primary="light-green" data-md-color-accent="light-blue"  aria-label="Switch to dark mode"  type="radio" name="__palette" id="__palette_1">
+          
+            <label class="md-header__button md-icon" title="Switch to dark mode" for="__palette_2" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 1 7 7c0 2.38-1.19 4.47-3 5.74V17a1 1 0 0 1-1 1H9a1 1 0 0 1-1-1v-2.26C6.19 13.47 5 11.38 5 9a7 7 0 0 1 7-7M9 21v-1h6v1a1 1 0 0 1-1 1h-4a1 1 0 0 1-1-1m3-17a5 5 0 0 0-5 5c0 2.05 1.23 3.81 3 4.58V16h4v-2.42c1.77-.77 3-2.53 3-4.58a5 5 0 0 0-5-5Z"/></svg>
+            </label>
+          
+        
+          
+          
+          <input class="md-option" data-md-color-media="(prefers-color-scheme: dark)" data-md-color-scheme="slate" data-md-color-primary="deep-orange" data-md-color-accent="lime"  aria-label="Switch to light mode"  type="radio" name="__palette" id="__palette_2">
+          
+            <label class="md-header__button md-icon" title="Switch to light mode" for="__palette_1" hidden>
+              <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 2a7 7 0 0 0-7 7c0 2.38 1.19 4.47 3 5.74V17a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1v-2.26c1.81-1.27 3-3.36 3-5.74a7 7 0 0 0-7-7M9 21a1 1 0 0 0 1 1h4a1 1 0 0 0 1-1v-1H9v1Z"/></svg>
+            </label>
+          
+        
+      </form>
+    
+    
+    
+      <label class="md-header__button md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+      </label>
+      <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.516 6.516 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5Z"/></svg>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12 19 6.41Z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/sybrenjansen/text-scrubber-test" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Text-Scrubber
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="index.html" title="text-scrubber 0.5.0 documentation" class="md-nav__button md-logo" aria-label="text-scrubber 0.5.0 documentation" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54Z"/></svg>
+    </a>
+    text-scrubber 0.5.0 documentation
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/sybrenjansen/text-scrubber-test" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 496 512"><!--! Font Awesome Free 6.2.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2022 Fonticons, Inc.--><path d="M165.9 397.4c0 2-2.3 3.6-5.2 3.6-3.3.3-5.6-1.3-5.6-3.6 0-2 2.3-3.6 5.2-3.6 3-.3 5.6 1.3 5.6 3.6zm-31.1-4.5c-.7 2 1.3 4.3 4.3 4.9 2.6 1 5.6 0 6.2-2s-1.3-4.3-4.3-5.2c-2.6-.7-5.5.3-6.2 2.3zm44.2-1.7c-2.9.7-4.9 2.6-4.6 4.9.3 2 2.9 3.3 5.9 2.6 2.9-.7 4.9-2.6 4.6-4.6-.3-1.9-3-3.2-5.9-2.9zM244.8 8C106.1 8 0 113.3 0 252c0 110.9 69.8 205.8 169.5 239.2 12.8 2.3 17.3-5.6 17.3-12.1 0-6.2-.3-40.4-.3-61.4 0 0-70 15-84.7-29.8 0 0-11.4-29.1-27.8-36.6 0 0-22.9-15.7 1.6-15.4 0 0 24.9 2 38.6 25.8 21.9 38.6 58.6 27.5 72.9 20.9 2.3-16 8.8-27.1 16-33.7-55.9-6.2-112.3-14.3-112.3-110.5 0-27.5 7.6-41.3 23.6-58.9-2.6-6.5-11.1-33.3 2.6-67.9 20.9-6.5 69 27 69 27 20-5.6 41.5-8.5 62.8-8.5s42.8 2.9 62.8 8.5c0 0 48.1-33.6 69-27 13.7 34.7 5.2 61.4 2.6 67.9 16 17.7 25.8 31.5 25.8 58.9 0 96.5-58.9 104.2-114.8 110.5 9.2 7.9 17 22.9 17 46.4 0 33.7-.3 75.4-.3 83.6 0 6.5 4.6 14.4 17.3 12.1C428.2 457.8 496 362.9 496 252 496 113.3 383.5 8 244.8 8zM97.2 352.9c-1.3 1-1 3.3.7 5.2 1.6 1.6 3.9 2.3 5.2 1 1.3-1 1-3.3-.7-5.2-1.6-1.6-3.9-2.3-5.2-1zm-10.8-8.1c-.7 1.3.3 2.9 2.3 3.9 1.6 1 3.6.7 4.3-.7.7-1.3-.3-2.9-2.3-3.9-2-.6-3.6-.3-4.3.7zm32.4 35.6c-1.6 1.3-1 4.3 1.3 6.2 2.3 2.3 5.2 2.6 6.5 1 1.3-1.3.7-4.3-1.3-6.2-2.2-2.3-5.2-2.6-6.5-1zm-11.4-14.7c-1.6 1-1.6 3.6 0 5.9 1.6 2.3 4.3 3.3 5.6 2.3 1.6-1.3 1.6-3.9 0-6.2-1.4-2.3-4-3.3-5.6-2z"/></svg>
+  </div>
+  <div class="md-source__repository">
+    Text-Scrubber
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="index.html" class="md-nav__link">
+        <span class="md-ellipsis">text-<wbr>scrubber documentation</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="install.html" class="md-nav__link">
+        <span class="md-ellipsis">Installation</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+    
+  
+    
+  
+  
+    <li class="md-nav__item md-nav__item--active">
+      
+      
+      <input class="md-nav__toggle md-toggle" data-md-toggle="toc" type="checkbox" id="__toc">
+      
+        <label class="md-nav__link md-nav__link--active" for="__toc">
+          <span class="md-ellipsis">Basic usage</span>
+          <span class="md-nav__icon md-icon"></span>
+        </label>
+      
+      <a href="#" class="md-nav__link md-nav__link--active">
+        <span class="md-ellipsis">Basic usage</span>
+      </a>
+      
+        
+
+<nav class="md-nav md-nav--secondary">
+  
+  
+    
+  
+  
+    <label class="md-nav__title" for="__toc">
+      <span class="md-nav__icon md-icon"></span>
+      Table of contents
+    </label>
+    <ul class="md-nav__list" data-md-component="toc" data-md-scrollfix>
+      
+        <li class="md-nav__item">
+  <a href="#textscrubber" class="md-nav__link">
+    <span class="md-ellipsis">Text<wbr>Scrubber</span>
+  </a>
+  
+</li>
+      
+        <li class="md-nav__item">
+  <a href="#geo" class="md-nav__link">
+    <span class="md-ellipsis">Geo</span>
+  </a>
+  
+    <nav class="md-nav" aria-label="Geo">
+      <ul class="md-nav__list">
+        
+          <li class="md-nav__item">
+  <a href="#resource-loading" class="md-nav__link">
+    <span class="md-ellipsis">Resource loading</span>
+  </a>
+  
+</li>
+        
+          <li class="md-nav__item">
+  <a href="#cleaning" class="md-nav__link">
+    <span class="md-ellipsis">Cleaning</span>
+  </a>
+  
+</li>
+        
+      </ul>
+    </nav>
+  
+</li>
+      
+    </ul>
+  
+</nav>
+      
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="reference.html" class="md-nav__link">
+        <span class="md-ellipsis">API reference</span>
+      </a>
+    </li>
+  
+
+    
+      
+      
+      
+
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="changelog.html" class="md-nav__link">
+        <span class="md-ellipsis">Change log</span>
+      </a>
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              <article class="md-content__inner md-typeset" role="main">
+                  
+
+
+<h1 id="basic-usage">Basic usage<a class="headerlink" href="#basic-usage" title="Link to this heading">¶</a></h1>
+<h2 id="textscrubber">TextScrubber<a class="headerlink" href="#textscrubber" title="Link to this heading">¶</a></h2>
+<p>The <a class="reference internal" href="reference.html#text_scrubber.text_scrubber.TextScrubber" title="text_scrubber.text_scrubber.TextScrubber (Python class) — Cleans a single or a collection of strings."><code class="xref py py-obj docutils literal notranslate"><span class="pre">text_scrubber.text_scrubber.TextScrubber</span></code></a> class cleans a single or a collection of strings. It can be easily
+constructed and configured with building blocks:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">text_scrubber</span> <span class="kn">import</span> <span class="n">TextScrubber</span>
+
+<span class="n">ts</span> <span class="o">=</span> <span class="p">(</span><span class="n">TextScrubber</span><span class="p">()</span><span class="o">.</span><span class="n">to_ascii</span><span class="p">()</span>
+                    <span class="o">.</span><span class="n">lowercase</span><span class="p">()</span>
+                    <span class="o">.</span><span class="n">tokenize</span><span class="p">()</span>
+                    <span class="o">.</span><span class="n">remove_stop_words</span><span class="p">()</span>
+                    <span class="o">.</span><span class="n">join</span><span class="p">())</span>
+</code></pre></div>
+</div>
+<p>which can then be used as:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">ts</span><span class="o">.</span><span class="n">transform</span><span class="p">(</span><span class="s1">&#39;héLlô there, WòrlD&#39;</span><span class="p">)</span>  <span class="c1"># outputs &#39;hello world&#39;</span>
+</code></pre></div>
+</div>
+<p>or with an iterable of input:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="n">ts</span><span class="o">.</span><span class="n">transform</span><span class="p">([</span><span class="s1">&#39;héLlô there, WòrlD&#39;</span><span class="p">,</span> <span class="s1">&#39;slímm̀er ÀI&#39;</span><span class="p">])</span>  <span class="c1"># outputs [&#39;hello world&#39;, &#39;slimmer AI&#39;]</span>
+</code></pre></div>
+</div>
+<p>For a complete list of building blocks please refer to the <a class="reference internal" href="reference.html#text_scrubber.text_scrubber.TextScrubber" title="text_scrubber.text_scrubber.TextScrubber (Python class) — Cleans a single or a collection of strings."><code class="xref py py-obj docutils literal notranslate"><span class="pre">text_scrubber.text_scrubber.TextScrubber</span></code></a> API
+reference.</p>
+<h2 id="geo">Geo<a class="headerlink" href="#geo" title="Link to this heading">¶</a></h2>
+<p>The <code class="xref py py-obj docutils literal notranslate"><span class="pre">text_scrubber.geo</span></code> module contains functions to normalize geographical data which deal with spelling errors,
+country name variations, etc.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">text_scrubber.geo</span> <span class="kn">import</span> <span class="n">normalize_country</span><span class="p">,</span> <span class="n">normalize_region</span><span class="p">,</span> <span class="n">normalize_city</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Countries</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">normalize_country</span><span class="p">(</span><span class="s1">&#39;Peoples rep. of China&#39;</span><span class="p">)</span>
+<span class="c1"># [Location(canonical_name=&#39;China&#39;, matched_name=&#39;Peoples Republic of China&#39;, country=None,</span>
+<span class="c1">#           score=1.0)]</span>
+
+<span class="n">normalize_country</span><span class="p">(</span><span class="s1">&#39;Deutschland&#39;</span><span class="p">)</span>
+<span class="c1"># [Location(canonical_name=&#39;Germany&#39;, matched_name=&#39;Deutschland&#39;, country=None, score=1.0)]</span>
+
+<span class="n">normalize_country</span><span class="p">(</span><span class="s1">&#39;st Nevis and Kitties&#39;</span><span class="p">)</span>
+<span class="c1"># [Location(canonical_name=&#39;Saint Kitts and Nevis&#39;, matched_name=&#39;Saint Kitts and Nevis&#39;,</span>
+<span class="c1">#           country=None, score=0.75)]</span>
+
+<span class="n">normalize_country</span><span class="p">(</span><span class="s1">&#39;ira&#39;</span><span class="p">)</span>
+<span class="c1"># [Location(canonical_name=&#39;Iran&#39;, matched_name=&#39;Iran&#39;, country=None, score=0.857...),</span>
+<span class="c1">#  Location(canonical_name=&#39;Iraq&#39;, matched_name=&#39;Iraq&#39;, country=None, score=0.857...)]</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Cities</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">normalize_city</span><span class="p">(</span><span class="s1">&#39;Leibnitz&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Austria&#39;</span><span class="p">])</span>
+<span class="c1"># [Location(canonical_name=&#39;Leibnitz&#39;, matched_name=&#39;Leibnitz&#39;, country=&#39;Austria&#39;, score=1.0)]</span>
+
+<span class="n">normalize_city</span><span class="p">(</span><span class="s1">&#39;heidelberg&#39;</span><span class="p">)</span>
+<span class="c1"># [Location(canonical_name=&#39;Heidelberg&#39;, matched_name=&#39;Heidelberg&#39;, country=&#39;Germany&#39;,</span>
+<span class="c1">#           score=1.0),</span>
+<span class="c1">#  Location(canonical_name=&#39;Heidelberg&#39;, matched_name=&#39;Heidelberg&#39;, country=&#39;South Africa&#39;,</span>
+<span class="c1">#           score=1.0),</span>
+<span class="c1">#  Location(canonical_name=&#39;Heidelberg&#39;, matched_name=&#39;Heidelberg&#39;, country=&#39;United States&#39;,</span>
+<span class="c1">#           score=1.0)]</span>
+
+<span class="n">normalize_city</span><span class="p">(</span><span class="s1">&#39;ohioo&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;US&#39;</span><span class="p">])</span>
+<span class="c1"># [Location(canonical_name=&#39;Ohio&#39;, matched_name=&#39;Ohio&#39;, country=&#39;United States&#39;,</span>
+<span class="c1">#           score=0.888...)]</span>
+
+<span class="n">normalize_city</span><span class="p">(</span><span class="s1">&#39;Madri&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Spain&#39;</span><span class="p">,</span> <span class="s1">&#39;US&#39;</span><span class="p">,</span> <span class="s1">&#39;Brazil&#39;</span><span class="p">])</span>
+<span class="c1"># [Location(canonical_name=&#39;Madrid&#39;, matched_name=&#39;Madrid&#39;, country=&#39;Spain&#39;,</span>
+<span class="c1">#           score=0.909...),</span>
+<span class="c1">#  Location(canonical_name=&#39;Madrid&#39;, matched_name=&#39;Madrid&#39;, country=&#39;United States&#39;,</span>
+<span class="c1">#           score=0.909...),</span>
+<span class="c1">#  Location(canonical_name=&#39;Mari&#39;, matched_name=&#39;Mari&#39;, country=&#39;Brazil&#39;,</span>
+<span class="c1">#           score=0.888...)]</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Regions</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">normalize_region</span><span class="p">(</span><span class="s1">&#39;triangle park&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;US&#39;</span><span class="p">])</span>
+<span class="c1"># [Location(canonical_name=&#39;The Triangle Park&#39;, matched_name=&#39;The Triangle Park&#39;,</span>
+<span class="c1">#           country=&#39;United States&#39;, score=1.0)]</span>
+
+<span class="n">normalize_region</span><span class="p">(</span><span class="s1">&#39;Fur&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;Denmark&#39;</span><span class="p">])</span>
+<span class="c1"># [Location(canonical_name=&#39;Fur&#39;, matched_name=&#39;Fur&#39;, country=&#39;Denmark&#39;, score=1.0)]</span>
+
+<span class="n">normalize_region</span><span class="p">(</span><span class="s1">&#39;texel&#39;</span><span class="p">,</span> <span class="p">[</span><span class="s1">&#39;NL&#39;</span><span class="p">])</span>
+<span class="c1"># [Location(canonical_name=&#39;Texel&#39;, matched_name=&#39;Texel&#39;, country=&#39;Netherlands&#39;, score=1.0)]</span>
+</code></pre></div>
+</div>
+<p>Each of the above normalization functions return the canonical name, matched name, the match score, and when normalizing
+cities or regions it will also contain the corresponding country. The difference between canonical and matched name
+stems from the fact that some countries, cities, or regions can have alternative names. E.g., <code class="docutils literal notranslate"><span class="pre">NYC</span></code> maps to
+<code class="docutils literal notranslate"><span class="pre">New</span> <span class="pre">York</span> <span class="pre">City</span></code>. When the query was <code class="docutils literal notranslate"><span class="pre">NYCC</span></code> the canonical name will be <code class="docutils literal notranslate"><span class="pre">New</span> <span class="pre">York</span> <span class="pre">City</span></code>, but the matched name
+<code class="docutils literal notranslate"><span class="pre">NYC</span></code>. The match scores are always between 0.0 and 1.0, where 1.0 is a perfect match. If a known mapping exists, like
+<code class="docutils literal notranslate"><span class="pre">Deutschland</span></code> to <code class="docutils literal notranslate"><span class="pre">Germany</span></code>, then the match score will be 1.0.</p>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>When normalizing a country or finding countries in a string, the <code class="docutils literal notranslate"><span class="pre">country</span></code> attribute of a <code class="docutils literal notranslate"><span class="pre">LocationMatch</span></code> object
+is always <code class="docutils literal notranslate"><span class="pre">None</span></code>. The normalized name can be found using the <code class="docutils literal notranslate"><span class="pre">canonical_name</span></code> attribute.</p>
+</div>
+<p>The <code class="xref py py-obj docutils literal notranslate"><span class="pre">text_scrubber.geo</span></code> module also contains functions to find the name of places (country, region, and city) in
+text dealing with spelling errors, country name variations, etc.:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">text_scrubber.geo</span> <span class="kn">import</span> <span class="p">(</span><span class="n">find_city_in_string</span><span class="p">,</span> <span class="n">find_country_in_string</span><span class="p">,</span>
+                               <span class="n">find_region_in_string</span><span class="p">)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Countries</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">find_country_in_string</span><span class="p">(</span><span class="s2">&quot;Institute of German study, Accra, Ghana&quot;</span><span class="p">)</span>
+<span class="c1"># [ExtractedLocation(location=Location(canonical_name=&#39;Ghana&#39;, matched_name=&#39;Ghana&#39;,</span>
+<span class="c1">#                                      country=None, score=1.0),</span>
+<span class="c1">#                    substring=&#39;Ghana&#39;, substring_range=Range(start=34, end=39)),</span>
+<span class="c1">#  ExtractedLocation(location=Location(canonical_name=&#39;Germany&#39;, matched_name=&#39;Germany&#39;,</span>
+<span class="c1">#                                      country=None, score=0.923...),</span>
+<span class="c1">#                    substring=&#39;German&#39;, substring_range=Range(start=13, end=19))]</span>
+
+<span class="n">find_country_in_string</span><span class="p">(</span><span class="s2">&quot;Peking University, 5 Yiheyuan Rd, &quot;</span>
+                       <span class="s2">&quot;Haidian District, Beijing, CH, 100871&quot;</span><span class="p">)</span>
+<span class="c1"># This was a trick question though, as CH=Switzerland. China is CN</span>
+<span class="c1"># [ExtractedLocation(location=Location(canonical_name=&#39;Switzerland&#39;, matched_name=&#39;CH&#39;,</span>
+<span class="c1">#                                      country=None, score=1.0),</span>
+<span class="c1">#                    substring=&#39;CH&#39;, substring_range=Range(start=61, end=63))]</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Cities</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">find_city_in_string</span><span class="p">(</span><span class="s2">&quot;Météorage Pau France&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;France&quot;</span><span class="p">})</span>
+<span class="c1"># [ExtractedLocation(location=Location(canonical_name=&#39;Pau&#39;, matched_name=&#39;Pau&#39;,</span>
+<span class="c1">#                                      country=&#39;France&#39;, score=1.0),</span>
+<span class="c1">#                    substring=&#39;Pau&#39;, substring_range=Range(start=10, end=13)),</span>
+<span class="c1">#  ExtractedLocation(location=Location(canonical_name=&#39;La Frasnée&#39;, matched_name=&#39;Фране&#39;,</span>
+<span class="c1">#                                      country=&#39;France&#39;, score=0.909...),</span>
+<span class="c1">#                    substring=&#39;France&#39;, substring_range=Range(start=14, end=20))]</span>
+
+<span class="n">find_city_in_string</span><span class="p">(</span><span class="s2">&quot;Bavarian Environment Agency, Hans Högn Straße 12, &quot;</span>
+                    <span class="s2">&quot;95030 Hof Saale, Bavaria, Germany&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Germany&quot;</span><span class="p">})</span>
+<span class="c1"># [ExtractedLocation(location=Location(canonical_name=&#39;Hof&#39;, matched_name=&#39;Hof&#39;,</span>
+<span class="c1">#                                      country=&#39;Germany&#39;, score=1.0),</span>
+<span class="c1">#                    substring=&#39;Hof&#39;, substring_range=Range(start=56, end=59)),</span>
+<span class="c1">#  ExtractedLocation(location=Location(canonical_name=&#39;Saal&#39;, matched_name=&#39;Saal&#39;,</span>
+<span class="c1">#                                      country=&#39;Germany&#39;, score=0.888...),</span>
+<span class="c1">#                    substring=&#39;Saale&#39;, substring_range=Range(start=60, end=65)),</span>
+<span class="c1">#  ExtractedLocation(location=Location(canonical_name=&#39;Trassem&#39;, matched_name=&#39;Trassem&#39;,</span>
+<span class="c1">#                                      country=&#39;Germany&#39;, score=0.857...),</span>
+<span class="c1">#                    substring=&#39;Straße&#39;, substring_range=Range(start=39, end=45))]</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Regions</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="n">find_region_in_string</span><span class="p">(</span><span class="s2">&quot;Fur Museum, 7884 Fur, Denmark.&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Denmark&quot;</span><span class="p">})</span>
+<span class="c1"># [ExtractedLocation(location=Location(canonical_name=&#39;Fur&#39;, matched_name=&#39;Fur&#39;,</span>
+<span class="c1">#                                      country=&#39;Denmark&#39;, score=1.0),</span>
+<span class="c1">#                    substring=&#39;Fur&#39;, substring_range=Range(start=0, end=3)),</span>
+<span class="c1">#  ExtractedLocation(location=Location(canonical_name=&#39;Fur&#39;, matched_name=&#39;Fur&#39;,</span>
+<span class="c1">#                                      country=&#39;Denmark&#39;, score=1.0),</span>
+<span class="c1">#                    substring=&#39;Fur&#39;, substring_range=Range(start=17, end=20)),</span>
+<span class="c1">#  ExtractedLocation(location=Location(canonical_name=&#39;Kingdom of Denmark&#39;,</span>
+<span class="c1">#                                      matched_name=&#39;Denmark&#39;, country=&#39;Denmark&#39;, score=1.0),</span>
+<span class="c1">#                    substring=&#39;Denmark&#39;, substring_range=Range(start=22, end=29))]</span>
+
+<span class="n">find_region_in_string</span><span class="p">(</span><span class="s2">&quot;Department of Biological Oceanography, Royal Netherlands Institute &quot;</span>
+                      <span class="s2">&quot;for Sea Research (NIOZ), Texel, The Netherlands&quot;</span><span class="p">,</span> <span class="p">{</span><span class="s2">&quot;Netherlands&quot;</span><span class="p">})</span>
+<span class="c1"># [ExtractedLocation(location=Location(canonical_name=&#39;Kingdom of the Netherlands&#39;,</span>
+<span class="c1">#                                      matched_name=&#39;Netherlands&#39;, country=&#39;Netherlands&#39;,</span>
+<span class="c1">#                                      score=1.0),</span>
+<span class="c1">#                    substring=&#39;Netherlands&#39;, substring_range=Range(start=45, end=56)),</span>
+<span class="c1">#  ExtractedLocation(location=Location(canonical_name=&#39;Texel&#39;, matched_name=&#39;Texel&#39;,</span>
+<span class="c1">#                                      country=&#39;Netherlands&#39;, score=1.0),</span>
+<span class="c1">#                    substring=&#39;Texel&#39;, substring_range=Range(start=92, end=97)),</span>
+<span class="c1">#  ExtractedLocation(location=Location(canonical_name=&#39;Kingdom of the Netherlands&#39;,</span>
+<span class="c1">#                                      matched_name=&#39;Netherlands&#39;, country=&#39;Netherlands&#39;,</span>
+<span class="c1">#                                      score=1.0),</span>
+<span class="c1">#                    substring=&#39;Netherlands&#39;, substring_range=Range(start=103, end=114))]</span>
+</code></pre></div>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>Whenever a country is considered part of another country <code class="docutils literal notranslate"><span class="pre">normalize_country</span></code> will return the latter.
+E.g., <code class="docutils literal notranslate"><span class="pre">Puerto</span> <span class="pre">Rico</span></code> is mapped to <code class="docutils literal notranslate"><span class="pre">United</span> <span class="pre">States</span></code> and <code class="docutils literal notranslate"><span class="pre">Greenland</span></code> to <code class="docutils literal notranslate"><span class="pre">Denmark</span></code>.</p>
+</div>
+<h3 id="resource-loading">Resource loading<a class="headerlink" href="#resource-loading" title="Link to this heading">¶</a></h3>
+<p>Resources for cities and regions aren’t all loaded when you import <code class="docutils literal notranslate"><span class="pre">TextScrubber</span></code>, they’re loaded on the fly per
+country. This means that the first time you do a query it can take a while. The second time around the same query will
+be much faster, as will all other queries involving the same countr(y)(ies). You can load in resources per country in
+advance by using:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">text_scrubber.geo</span> <span class="kn">import</span> <span class="p">(</span><span class="n">add_city_resources</span><span class="p">,</span> <span class="n">add_region_resources</span><span class="p">,</span>
+                               <span class="n">normalize_country_to_country_codes</span><span class="p">)</span>
+
+<span class="n">country_codes</span> <span class="o">=</span> <span class="n">normalize_country_to_country_codes</span><span class="p">([</span><span class="s1">&#39;Netherlands&#39;</span><span class="p">,</span> <span class="s1">&#39;China&#39;</span><span class="p">,</span> <span class="s1">&#39;USA&#39;</span><span class="p">])</span>
+<span class="n">add_city_resources</span><span class="p">(</span><span class="n">country_codes</span><span class="p">)</span>
+<span class="n">add_region_resources</span><span class="p">(</span><span class="n">country_codes</span><span class="p">,</span> <span class="n">progress_bar</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+</code></pre></div>
+</div>
+<div class="note admonition">
+<p class="admonition-title">Note</p>
+<p>Whenever a country is considered part of another country <code class="docutils literal notranslate"><span class="pre">normalize_country_to_country_codes</span></code> returns both.</p>
+</div>
+<h3 id="cleaning">Cleaning<a class="headerlink" href="#cleaning" title="Link to this heading">¶</a></h3>
+<p>There are clean functions available for countries/regions/cities, which all follow the same cleaning pipeline:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><code><span class="kn">from</span> <span class="nn">text_scrubber.geo</span> <span class="kn">import</span> <span class="n">clean_country</span><span class="p">,</span> <span class="n">clean_region</span><span class="p">,</span> <span class="n">clean_city</span>
+
+<span class="n">clean_country</span><span class="p">(</span><span class="s1">&#39;cent afr rep.&#39;</span><span class="p">)</span>     <span class="c1"># &#39;central african republic&#39;</span>
+<span class="n">clean_region</span><span class="p">(</span><span class="s1">&#39;Hyōgo&#39;</span><span class="p">)</span>              <span class="c1"># &#39;hyogo&#39;</span>
+<span class="n">clean_city</span><span class="p">(</span><span class="s1">&#39;płońsk&#39;</span><span class="p">)</span>               <span class="c1"># &#39;plonsk&#39;</span>
+<span class="n">clean_city</span><span class="p">(</span><span class="s1">&#39;neustadt/westerwald&#39;</span><span class="p">)</span>  <span class="c1"># &#39;neustadt westerwald&#39;</span>
+</code></pre></div>
+</div>
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+        </div>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+    
+    <nav class="md-footer__inner md-grid" aria-label="Footer" >
+      
+        
+        <a href="install.html" class="md-footer__link md-footer__link--prev" aria-label="Previous: Installation" rel="prev">
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11h12Z"/></svg>
+          </div>
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Previous
+              </span>
+              Installation
+            </div>
+          </div>
+        </a>
+      
+      
+        
+        <a href="reference.html" class="md-footer__link md-footer__link--next" aria-label="Next: API reference" rel="next">
+          <div class="md-footer__title">
+            <div class="md-ellipsis">
+              <span class="md-footer__direction">
+                Next
+              </span>
+              API reference
+            </div>
+          </div>
+          <div class="md-footer__button md-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M4 11v2h12l-5.5 5.5 1.42 1.42L19.84 12l-7.92-7.92L10.5 5.5 16 11H4Z"/></svg>
+          </div>
+        </a>
+      
+    </nav>
+  
+  
+  
+  <div class="md-footer-meta md-typeset">
+    
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+    <div class="md-footer-copyright__highlight">
+        &#169; Copyright 2024, Sybren Jansen.
+        
+    </div>
+  
+    Created using
+    <a href="https://www.sphinx-doc.org/" target="_blank" rel="noopener">Sphinx</a>
+    8.0.2.
+     and
+    <a href="https://github.com/jbms/sphinx-immaterial/" target="_blank" rel="noopener">Sphinx-Immaterial</a>
+  
+</div>
+      
+    </div>
+    
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    <script id="__config" type="application/json">{"base": ".", "features": ["toc.integrate"], "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.config.lang": "en", "search.config.pipeline": "trimmer, stopWordFilter", "search.config.separator": "[\\s\\-]+", "search.placeholder": "Search", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version.title": "Select version"}, "version": {"provider": "mike", "staticVersions": null, "versionPath": null}}</script>
+    
+      
+        <script src="_static/sphinx_immaterial_theme.f9d9eeeb247ace16c.min.js?v=8ec58cb5"></script>
+    
+  </body>
+</html>
